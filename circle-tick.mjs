@@ -16,6 +16,10 @@ const usdc = new ethers.Contract(USDC, ["function balanceOf(address) view return
 const ts = () => new Date().toISOString();
 const withTimeout = (pr, ms, label) => Promise.race([pr, new Promise((_,r)=>setTimeout(()=>r(new Error(label+" TIMEOUT")),ms))]);
 
+// Named subs are the "real" ones; unnamed ones are deprecated test subs we skip paying.
+let NAMED = {};
+try { NAMED = JSON.parse(fs.readFileSync("subs-meta.json", "utf8")); } catch {}
+
 // Always log to file; only report to stdout (chat) when Leo acts.
 const LOG = "circle-tick.log";
 const fileLog = (s) => { try { fs.appendFileSync(LOG, `[${ts()}] ${s}\n`); } catch {} };
@@ -54,6 +58,7 @@ async function main() {
   if (walletBal < 300_000) { note("circle wallet low on gas, skipping"); return; }
 
   let target = -1;
+  let mostOverdue = Infinity;
   try {
     const nextId = Number(await withTimeout(vault.nextId(), 10000, "nextIdRead"));
     const now = Math.floor(Date.now()/1000);
@@ -63,12 +68,19 @@ async function main() {
       if (!active) continue;
       if (cycles!==0n && paid>=cycles) continue;
       if (now < Number(nextDue)) continue;
-      target = id; break;
+      if (!NAMED[String(id)]) continue; // skip deprecated/unnamed test subs
+      // pick the MOST overdue named sub so the daily anchor is always serviced first
+      if (Number(nextDue) < mostOverdue) { mostOverdue = Number(nextDue); target = id; }
     }
-  } catch(e){ note(`due-detection read failed: ${e.message}, attempting pay(0)`); target = 0; }
+  } catch(e){ note(`due-detection read failed: ${e.message}, defaulting to a named anchor sub`); 
+    // fallback: pick the daily anchor (#9) or first named sub we know, never an unnamed test sub
+    target = NAMED["9"] ? 9 : (Object.keys(NAMED).map(Number).sort((a,b)=>a-b)[0] ?? -1);
+  }
 
   if (target < 0) { note("nothing due"); return; }
   await exec("pay(uint256)", [String(target)], `pay sub#${target}`);
 }
-try { await main(); } catch(e) { report("ERR " + (e.response ? JSON.stringify(e.response.data) : e.message)); process.exit(1); }
+try { await main(); } catch(e) { report("ERR " + (e.response ? JSON.stringify(e.response.data) : e.message)); }
+// Refresh the human-readable dashboard data (best-effort; never fail the tick on this).
+try { await import("./build-state.mjs"); } catch(e) { note("build-state skip: " + e.message); }
 if (!acted) process.exit(0);
