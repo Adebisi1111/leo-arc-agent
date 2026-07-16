@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Leo — your autonomous bill payer</title>
+<style>
+  :root { --bg:#0b0f17; --card:#151b27; --txt:#e8edf5; --muted:#8b97a8; --accent:#5b8cff; --green:#36d399; --amber:#fbbd23; --red:#f87272; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: -apple-system, system-ui, "Segoe UI", Roboto, sans-serif; background:var(--bg); color:var(--txt); padding:24px; }
+  .wrap { max-width:760px; margin:0 auto; }
+  header { text-align:center; margin-bottom:8px; }
+  .logo { font-size:34px; }
+  h1 { font-size:24px; margin:6px 0 2px; }
+  .tag { color:var(--muted); font-size:14px; margin-bottom:18px; }
+  .hero { background:linear-gradient(135deg,#1b2440,#151b27); border:1px solid #243049; border-radius:16px; padding:18px 20px; margin-bottom:22px; }
+  .hero .big { font-size:15px; line-height:1.5; color:#cdd6e6; }
+  .pill { display:inline-block; padding:3px 10px; border-radius:999px; font-size:12px; font-weight:600; margin:4px 6px 4px 0; }
+  .pill.live { background:rgba(54,211,153,.15); color:var(--green); }
+  .pill.fund { background:rgba(251,189,35,.15); color:var(--amber); }
+  .pill.ok { background:rgba(91,140,255,.15); color:var(--accent); }
+  .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:14px; }
+  .sub { background:var(--card); border:1px solid #222c3e; border-radius:14px; padding:16px; }
+  .sub .top { font-size:28px; }
+  .sub h3 { margin:8px 0 2px; font-size:17px; }
+  .sub .cat { color:var(--muted); font-size:12px; margin-bottom:10px; }
+  .sub .amt { font-size:20px; font-weight:700; }
+  .sub .amt small { font-size:12px; color:var(--muted); font-weight:400; }
+  .sub .meta { font-size:12px; color:var(--muted); margin-top:8px; line-height:1.5; }
+  .status { font-weight:700; }
+  .s-due { color:var(--red); }
+  .s-sched { color:var(--accent); }
+  .s-done { color:var(--green); }
+  .progress { height:6px; background:#222c3e; border-radius:99px; margin-top:10px; overflow:hidden; }
+  .progress > span { display:block; height:100%; background:var(--accent); }
+  footer { text-align:center; color:var(--muted); font-size:12px; margin-top:26px; line-height:1.6; }
+  code { background:#1c2434; padding:1px 6px; border-radius:5px; color:#aab6cc; }
+  .empty { text-align:center; color:var(--muted); padding:30px; }
+  .footnote { font-size:11px; color:#5b6677; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="logo">🤖</div>
+    <h1>Leo pays people on time — automatically</h1>
+    <div class="tag">An autonomous agent on Arc. It pays recurring USDC — <strong>salaries and subscriptions</strong> — on schedule. Like a boss who never forgets payday. No buttons, no gas, no wallet apps.</div>
+  </header>
+
+  <div class="hero" id="hero">
+    <div class="big" id="heroText">Loading Leo's status…</div>
+    <div id="pills" style="margin-top:10px;"></div>
+  </div>
+
+  <div class="grid" id="grid"><div class="empty">Reading your subscriptions…</div></div>
+
+  <footer>
+    <div>Built on <strong>Arc testnet</strong> · powered by <strong>Circle</strong> (Smart Contract Platform + Event Monitor)</div>
+    <div class="footnote">No private keys, no card numbers, no personal data are shown here. This is a public, read-only view of subscription state.</div>
+  </footer>
+</div>
+
+<script>
+async function load() {
+  let d;
+  try {
+    const r = await fetch("state.json", { cache: "no-store" });
+    d = await r.json();
+  } catch (e) {
+    document.getElementById("heroText").textContent = "Leo's dashboard is warming up — check back in a moment.";
+    return;
+  }
+  // hero
+  const hero = document.getElementById("heroText");
+  hero.innerHTML = `💡 <strong>Leo is running.</strong> ${d.description}`;
+  const pills = document.getElementById("pills");
+  const fundPill = d.walletFunded
+    ? `<span class="pill live">● Agent wallet funded</span>`
+    : `<span class="pill fund">● Top up agent wallet</span>`;
+  pills.innerHTML =
+    `<span class="pill ok">Vault: ${d.vaultBalance ?? 0} USDC</span>` +
+    fundPill +
+    `<span class="pill live">● ${d.subscriptions.length} active subscription(s)</span>`;
+
+  // subs
+  const grid = document.getElementById("grid");
+  if (!d.subscriptions.length) { grid.innerHTML = `<div class="empty">No active subscriptions yet.</div>`; return; }
+  grid.innerHTML = d.subscriptions.map(s => {
+    const stClass = s.status === "due now" ? "s-due" : s.status === "completed" ? "s-done" : "s-sched";
+    const pct = s.cycles === 0 ? 0 : Math.min(100, Math.round((s.paidCount / s.cycles) * 100));
+    const statusTxt = s.status === "due now" ? "⏰ Due now — Leo will pay"
+      : s.status === "completed" ? "✅ Completed"
+      : `⏳ Next: ${s.nextDueLabel}`;
+    return `
+      <div class="sub">
+        <div class="top">${s.emoji}</div>
+        <h3>${s.name}</h3>
+        <div class="cat">${s.category}</div>
+        <div class="amt">$${s.amountUSDC} <small>/ ${s.intervalLabel}</small></div>
+        <div class="meta">
+          <div class="status ${stClass}">${statusTxt}</div>
+          <div>Paid ${s.paidCount}${s.cycles ? " / " + s.cycles : ""} times</div>
+          ${s.note ? `<div>${s.note}</div>` : ""}
+        </div>
+        <div class="progress"><span style="width:${pct}%"></span></div>
+      </div>`;
+  }).join("");
+}
+load();
+setInterval(load, 30000);
+</script>
+</body>
+</html>

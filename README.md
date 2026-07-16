@@ -1,6 +1,6 @@
 # Leo — Arc Y (AutoSub): Autonomous USDC Subscription Agent
 
-> An autonomous on-chain agent that pays recurring USDC subscriptions on **Arc testnet**, executed and monitored entirely through **Circle** infrastructure — no manual transactions, no RPC throttling.
+> An autonomous on-chain agent that pays recurring USDC on **Arc testnet** — **payroll and subscriptions** — executed and monitored entirely through **Circle** infrastructure — no manual transactions, no RPC throttling.
 
 Built for the **Encode Club × Arc Hackathon** (Agentic Economy track).
 

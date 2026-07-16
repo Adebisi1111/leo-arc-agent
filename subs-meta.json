@@ -1,6 +1,6 @@
 {
-  "6": { "name": "Coffee Club", "emoji": "☕", "category": "Daily brew", "note": "Your morning coffee, paid daily" },
-  "7": { "name": "Diner", "emoji": "🍽️", "category": "Meals", "note": "Lunch spot, every 3 days" },
-  "8": { "name": "Grocery Run", "emoji": "🛒", "category": "Weekly shop", "note": "Weekly groceries, every 7 days" },
-  "9": { "name": "Leo Daily Keep-Alive", "emoji": "🔁", "category": "Agent heartbeat", "note": "Guarantees Leo pays at least 1 subscription every day" }
+  "9": { "name": "Leo Inc. Payroll — Worker A", "emoji": "💼", "category": "Payroll", "note": "Boss pays Worker A $1 every day, on time, automatically — the payroll demo" },
+  "6": { "name": "Coffee Club", "emoji": "☕", "category": "Recurring bill", "note": "Example recurring bill Leo also pays automatically" },
+  "7": { "name": "Diner", "emoji": "🍽️", "category": "Recurring bill", "note": "Another recurring payment Leo handles" },
+  "8": { "name": "Grocery Run", "emoji": "🛒", "category": "Recurring bill", "note": "Weekly recurring payment" }
 }
