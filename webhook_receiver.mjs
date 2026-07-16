@@ -10,10 +10,31 @@ const log = (s) => { const line = `[${new Date().toISOString()}] ${s}\n`; fs.app
 
 const server = http.createServer((req, res) => {
   if (req.method === "GET") {
+    const url = (req.url || "/").split("?")[0];
+    if (url === "/state.json") {
+      try {
+        const data = fs.readFileSync("public/state.json", "utf8");
+        res.writeHead(200, { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" });
+        res.end(data);
+      } catch {
+        res.writeHead(404, { "Content-Type": "application/json" });
+        res.end(JSON.stringify({ error: "no state yet" }));
+      }
+      return;
+    }
+    if (url === "/" || url === "/dashboard") {
+      try {
+        const html = fs.readFileSync("public/index.html", "utf8");
+        res.writeHead(200, { "Content-Type": "text/html" });
+        res.end(html);
+      } catch {
+        res.writeHead(200, { "Content-Type": "text/html" });
+        res.end("<h2>Leo dashboard</h2><p>index.html not found yet.</p>");
+      }
+      return;
+    }
     res.writeHead(200, { "Content-Type": "text/html" });
-    res.end(`<h2>Leo (Arc Y) event endpoint — LIVE</h2>
-<p>Forwarded by ngrok: stingray-science-liquid.ngrok-free.dev</p>
-<p>POST events to /webhook (Circle Contracts monitor deliveries land here).</p>`);
+    res.end(`<h2>Leo (Arc Y) event endpoint — LIVE</h2>\n<p>Forwarded by ngrok: stingray-science-liquid.ngrok-free.dev</p>\n<p>GET /dashboard for the bills view · GET /state.json for raw data · POST /webhook for Circle events.</p>`);
     return;
   }
   let body = "";

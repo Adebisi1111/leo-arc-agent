@@ -8,7 +8,7 @@ Built for the **Encode Club × Arc Hackathon** (Agentic Economy track).
 
 ## What it does
 
-Leo is an autonomous agent that manages recurring subscription payments on-chain:
+Leo is an autonomous agent that makes recurring USDC payments on-chain — its headline job is **payroll** (paying workers on schedule, like a boss who never forgets payday), and it handles any recurring bill the same way:
 
 1. **Detects** when a subscription is due (reads the `SubscriptionVault` contract).
 2. **Executes** the payment via **Circle Smart Contract Platform** — Circle submits the transaction from its own infrastructure, bypassing Arc's public-RPC rate limits.
