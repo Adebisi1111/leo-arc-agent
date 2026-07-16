@@ -1,0 +1,29 @@
+# ---- SECRETS: NEVER COMMIT ----
+.env
+.env.*
+*.key
+.validator_key
+wallet.json
+validator_wallet.json
+agent_identity.json
+agent_full_identity.json
+metamask_payee.json
+metamask_payee2.json
+recovery/
+*recovery_file*
+*.dat
+
+# ---- deps / build ----
+node_modules/
+out/
+cache/
+package-lock.json
+
+# ---- logs / runtime noise ----
+*.log
+receiver.out
+*.state
+
+# ---- OS ----
+.DS_Store
+Thumbs.db

@@ -1,0 +1,12 @@
+import { ethers } from "ethers"; import fs from "fs";
+const provider = new ethers.JsonRpcProvider("https://rpc.testnet.arc.network", 5042002, { staticNetwork: true });
+const pk = fs.readFileSync("wallet.json","utf8").match(/Private key:\s*(0x[0-9a-fA-F]+)/)[1];
+const wallet = new ethers.Wallet(pk, provider);
+const vault = new ethers.Contract("0xd25A1979a5bDa25c3ABd8b661957C2AaC9515a0F", ["function pay(uint256) external","function subs(uint256) view returns (address,uint256,uint256,uint256,uint256,uint256,bool)"], wallet);
+const s = await vault.subs(0);
+console.log("sub0 nextDue=", Number(s[5]), "active=", s[6], "now=", Math.floor(Date.now()/1000));
+console.log("sending pay(0)...");
+const tx = await vault.pay(0);
+console.log("tx hash:", tx.hash);
+const rcpt = await tx.wait();
+console.log("CONFIRMED block", rcpt.blockNumber);
