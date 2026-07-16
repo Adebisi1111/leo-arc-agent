@@ -110,12 +110,34 @@ node --env-file=.env circle-tick.mjs
 
 ---
 
+## Proof of real activity
+
+Leo is not a mock — it performs real, on-chain transactions on Arc testnet, executed and detected entirely through Circle.
+
+**Verified live payment (2026-07-16):**
+
+| Evidence | Value |
+|---|---|
+| On-chain tx hash | `0x7e6c8584ef789eb582691bd09d3fa94f8b35ce0cf2d8d53562391ab3143ea93a` |
+| Block | `52109832` |
+| Vault balance before → after | 5 USDC → 4 USDC (1 USDC sub paid) |
+| Circle execution tx | `008932c2-cdcb-5a11-939a-446fa495bd6a` |
+| `Paid` webhook delivered | ✅ 13:33:43 UTC to live endpoint |
+| ERC-8004 agent identity | #851166 |
+
+**Live dashboard (no web3 knowledge required):** open `https://stingray-science-liquid.ngrok-free.dev/dashboard` to see Leo's subscriptions as plain bills — what's paid, what's due, and when.
+
+**Activity metrics (Circle Console):** 54 API calls, 96.3% success, 0 server-side errors — sustained real usage across the session.
+
+---
+
 ## Status
 
-✅ Circle-native execution proven on-chain
+✅ Circle-native execution proven on-chain (real `pay()` tx `0x7e6c85…`)
 ✅ Circle Event Monitor + webhook delivery confirmed
 ✅ Autonomous 20-minute tick running
 ✅ Realistic subscriptions (1d / 3d / 7d) registered
+✅ Live bills dashboard (plain-language, no wallet/gas jargon)
 
 ---
 
