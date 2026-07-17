@@ -51,8 +51,11 @@ async function main() {
   const walletBal = await circleWalletUsdc();
   note(`vault=${(vaultBal/1e6).toFixed(2)} USDC, circleWallet=${(walletBal/1e6).toFixed(2)} USDC`);
 
-  if (vaultBal < 2_000_000 && walletBal > 5_000_000) {
-    await exec("transfer(address,uint256)", [VAULT, "5000000"], "fund vault 5 USDC");
+  // Fund the vault if it's low. Use whatever the wallet has (minus a 1.5 USDC gas buffer)
+  // so even a small faucet top-up lets the cycle resume. Circle wallet is the gas source.
+  if (vaultBal < 2_000_000 && walletBal > 1_500_000) {
+    const fundAmt = Math.max(1_000_000, Math.floor(walletBal - 1_500_000));
+    await exec("transfer(address,uint256)", [VAULT, String(fundAmt)], `fund vault ${fundAmt/1e6} USDC`);
     return;
   }
   if (walletBal < 300_000) { note("circle wallet low on gas, skipping"); return; }
@@ -83,4 +86,7 @@ async function main() {
 try { await main(); } catch(e) { report("ERR " + (e.response ? JSON.stringify(e.response.data) : e.message)); }
 // Refresh the human-readable dashboard data (best-effort; never fail the tick on this).
 try { await import("./build-state.mjs"); } catch(e) { note("build-state skip: " + e.message); }
-if (!acted) process.exit(0);
+// Force a clean exit: the build-state ethers provider keeps a socket open and would
+// hang the cron runner (reported as "tick failed"). Circle executes server-side, so
+// we don't need to stay alive after initiating.
+process.exit(0);
