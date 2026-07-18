@@ -1,8 +1,10 @@
-# Leo — Arc Y (AutoSub): Autonomous USDC Subscription Agent
+# Concord (formerly Leo) — Autonomous USDC Payroll Agent
 
-> An autonomous on-chain agent that pays recurring USDC on **Arc testnet** — **payroll and subscriptions** — executed and monitored entirely through **Circle** infrastructure — no manual transactions, no RPC throttling.
+> An autonomous on-chain agent that runs **USDC payroll** on **Arc testnet** — executed and monitored entirely through **Circle** infrastructure — no manual transactions, no RPC throttling.
 
 Built for the **Encode Club × Arc Hackathon** (Agentic Economy track).
+
+> Brand note: the project launched as "Leo / AutoSub" (subscriptions + payroll). It has pivoted to **payroll only**. The contract is still named `SubscriptionVault` and the repo is still `leo-arc-agent` — only the product focus changed.
 
 ---
 

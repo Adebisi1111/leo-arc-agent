@@ -1,0 +1,43 @@
+{
+  "description": "Concord runs USDC payroll on Arc testnet every 20 minutes — paying your team on their schedule via Circle, with a daily anchor that guarantees at least one on-chain transaction per day.",
+  "vaultBalance": 1250,
+  "walletFunded": true,
+  "subscriptions": [
+    {
+      "emoji": "👷",
+      "name": "Core developer",
+      "category": "Engineering",
+      "amountUSDC": 120,
+      "intervalLabel": "7 days",
+      "status": "due now",
+      "nextDueLabel": "now",
+      "paidCount": 3,
+      "cycles": 4,
+      "note": "Paid via Circle Smart Contract Platform"
+    },
+    {
+      "emoji": "🛡️",
+      "name": "Security auditor",
+      "category": "Audit",
+      "amountUSDC": 80,
+      "intervalLabel": "30 days",
+      "status": "scheduled",
+      "nextDueLabel": "in 12 days",
+      "paidCount": 1,
+      "cycles": 2,
+      "note": "On-chain Paid event verified"
+    },
+    {
+      "emoji": "📣",
+      "name": "Community lead",
+      "category": "Growth",
+      "amountUSDC": 50,
+      "intervalLabel": "7 days",
+      "status": "scheduled",
+      "nextDueLabel": "in 4 days",
+      "paidCount": 3,
+      "cycles": 6,
+      "note": "No human input required"
+    }
+  ]
+}
