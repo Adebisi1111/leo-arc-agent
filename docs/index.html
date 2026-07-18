@@ -3,111 +3,207 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Concord — your autonomous payroll agent</title>
+<title>Concord — your agent wallet</title>
 <style>
   :root { --bg:#0b0f17; --card:#151b27; --txt:#e8edf5; --muted:#8b97a8; --accent:#5b8cff; --green:#36d399; --amber:#fbbd23; --red:#f87272; }
   * { box-sizing: border-box; }
-  body { margin:0; font-family: -apple-system, system-ui, "Segoe UI", Roboto, sans-serif; background:var(--bg); color:var(--txt); padding:24px; }
-  .wrap { max-width:760px; margin:0 auto; }
-  header { text-align:center; margin-bottom:8px; }
-  .logo { font-size:34px; }
-  h1 { font-size:24px; margin:6px 0 2px; }
-  .tag { color:var(--muted); font-size:14px; margin-bottom:18px; }
-  .hero { background:linear-gradient(135deg,#1b2440,#151b27); border:1px solid #243049; border-radius:16px; padding:18px 20px; margin-bottom:22px; }
-  .hero .big { font-size:15px; line-height:1.5; color:#cdd6e6; }
-  .pill { display:inline-block; padding:3px 10px; border-radius:999px; font-size:12px; font-weight:600; margin:4px 6px 4px 0; }
-  .pill.live { background:rgba(54,211,153,.15); color:var(--green); }
-  .pill.fund { background:rgba(251,189,35,.15); color:var(--amber); }
-  .pill.ok { background:rgba(91,140,255,.15); color:var(--accent); }
-  .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:14px; }
-  .sub { background:var(--card); border:1px solid #222c3e; border-radius:14px; padding:16px; }
-  .sub .top { font-size:28px; }
-  .sub h3 { margin:8px 0 2px; font-size:17px; }
-  .sub .cat { color:var(--muted); font-size:12px; margin-bottom:10px; }
-  .sub .amt { font-size:20px; font-weight:700; }
-  .sub .amt small { font-size:12px; color:var(--muted); font-weight:400; }
-  .sub .meta { font-size:12px; color:var(--muted); margin-top:8px; line-height:1.5; }
-  .status { font-weight:700; }
-  .s-due { color:var(--red); }
-  .s-sched { color:var(--accent); }
-  .s-done { color:var(--green); }
-  .progress { height:6px; background:#222c3e; border-radius:99px; margin-top:10px; overflow:hidden; }
-  .progress > span { display:block; height:100%; background:var(--accent); }
-  footer { text-align:center; color:var(--muted); font-size:12px; margin-top:26px; line-height:1.6; }
-  code { background:#1c2434; padding:1px 6px; border-radius:5px; color:#aab6cc; }
-  .empty { text-align:center; color:var(--muted); padding:30px; }
-  .footnote { font-size:11px; color:#5b6677; }
+  body { margin:0; font-family: -apple-system, system-ui, "Segoe UI", Roboto, sans-serif; background:var(--bg); color:var(--txt); padding:20px; }
+  .wrap { max-width:480px; margin:0 auto; }
+  header { text-align:center; margin-bottom:6px; }
+  .logo { font-size:32px; }
+  h1 { font-size:20px; margin:4px 0 2px; }
+  .tag { color:var(--muted); font-size:13px; margin-bottom:16px; }
+  .card { background:var(--card); border:1px solid #222c3e; border-radius:16px; padding:18px; }
+  .balance { text-align:center; padding:18px 0 10px; }
+  .balance .amt { font-size:34px; font-weight:800; }
+  .balance .unit { color:var(--muted); font-size:14px; }
+  .sub-bal { text-align:center; color:var(--muted); font-size:12px; margin-bottom:14px; }
+  .actions { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:6px 0 4px; }
+  button { font:inherit; font-weight:700; border:0; border-radius:12px; padding:14px; cursor:pointer; color:#fff; }
+  .btn-send { background:var(--accent); }
+  .btn-recv { background:#2a3550; }
+  .addr { background:#1c2434; border:1px solid #243049; border-radius:10px; padding:10px 12px; font-size:12px; word-break:break-all; color:#aab6cc; margin-top:12px; }
+  .addr b { color:var(--txt); }
+  .section-title { margin:22px 4px 8px; font-size:13px; color:var(--muted); text-transform:uppercase; letter-spacing:.06em; }
+  .tx { background:var(--card); border:1px solid #222c3e; border-radius:12px; padding:12px 14px; margin-bottom:8px; }
+  .tx .row { display:flex; justify-content:space-between; align-items:center; gap:8px; }
+  .tx .dir { font-weight:700; font-size:13px; }
+  .tx .dir.out { color:var(--red); }
+  .tx .dir.in { color:var(--green); }
+  .tx .val { font-weight:700; }
+  .tx .meta { color:var(--muted); font-size:11px; margin-top:4px; word-break:break-all; }
+  .pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:11px; font-weight:600; }
+  .pill.ok { background:rgba(54,211,153,.15); color:var(--green); }
+  .pill.net { background:rgba(91,140,255,.15); color:var(--accent); }
+  footer { text-align:center; color:var(--muted); font-size:11px; margin-top:22px; line-height:1.6; }
+  .msg { text-align:center; font-size:13px; margin:10px 0; min-height:18px; }
+  .msg.err { color:var(--red); }
+  .msg.ok { color:var(--green); }
+  .empty { text-align:center; color:var(--muted); padding:18px; font-size:13px; }
+  /* modal */
+  .modal { position:fixed; inset:0; background:rgba(0,0,0,.6); display:none; align-items:center; justify-content:center; padding:16px; }
+  .modal.open { display:flex; }
+  .modal .box { background:var(--card); border:1px solid #243049; border-radius:16px; padding:20px; width:100%; max-width:420px; }
+  .modal h3 { margin:0 0 12px; }
+  .modal label { display:block; font-size:12px; color:var(--muted); margin:10px 0 4px; }
+  .modal input { width:100%; padding:12px; border-radius:10px; border:1px solid #2a3550; background:#0e1320; color:var(--txt); font:inherit; }
+  .modal .row2 { display:grid; grid-template-columns:1fr auto; gap:8px; }
+  .modal .hint { font-size:11px; color:var(--muted); margin-top:4px; }
+  .modal .btns { display:flex; gap:10px; margin-top:16px; }
+  .modal .btns button { flex:1; }
+  .btn-cancel { background:#2a3550; }
+  .btn-confirm { background:var(--accent); }
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
     <div class="logo">🤖</div>
-    <h1>Concord pays your team on time — automatically</h1>
-    <div class="tag">An autonomous agent on Arc. It runs <strong>USDC payroll</strong> on schedule — salaries to your team, no manual transactions. Like a boss who never forgets payday. No buttons, no gas, no wallet apps.</div>
+    <h1>Concord — your agent wallet</h1>
+    <div class="tag">The autonomous payroll agent's wallet on Arc testnet. Balance and activity, live.</div>
   </header>
 
-  <div class="hero" id="hero">
-    <div class="big" id="heroText">Loading Concord's status…</div>
-    <div id="pills" style="margin-top:10px;"></div>
+  <div class="card">
+    <div class="balance">
+      <span class="amt" id="bal">—</span> <span class="unit">USDC</span>
+    </div>
+    <div class="sub-bal" id="nativeBal">Arc native: —</div>
+    <div class="actions">
+      <button class="btn-send" id="sendBtn">↑ Send</button>
+      <button class="btn-recv" id="recvBtn">↓ Receive</button>
+    </div>
+    <div class="addr" id="addrBox"><b>Wallet:</b> 0x76bc3241c19e277b16e3159513cf4f27c9c2577a</div>
+    <div class="msg" id="msg"></div>
   </div>
 
-  <div class="grid" id="grid"><div class="empty">Reading your payroll runs…</div></div>
+  <div class="section-title">Recent activity</div>
+  <div id="txs"><div class="empty">Loading transactions…</div></div>
 
   <footer>
-    <div>Built on <strong>Arc testnet</strong> · powered by <strong>Circle</strong> (Smart Contract Platform + Event Monitor)</div>
-    <div class="footnote">No private keys, no card numbers, no personal data are shown here. This is a public, read-only view of payroll state.</div>
+    Built on <strong>Arc testnet</strong> · powered by <strong>Circle</strong> · <span class="pill net">testnet</span><br/>
+    Read-only wallet view. Send is executed via Circle Smart Contract Platform.
   </footer>
 </div>
 
-<script>
-async function load() {
-  let d;
-  try {
-    const r = await fetch("state.json", { cache: "no-store" });
-    d = await r.json();
-  } catch (e) {
-    document.getElementById("heroText").textContent = "Concord's dashboard is warming up — check back in a moment.";
-    return;
-  }
-  // hero
-  const hero = document.getElementById("heroText");
-  hero.innerHTML = `💡 <strong>Concord is running.</strong> ${d.description}`;
-  const pills = document.getElementById("pills");
-  const fundPill = d.walletFunded
-    ? `<span class="pill live">● Agent wallet funded</span>`
-    : `<span class="pill fund">● Top up agent wallet</span>`;
-  pills.innerHTML =
-    `<span class="pill ok">Vault: ${d.vaultBalance ?? 0} USDC</span>` +
-    fundPill +
-    `<span class="pill live">● ${d.subscriptions.length} active payroll run(s)</span>`;
+<!-- Receive modal -->
+<div class="modal" id="recvModal">
+  <div class="box">
+    <h3>Receive USDC</h3>
+    <p style="font-size:13px;color:var(--muted);margin:0 0 6px;">Share this wallet address. Anyone can send Arc testnet USDC here.</p>
+    <div class="addr" id="recvAddr" style="user-select:all;">0x76bc3241c19e277b16e3159513cf4f27c9c2577a</div>
+    <div class="btns">
+      <button class="btn-cancel" id="recvCopy">Copy address</button>
+      <button class="btn-confirm" id="recvClose">Done</button>
+    </div>
+  </div>
+</div>
 
-  // payroll runs
-  const grid = document.getElementById("grid");
-  if (!d.subscriptions.length) { grid.innerHTML = `<div class="empty">No active payroll runs yet.</div>`; return; }
-  grid.innerHTML = d.subscriptions.map(s => {
-    const stClass = s.status === "due now" ? "s-due" : s.status === "completed" ? "s-done" : "s-sched";
-    const pct = s.cycles === 0 ? 0 : Math.min(100, Math.round((s.paidCount / s.cycles) * 100));
-    const statusTxt = s.status === "due now" ? "⏰ Due now — Concord will pay"
-      : s.status === "completed" ? "✅ Completed"
-      : `⏳ Next: ${s.nextDueLabel}`;
-    return `
-      <div class="sub">
-        <div class="top">${s.emoji}</div>
-        <h3>${s.name}</h3>
-        <div class="cat">${s.category}</div>
-        <div class="amt">$${s.amountUSDC} <small>/ ${s.intervalLabel}</small></div>
-        <div class="meta">
-          <div class="status ${stClass}">${statusTxt}</div>
-          <div>Paid ${s.paidCount}${s.cycles ? " / " + s.cycles : ""} times</div>
-          ${s.note ? `<div>${s.note}</div>` : ""}
-        </div>
-        <div class="progress"><span style="width:${pct}%\"></span></div>
-      </div>`;
-  }).join("");
+<!-- Send modal -->
+<div class="modal" id="sendModal">
+  <div class="box">
+    <h3>Send USDC</h3>
+    <label>To (wallet address)</label>
+    <input id="sendTo" placeholder="0x…" />
+    <label>Amount (USDC)</label>
+    <div class="row2">
+      <input id="sendAmt" type="number" min="0" step="0.000001" placeholder="0.00" />
+      <button class="btn-cancel" id="sendMax" style="padding:12px 14px;">Max</button>
+    </div>
+    <div class="hint">Executed by Concord via Circle Smart Contract Platform. This demo wallet is agent-controlled — sends route through the secure backend.</div>
+    <div class="msg" id="sendMsg"></div>
+    <div class="btns">
+      <button class="btn-cancel" id="sendCancel">Cancel</button>
+      <button class="btn-confirm" id="sendConfirm">Send</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const AGENT = "0x76bc3241c19e277b16e3159513cf4f27c9c2577a";
+const USDC  = "0x3600000000000000000000000000000000000000";
+const ARCSCAN = "https://testnet.arcscan.app/api";
+let SEND_API = ""; // set at runtime from docs/config.json / localStorage (see DEPLOY.md)
+async function loadConfig(){
+  try {
+    const c = await (await fetch("config.json", {cache:"no-store"})).json();
+    if (c && c.sendApi) SEND_API = c.sendApi;
+  } catch(e){ /* no config.json — Send stays disabled */ }
+  const ls = localStorage.getItem("concord_sendApi"); // dev override, no re-push needed
+  if (ls) SEND_API = ls;
 }
-load();
-setInterval(load, 30000);
+
+const fmt = n => Number(n).toLocaleString(undefined, {maximumFractionDigits:6});
+async function getJSON(u){ const r = await fetch(u,{cache:"no-store"}); return r.json(); }
+
+async function loadBalance(){
+  try {
+    const usdc = await getJSON(`${ARCSCAN}?module=account&action=tokenbalance&contractaddress=${USDC}&address=${AGENT}&tag=latest`);
+    const nat  = await getJSON(`${ARCSCAN}?module=account&action=balance&address=${AGENT}&tag=latest`);
+    document.getElementById("bal").textContent = fmt(BigInt(usdc.result)/1e6);
+    document.getElementById("nativeBal").textContent = "Arc native: " + fmt(BigInt(nat.result)/1e18).slice(0,10) + " (gas token)";
+  } catch(e){ document.getElementById("bal").textContent = "—"; }
+}
+
+async function loadTx(){
+  const box = document.getElementById("txs");
+  try {
+    const j = await getJSON(`${ARCSCAN}?module=account&action=txlist&address=${AGENT}&page=1&offset=12&sort=desc`);
+    const txs = j.result || [];
+    if(!txs.length){ box.innerHTML = `<div class="empty">No transactions yet.</div>`; return; }
+    box.innerHTML = txs.map(t => {
+      const out = t.from.toLowerCase() === AGENT.toLowerCase();
+      const dir = out ? "out" : "in";
+      const arrow = out ? "Sent" : "Received";
+      const val = t.value === "0" && t.to.toLowerCase()===USDC.toLowerCase()
+        ? "USDC" : fmt(BigInt(t.value||0)/1e18).slice(0,8)+" ARC";
+      const ts = new Date(Number(t.timeStamp)*1000).toLocaleString();
+      const short = t.hash.slice(0,10)+"…"+t.hash.slice(-6);
+      const link = `https://testnet.arcscan.app/tx/${t.hash}`;
+      return `<div class="tx"><div class="row">
+        <span class="dir ${dir}">${arrow} ${out?'→':'←'} ${out?t.to.slice(0,6)+'…':t.from.slice(0,6)+'…'}</span>
+        <span class="val">${val}</span></div>
+        <div class="meta">${ts} · <a href="${link}" target="_blank" rel="noopener" style="color:var(--accent)">${short}</a></div></div>`;
+    }).join("");
+  } catch(e){ box.innerHTML = `<div class="empty">Could not load activity.</div>`; }
+}
+
+// modals
+const recvModal = document.getElementById("recvModal");
+const sendModal = document.getElementById("sendModal");
+document.getElementById("recvBtn").onclick = () => recvModal.classList.add("open");
+document.getElementById("recvClose").onclick = () => recvModal.classList.remove("open");
+document.getElementById("recvCopy").onclick = async () => {
+  await navigator.clipboard.writeText(AGENT);
+  document.getElementById("recvCopy").textContent = "Copied!";
+  setTimeout(()=>document.getElementById("recvCopy").textContent="Copy address",1500);
+};
+document.getElementById("sendBtn").onclick = () => { document.getElementById("sendMsg").textContent=""; sendModal.classList.add("open"); };
+document.getElementById("sendCancel").onclick = () => sendModal.classList.remove("open");
+document.getElementById("sendMax").onclick = async () => {
+  const j = await getJSON(`${ARCSCAN}?module=account&action=tokenbalance&contractaddress=${USDC}&address=${AGENT}&tag=latest`);
+  document.getElementById("sendAmt").value = fmt(BigInt(j.result)/1e6);
+};
+
+document.getElementById("sendConfirm").onclick = async () => {
+  const to = document.getElementById("sendTo").value.trim();
+  const amt = document.getElementById("sendAmt").value.trim();
+  const m = document.getElementById("sendMsg");
+  if(!SEND_API){ m.className="msg err"; m.textContent="Send backend not configured. Set sendApi in docs/config.json (see DEPLOY.md)."; return; }
+  if(!/^0x[a-fA-F0-9]{40}$/.test(to)){ m.className="msg err"; m.textContent="Enter a valid 0x wallet address."; return; }
+  if(!amt || Number(amt)<=0){ m.className="msg err"; m.textContent="Enter an amount."; return; }
+  m.className="msg"; m.textContent="Sending via Circle…";
+  try {
+    const r = await fetch(SEND_API, {method:"POST", headers:{"Content-Type":"application/json"},
+      body: JSON.stringify({to, amountUSDC: amt})});
+    const d = await r.json();
+    if(r.ok){ m.className="msg ok"; m.textContent="Sent! "+(d.txHash?("tx "+d.txHash.slice(0,10)+"…"):"");
+      sendModal.classList.remove("open"); setTimeout(()=>{loadBalance();loadTx();},2500); }
+    else { m.className="msg err"; m.textContent="Failed: "+(d.error||"unknown"); }
+  } catch(e){ m.className="msg err"; m.textContent="Backend not reachable. The send endpoint must be deployed."; }
+};
+
+loadConfig(); loadBalance(); loadTx();
+setInterval(()=>{loadBalance();loadTx();}, 30000);
 </script>
 </body>
 </html>
