@@ -1,0 +1,89 @@
+CONCORD — How to SEND 0.1 USDC (two ways)
+
+Your address to pay: 0x6c4e29dc746bd2f489a7b4de3282b566bf78a113
+Amount: 0.1 USDC on Arc testnet
+From wallet: Concord agent 0x76bc3241c19e277b16e3159513cf4f27c9c2577a (1.49882 USDC)
+
+
+==================================================================
+OPTION 2 — FASTEST (no code, do it from your phone browser)
+==================================================================
+1. Open the Circle developer console: https://console.circle.com
+2. Go to Wallets → your developer-controlled wallet (the 0x76bc... one)
+3. Find USDC on Arc testnet, click Send / Transfer
+4. Recipient: 0x6c4e29dc746bd2f489a7b4de3282b566bf78a113
+5. Amount: 0.1
+6. Confirm.
+
+The dashboard feed reads on-chain, so it shows up automatically at:
+https://adebisi1111.github.io/leo-arc-agent/?v=3
+(refresh after ~20s)
+
+Nothing to install. This is the recommended route right now.
+
+
+==================================================================
+OPTION 1 — USE THE DASHBOARD SEND BUTTON (needs a computer + Node)
+==================================================================
+This requires a laptop/desktop with Node.js (cannot run on phone).
+It makes the dashboard's "Send" button actually work.
+
+STEP A — Get the backend running on your machine
+-------------------------------------------------
+1. Clone the repo (or use the files already there):
+   git clone https://github.com/Adebisi1111/leo-arc-agent.git
+   cd leo-arc-agent
+
+2. Install deps (one time):
+   npm install
+
+3. Create your .env file from the template:
+   cp .env.example .env
+   Then edit .env and fill in your real values:
+     CIRCLE_API_KEY=your_real_circle_api_key
+     CIRCLE_ENTITY_SECRET=your_real_entity_secret
+     CIRCLE_WALLET_ID=your_agent_wallet_id_here
+
+4. Start the server:
+   node api-send.mjs
+   You should see: "Concord send API on :3001"
+
+STEP B — Expose it with a public HTTPS URL (ngrok)
+--------------------------------------------------
+The dashboard is on GitHub Pages (public) but the backend is on your
+localhost — it needs a public URL so the browser can reach it.
+
+5. In a SECOND terminal, run ngrok (install from https://ngrok.com):
+   ngrok http 3001
+   ngrok gives you a URL like: https://xxxx.ngrok-free.dev
+   Copy that URL.
+
+STEP C — Tell the dashboard that URL
+-------------------------------------
+6. Send me that ngrok URL. I will set docs/config.json:
+     { "sendApi": "https://xxxx.ngrok-free.dev/api/send" }
+   and push it. (This is the only step I do.)
+
+STEP D — Send from your phone
+-----------------------------
+7. On your phone, open the dashboard, tap Send.
+   Recipient: 0x6c4e29dc746bd2f489a7b4de3282b566bf78a113
+   Amount: 0.1
+   Tap Send — the dashboard calls your backend, which calls Circle.
+
+NOTE: ngrok URL changes each time you restart ngrok — send me the new
+one and I'll update config.json. Keep node + ngrok running.
+
+
+==================================================================
+WHY I CAN'T PRESS SEND FOR YOU
+==================================================================
+The send needs your Circle API key + entity secret to SIGN the
+transaction. Those are your secrets — they must stay on your machine /
+in your Circle account. I never receive them, so I can't authorize the
+transfer. Option 2 (Circle console) is the path that needs zero of my
+involvement and zero setup.
+
+After the send, the dashboard's Live Payment Feed will show:
+  -0.1  ->  0x6c4e29...8113
+automatically, because it reads on-chain data.

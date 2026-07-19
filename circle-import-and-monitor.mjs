@@ -7,7 +7,7 @@ try {
   const imp = await scp.importContract({
     idempotencyKey: crypto.randomUUID(),
     name: "SubscriptionVault",
-    description: "Leo AutoSub vault",
+    description: "Concord payroll vault",
     address: VAULT,
     blockchain: "ARC-TESTNET",
     abiJson: JSON.stringify(abi),
@@ -24,7 +24,8 @@ try {
     idempotencyKey: crypto.randomUUID(),
   });
   console.log("MONITOR:", JSON.stringify(mon.data));
-  console.log(">>> Set Circle Console Webhook URL: https://stingray-science-liquid.ngrok-free.dev");
+  const wh = process.env.WEBHOOK_URL || "(set WEBHOOK_URL to your live tunnel endpoint)";
+  console.log(`>>> Set Circle Console Webhook URL to: ${wh}/webhook`);
 } catch (e) {
   console.log("MONITOR ERR status", e.status, ":", JSON.stringify(e.body || e.message));
 }

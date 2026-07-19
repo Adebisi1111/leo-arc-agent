@@ -95,7 +95,7 @@
   </div>
 
   <div class="actions">
-    <button class="btn-send" id="sendBtn">↑ Send</button>
+    <button class="btn-send" id="sendBtn">↑ Manual send</button>
     <button class="btn-recv" id="recvBtn">↓ Receive</button>
   </div>
   <div class="addr-box"><b>Agent wallet:</b> 0x76bc3241c19e277b16e3159513cf4f27c9c2577a</div>
@@ -209,7 +209,7 @@ document.getElementById("sendMax").onclick=async()=>{const j=await (await safe((
 document.getElementById("sendConfirm").onclick=async()=>{
   const to=document.getElementById("sendTo").value.trim(), amt=document.getElementById("sendAmt").value.trim();
   const m=document.getElementById("sendMsg");
-  if(!SEND_API){m.className="msg err";m.textContent="Send backend not configured (see DEPLOY.md).";return;}
+  if(!SEND_API){m.className="msg err";m.textContent="Manual send needs a backend (see SEND-WALKTHROUGH.txt). Concord normally pays payroll autonomously via the SubscriptionVault contract.";return;}
   if(!/^0x[a-fA-F0-9]{40}$/.test(to)){m.className="msg err";m.textContent="Enter a valid 0x wallet address.";return;}
   if(!amt||Number(amt)<=0){m.className="msg err";m.textContent="Enter an amount.";return;}
   m.className="msg";m.textContent="Sending via Circle…";

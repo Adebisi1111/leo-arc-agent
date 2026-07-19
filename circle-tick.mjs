@@ -16,11 +16,11 @@ const usdc = new ethers.Contract(USDC, ["function balanceOf(address) view return
 const ts = () => new Date().toISOString();
 const withTimeout = (pr, ms, label) => Promise.race([pr, new Promise((_,r)=>setTimeout(()=>r(new Error(label+" TIMEOUT")),ms))]);
 
-// Named subs are the "real" ones; unnamed ones are deprecated test subs we skip paying.
+// Named subs are the "real" payroll ones; unnamed ones are deprecated test subs we skip paying.
 let NAMED = {};
 try { NAMED = JSON.parse(fs.readFileSync("subs-meta.json", "utf8")); } catch {}
 
-// Always log to file; only report to stdout (chat) when Leo acts.
+// Always log to file; only report to stdout (chat) when Concord acts.
 const LOG = "circle-tick.log";
 const fileLog = (s) => { try { fs.appendFileSync(LOG, `[${ts()}] ${s}\n`); } catch {} };
 let acted = false;
@@ -72,7 +72,7 @@ async function main() {
       // pick the MOST overdue named sub so the daily anchor is always serviced first
       if (Number(nextDue) < mostOverdue) { mostOverdue = Number(nextDue); target = id; }
     }
-  } catch(e){ note(`due-detection read failed: ${e.message}, defaulting to a named anchor sub`); 
+  } catch(e){ note(`due-detection read failed: ${e.message}, defaulting to a named anchor sub`);
     // fallback: pick the daily anchor (#9) or first named sub we know, never an unnamed test sub
     target = NAMED["9"] ? 9 : (Object.keys(NAMED).map(Number).sort((a,b)=>a-b)[0] ?? -1);
   }

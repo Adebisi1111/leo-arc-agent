@@ -1,6 +1,6 @@
 # Concord (formerly Leo) — Autonomous USDC Payroll Agent
 
-> An autonomous on-chain agent that runs **USDC payroll** on **Arc testnet** — executed and monitored entirely through **Circle** infrastructure — no manual transactions, no RPC throttling.
+> An autonomous on-chain agent that runs **USDC payroll** on **Arc testnet** — executed and monitored entirely through **Circle** infrastructure, operating on a schedule with **no per-payment human approval**. A manual "send" override exists in the dashboard for ad-hoc transfers only.
 
 Built for the **Encode Club × Arc Hackathon** (Agentic Economy track).
 
@@ -127,7 +127,7 @@ Leo is not a mock — it performs real, on-chain transactions on Arc testnet, ex
 | `Paid` webhook delivered | ✅ 13:33:43 UTC to live endpoint |
 | ERC-8004 agent identity | #851166 |
 
-**Live dashboard (no web3 knowledge required):** open `https://stingray-science-liquid.ngrok-free.dev/dashboard` to see Leo's subscriptions as plain bills — what's paid, what's due, and when.
+**Live dashboard (no web3 knowledge required):** open `https://adebisi1111.github.io/leo-arc-agent/?v=3` to see Concord's payroll as plain bills — what's paid, what's due, and when.
 
 **Activity metrics (Circle Console):** 54 API calls, 96.3% success, 0 server-side errors — sustained real usage across the session.
 
