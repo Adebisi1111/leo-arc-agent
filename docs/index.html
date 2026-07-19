@@ -3,207 +3,211 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Concord — your agent wallet</title>
+<title>Concord — Autonomous USDC Payroll</title>
 <style>
-  :root { --bg:#0b0f17; --card:#151b27; --txt:#e8edf5; --muted:#8b97a8; --accent:#5b8cff; --green:#36d399; --amber:#fbbd23; --red:#f87272; }
-  * { box-sizing: border-box; }
-  body { margin:0; font-family: -apple-system, system-ui, "Segoe UI", Roboto, sans-serif; background:var(--bg); color:var(--txt); padding:20px; }
-  .wrap { max-width:480px; margin:0 auto; }
-  header { text-align:center; margin-bottom:6px; }
-  .logo { font-size:32px; }
-  h1 { font-size:20px; margin:4px 0 2px; }
-  .tag { color:var(--muted); font-size:13px; margin-bottom:16px; }
-  .card { background:var(--card); border:1px solid #222c3e; border-radius:16px; padding:18px; }
-  .balance { text-align:center; padding:18px 0 10px; }
-  .balance .amt { font-size:34px; font-weight:800; }
-  .balance .unit { color:var(--muted); font-size:14px; }
-  .sub-bal { text-align:center; color:var(--muted); font-size:12px; margin-bottom:14px; }
-  .actions { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:6px 0 4px; }
-  button { font:inherit; font-weight:700; border:0; border-radius:12px; padding:14px; cursor:pointer; color:#fff; }
-  .btn-send { background:var(--accent); }
-  .btn-recv { background:#2a3550; }
-  .addr { background:#1c2434; border:1px solid #243049; border-radius:10px; padding:10px 12px; font-size:12px; word-break:break-all; color:#aab6cc; margin-top:12px; }
-  .addr b { color:var(--txt); }
-  .section-title { margin:22px 4px 8px; font-size:13px; color:var(--muted); text-transform:uppercase; letter-spacing:.06em; }
-  .tx { background:var(--card); border:1px solid #222c3e; border-radius:12px; padding:12px 14px; margin-bottom:8px; }
-  .tx .row { display:flex; justify-content:space-between; align-items:center; gap:8px; }
-  .tx .dir { font-weight:700; font-size:13px; }
-  .tx .dir.out { color:var(--red); }
-  .tx .dir.in { color:var(--green); }
-  .tx .val { font-weight:700; }
-  .tx .meta { color:var(--muted); font-size:11px; margin-top:4px; word-break:break-all; }
-  .pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:11px; font-weight:600; }
-  .pill.ok { background:rgba(54,211,153,.15); color:var(--green); }
-  .pill.net { background:rgba(91,140,255,.15); color:var(--accent); }
-  footer { text-align:center; color:var(--muted); font-size:11px; margin-top:22px; line-height:1.6; }
-  .msg { text-align:center; font-size:13px; margin:10px 0; min-height:18px; }
-  .msg.err { color:var(--red); }
-  .msg.ok { color:var(--green); }
-  .empty { text-align:center; color:var(--muted); padding:18px; font-size:13px; }
-  /* modal */
-  .modal { position:fixed; inset:0; background:rgba(0,0,0,.6); display:none; align-items:center; justify-content:center; padding:16px; }
-  .modal.open { display:flex; }
-  .modal .box { background:var(--card); border:1px solid #243049; border-radius:16px; padding:20px; width:100%; max-width:420px; }
-  .modal h3 { margin:0 0 12px; }
-  .modal label { display:block; font-size:12px; color:var(--muted); margin:10px 0 4px; }
-  .modal input { width:100%; padding:12px; border-radius:10px; border:1px solid #2a3550; background:#0e1320; color:var(--txt); font:inherit; }
-  .modal .row2 { display:grid; grid-template-columns:1fr auto; gap:8px; }
-  .modal .hint { font-size:11px; color:var(--muted); margin-top:4px; }
-  .modal .btns { display:flex; gap:10px; margin-top:16px; }
-  .modal .btns button { flex:1; }
-  .btn-cancel { background:#2a3550; }
-  .btn-confirm { background:var(--accent); }
+  :root{
+    --bg:#0a0e16; --bg2:#111726; --card:#151d2e; --line:#243049;
+    --txt:#e9eef7; --muted:#8b97ab; --accent:#7c5cff; --accent2:#36d399;
+    --red:#f87272; --amber:#fbbd23;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:-apple-system,system-ui,"Segoe UI",Roboto,sans-serif;
+    background:radial-gradient(1200px 600px at 50% -10%,#1a2138,var(--bg));
+    color:var(--txt);padding:18px;min-height:100vh;}
+  .wrap{max-width:520px;margin:0 auto;}
+  header{display:flex;align-items:center;gap:12px;margin-bottom:4px;}
+  .logo{width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,var(--accent),#a98bff);
+    display:flex;align-items:center;justify-content:center;font-weight:800;font-size:22px;color:#fff;flex:none;}
+  h1{font-size:21px;margin:0;}
+  .desc{color:var(--muted);font-size:13px;margin:2px 0 10px;line-height:1.4;}
+  .status{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--accent2);margin-bottom:16px;}
+  .dot{width:8px;height:8px;border-radius:50%;background:var(--accent2);box-shadow:0 0 8px var(--accent2);}
+  .stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:6px;}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;}
+  .stat .label{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.05em;}
+  .stat .value{font-size:22px;font-weight:800;margin-top:4px;}
+  .stat .value small{font-size:12px;color:var(--muted);font-weight:600;}
+  .balance-card{background:linear-gradient(135deg,#1b2540,#162032);border:1px solid var(--line);
+    border-radius:16px;padding:18px;margin:12px 0;text-align:center;}
+  .balance-card .label{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.06em;}
+  .balance-card .amt{font-size:30px;font-weight:800;margin:6px 0 2px;}
+  .balance-card .sub{color:var(--muted);font-size:12px;}
+  .actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:4px 0 18px;}
+  button{font:inherit;font-weight:700;border:0;border-radius:12px;padding:14px;cursor:pointer;color:#fff;}
+  .btn-send{background:var(--accent);}
+  .btn-recv{background:#2a3550;}
+  .section-title{margin:6px 4px 8px;font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;
+    display:flex;justify-content:space-between;align-items:center;}
+  .feed{margin-bottom:10px;}
+  .tx{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;gap:10px;}
+  .tx .left{display:flex;flex-direction:column;gap:3px;min-width:0;}
+  .tx .addr{font-size:13px;font-weight:600;color:var(--txt);word-break:break-all;}
+  .tx .meta{font-size:11px;color:var(--muted);}
+  .tx .amt{font-weight:800;font-size:14px;flex:none;}
+  .tx .amt.out{color:var(--red);}
+  .tx .amt.in{color:var(--accent2);}
+  .empty{text-align:center;color:var(--muted);padding:20px;font-size:13px;}
+  .addr-box{background:#101726;border:1px solid var(--line);border-radius:10px;padding:10px 12px;
+    font-size:12px;word-break:break-all;color:#aab6cc;margin-top:12px;}
+  .addr-box b{color:var(--txt);}
+  footer{text-align:center;color:var(--muted);font-size:11px;margin-top:18px;line-height:1.7;}
+  .pill{display:inline-block;padding:2px 9px;border-radius:999px;font-size:11px;font-weight:600;background:rgba(124,92,255,.16);color:var(--accent);}
+  .msg{text-align:center;font-size:13px;margin:10px 0;min-height:16px;}
+  .msg.err{color:var(--red);} .msg.ok{color:var(--accent2);}
+  .modal{position:fixed;inset:0;background:rgba(0,0,0,.62);display:none;align-items:center;justify-content:center;padding:16px;z-index:10;}
+  .modal.open{display:flex;}
+  .modal .box{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;width:100%;max-width:420px;}
+  .modal h3{margin:0 0 12px;}
+  .modal label{display:block;font-size:12px;color:var(--muted);margin:10px 0 4px;}
+  .modal input{width:100%;padding:12px;border-radius:10px;border:1px solid var(--line);background:#0e1320;color:var(--txt);font:inherit;}
+  .modal .row2{display:grid;grid-template-columns:1fr auto;gap:8px;}
+  .modal .hint{font-size:11px;color:var(--muted);margin-top:6px;line-height:1.5;}
+  .modal .btns{display:flex;gap:10px;margin-top:16px;}
+  .modal .btns button{flex:1;} .btn-cancel{background:#2a3550;} .btn-confirm{background:var(--accent);}
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
-    <div class="logo">🤖</div>
-    <h1>Concord — your agent wallet</h1>
-    <div class="tag">The autonomous payroll agent's wallet on Arc testnet. Balance and activity, live.</div>
+    <div class="logo">C</div>
+    <div>
+      <h1>Concord</h1>
+      <div class="status"><span class="dot"></span> live · Arc testnet</div>
+    </div>
   </header>
+  <div class="desc">Autonomous USDC payroll on Arc — a boss who never forgets payday.</div>
 
-  <div class="card">
-    <div class="balance">
-      <span class="amt" id="bal">—</span> <span class="unit">USDC</span>
-    </div>
-    <div class="sub-bal" id="nativeBal">Arc native: —</div>
-    <div class="actions">
-      <button class="btn-send" id="sendBtn">↑ Send</button>
-      <button class="btn-recv" id="recvBtn">↓ Receive</button>
-    </div>
-    <div class="addr" id="addrBox"><b>Wallet:</b> 0x76bc3241c19e277b16e3159513cf4f27c9c2577a</div>
-    <div class="msg" id="msg"></div>
+  <div class="balance-card">
+    <div class="label">Available balance</div>
+    <div class="amt"><span id="bal">—</span> <small>USDC</small></div>
+    <div class="sub" id="nativeBal">Arc native: —</div>
   </div>
 
-  <div class="section-title">Recent activity</div>
-  <div id="txs"><div class="empty">Loading transactions…</div></div>
+  <div class="stats">
+    <div class="stat">
+      <div class="label">Total USDC paid</div>
+      <div class="value"><span id="paid">0</span> <small>USDC</small></div>
+    </div>
+    <div class="stat">
+      <div class="label">Payments executed</div>
+      <div class="value" id="count">0</div>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button class="btn-send" id="sendBtn">↑ Send</button>
+    <button class="btn-recv" id="recvBtn">↓ Receive</button>
+  </div>
+  <div class="addr-box"><b>Agent wallet:</b> 0x76bc3241c19e277b16e3159513cf4f27c9c2577a</div>
+
+  <div class="section-title"><span>Live payment feed</span><span class="pill" id="upd">—</span></div>
+  <div class="feed" id="feed"><div class="empty">Loading activity…</div></div>
 
   <footer>
-    Built on <strong>Arc testnet</strong> · powered by <strong>Circle</strong> · <span class="pill net">testnet</span><br/>
-    Read-only wallet view. Send is executed via Circle Smart Contract Platform.
+    Built on <strong>Arc testnet</strong> · powered by <strong>Circle</strong><br/>
+    Read-only live view. Send is executed via Circle Smart Contract Platform.
   </footer>
 </div>
 
 <!-- Receive modal -->
-<div class="modal" id="recvModal">
-  <div class="box">
-    <h3>Receive USDC</h3>
-    <p style="font-size:13px;color:var(--muted);margin:0 0 6px;">Share this wallet address. Anyone can send Arc testnet USDC here.</p>
-    <div class="addr" id="recvAddr" style="user-select:all;">0x76bc3241c19e277b16e3159513cf4f27c9c2577a</div>
-    <div class="btns">
-      <button class="btn-cancel" id="recvCopy">Copy address</button>
-      <button class="btn-confirm" id="recvClose">Done</button>
-    </div>
-  </div>
-</div>
+<div class="modal" id="recvModal"><div class="box">
+  <h3>Receive USDC</h3>
+  <p style="font-size:13px;color:var(--muted);margin:0 0 8px;">Share this wallet address. Anyone can send Arc testnet USDC here.</p>
+  <div class="addr-box" style="user-select:all;" id="recvAddr">0x76bc3241c19e277b16e3159513cf4f27c9c2577a</div>
+  <div class="btns"><button class="btn-cancel" id="recvCopy">Copy address</button><button class="btn-confirm" id="recvClose">Done</button></div>
+</div></div>
 
 <!-- Send modal -->
-<div class="modal" id="sendModal">
-  <div class="box">
-    <h3>Send USDC</h3>
-    <label>To (wallet address)</label>
-    <input id="sendTo" placeholder="0x…" />
-    <label>Amount (USDC)</label>
-    <div class="row2">
-      <input id="sendAmt" type="number" min="0" step="0.000001" placeholder="0.00" />
-      <button class="btn-cancel" id="sendMax" style="padding:12px 14px;">Max</button>
-    </div>
-    <div class="hint">Executed by Concord via Circle Smart Contract Platform. This demo wallet is agent-controlled — sends route through the secure backend.</div>
-    <div class="msg" id="sendMsg"></div>
-    <div class="btns">
-      <button class="btn-cancel" id="sendCancel">Cancel</button>
-      <button class="btn-confirm" id="sendConfirm">Send</button>
-    </div>
-  </div>
-</div>
+<div class="modal" id="sendModal"><div class="box">
+  <h3>Send USDC</h3>
+  <label>To (wallet address)</label>
+  <input id="sendTo" placeholder="0x…" />
+  <label>Amount (USDC)</label>
+  <div class="row2"><input id="sendAmt" type="number" min="0" step="0.000001" placeholder="0.00" /><button class="btn-cancel" id="sendMax" style="padding:12px 14px;">Max</button></div>
+  <div class="hint">Executed by Concord via Circle Smart Contract Platform. This agent wallet is Circle-controlled — sends route through the secure backend.</div>
+  <div class="msg" id="sendMsg"></div>
+  <div class="btns"><button class="btn-cancel" id="sendCancel">Cancel</button><button class="btn-confirm" id="sendConfirm">Send</button></div>
+</div></div>
 
 <script>
 const AGENT = "0x76bc3241c19e277b16e3159513cf4f27c9c2577a";
 const USDC  = "0x3600000000000000000000000000000000000000";
 const ARCSCAN = "https://testnet.arcscan.app/api";
-let SEND_API = ""; // set at runtime from docs/config.json / localStorage (see DEPLOY.md)
+let SEND_API = ""; // runtime: docs/config.json -> sendApi (or localStorage concord_sendApi)
+
+const fmt = n => Number(n).toLocaleString(undefined,{maximumFractionDigits:6});
+const fmt6 = n => (BigInt(n)/1e6n).toString();
+const timeAgo = ts => { const s=Math.floor(Date.now()/1000-Number(ts)); if(s<60)return s+"s ago"; if(s<3600)return Math.floor(s/60)+"m ago"; if(s<86400)return Math.floor(s/3600)+"h ago"; return Math.floor(s/86400)+"d ago"; };
+async function getJSON(u){ const r=await fetch(u,{cache:"no-store"}); return r.json(); }
+
+async function loadAll(){
+  const [balJ,natJ,tokJ,txJ] = await Promise.all([
+    getJSON(`${ARCSCAN}?module=account&action=tokenbalance&contractaddress=${USDC}&address=${AGENT}&tag=latest`),
+    getJSON(`${ARCSCAN}?module=account&action=balance&address=${AGENT}&tag=latest`),
+    getJSON(`${ARCSCAN}?module=account&action=tokentx&contractaddress=${USDC}&address=${AGENT}&page=1&offset=100&sort=desc`),
+    getJSON(`${ARCSCAN}?module=account&action=txlist&address=${AGENT}&page=1&offset=100&sort=desc`),
+  ]);
+  // Available balance (USDC)
+  document.getElementById("bal").textContent = fmt6(balJ.result||"0");
+  document.getElementById("nativeBal").textContent = "Arc native: " + fmt(BigInt(natJ.result||"0")/10n**18n).slice(0,10);
+
+  // Payments executed = outbound USDC transfers from agent wallet
+  const tok = tokJ.result||[]; const tx = txJ.result||[];
+  const paid = tok.filter(t=>String(t.from).toLowerCase()===AGENT.toLowerCase())
+                 .reduce((s,t)=>s+Number(t.value),0);
+  const outCount = tx.filter(t=>String(t.from).toLowerCase()===AGENT.toLowerCase()).length;
+  document.getElementById("paid").textContent = fmt(paid/1e6);
+  document.getElementById("count").textContent = outCount;
+
+  // Feed: merge USDC transfers (in+out) most recent first
+  const feed = [...tok].sort((a,b)=>Number(b.timeStamp)-Number(a.timeStamp)).slice(0,12);
+  const box = document.getElementById("feed");
+  if(!feed.length){ box.innerHTML='<div class="empty">No payments yet.</div>'; }
+  else box.innerHTML = feed.map(t=>{
+    const out = String(t.from).toLowerCase()===AGENT.toLowerCase();
+    const other = out ? t.to : t.from;
+    const v = (Number(t.value)/1e6);
+    const when = new Date(Number(t.timeStamp)*1000).toLocaleString();
+    const link = `https://testnet.arcscan.app/tx/${t.hash}`;
+    return `<div class="tx"><div class="left">
+      <span class="addr">${out?'→':'←'} ${other.slice(0,10)}…${other.slice(-6)}</span>
+      <span class="meta">${when} · <a href="${link}" target="_blank" rel="noopener" style="color:var(--accent)">${t.hash.slice(0,10)}…</a></span>
+    </div><span class="amt ${out?'out':'in'}">${out?'-':'+'}${fmt(v)}</span></div>`;
+  }).join("");
+  document.getElementById("upd").textContent = timeAgo(Math.floor(Date.now()/1000));
+}
+
+// config (send endpoint)
 async function loadConfig(){
-  try {
-    const c = await (await fetch("config.json", {cache:"no-store"})).json();
-    if (c && c.sendApi) SEND_API = c.sendApi;
-  } catch(e){ /* no config.json — Send stays disabled */ }
-  const ls = localStorage.getItem("concord_sendApi"); // dev override, no re-push needed
-  if (ls) SEND_API = ls;
-}
-
-const fmt = n => Number(n).toLocaleString(undefined, {maximumFractionDigits:6});
-async function getJSON(u){ const r = await fetch(u,{cache:"no-store"}); return r.json(); }
-
-async function loadBalance(){
-  try {
-    const usdc = await getJSON(`${ARCSCAN}?module=account&action=tokenbalance&contractaddress=${USDC}&address=${AGENT}&tag=latest`);
-    const nat  = await getJSON(`${ARCSCAN}?module=account&action=balance&address=${AGENT}&tag=latest`);
-    document.getElementById("bal").textContent = fmt(BigInt(usdc.result)/1e6);
-    document.getElementById("nativeBal").textContent = "Arc native: " + fmt(BigInt(nat.result)/1e18).slice(0,10) + " (gas token)";
-  } catch(e){ document.getElementById("bal").textContent = "—"; }
-}
-
-async function loadTx(){
-  const box = document.getElementById("txs");
-  try {
-    const j = await getJSON(`${ARCSCAN}?module=account&action=txlist&address=${AGENT}&page=1&offset=12&sort=desc`);
-    const txs = j.result || [];
-    if(!txs.length){ box.innerHTML = `<div class="empty">No transactions yet.</div>`; return; }
-    box.innerHTML = txs.map(t => {
-      const out = t.from.toLowerCase() === AGENT.toLowerCase();
-      const dir = out ? "out" : "in";
-      const arrow = out ? "Sent" : "Received";
-      const val = t.value === "0" && t.to.toLowerCase()===USDC.toLowerCase()
-        ? "USDC" : fmt(BigInt(t.value||0)/1e18).slice(0,8)+" ARC";
-      const ts = new Date(Number(t.timeStamp)*1000).toLocaleString();
-      const short = t.hash.slice(0,10)+"…"+t.hash.slice(-6);
-      const link = `https://testnet.arcscan.app/tx/${t.hash}`;
-      return `<div class="tx"><div class="row">
-        <span class="dir ${dir}">${arrow} ${out?'→':'←'} ${out?t.to.slice(0,6)+'…':t.from.slice(0,6)+'…'}</span>
-        <span class="val">${val}</span></div>
-        <div class="meta">${ts} · <a href="${link}" target="_blank" rel="noopener" style="color:var(--accent)">${short}</a></div></div>`;
-    }).join("");
-  } catch(e){ box.innerHTML = `<div class="empty">Could not load activity.</div>`; }
+  try{ const c=await (await fetch("config.json",{cache:"no-store"})).json(); if(c&&c.sendApi) SEND_API=c.sendApi; }catch(e){}
+  const ls=localStorage.getItem("concord_sendApi"); if(ls) SEND_API=ls;
 }
 
 // modals
-const recvModal = document.getElementById("recvModal");
-const sendModal = document.getElementById("sendModal");
-document.getElementById("recvBtn").onclick = () => recvModal.classList.add("open");
-document.getElementById("recvClose").onclick = () => recvModal.classList.remove("open");
-document.getElementById("recvCopy").onclick = async () => {
-  await navigator.clipboard.writeText(AGENT);
-  document.getElementById("recvCopy").textContent = "Copied!";
-  setTimeout(()=>document.getElementById("recvCopy").textContent="Copy address",1500);
-};
-document.getElementById("sendBtn").onclick = () => { document.getElementById("sendMsg").textContent=""; sendModal.classList.add("open"); };
-document.getElementById("sendCancel").onclick = () => sendModal.classList.remove("open");
-document.getElementById("sendMax").onclick = async () => {
-  const j = await getJSON(`${ARCSCAN}?module=account&action=tokenbalance&contractaddress=${USDC}&address=${AGENT}&tag=latest`);
-  document.getElementById("sendAmt").value = fmt(BigInt(j.result)/1e6);
-};
-
-document.getElementById("sendConfirm").onclick = async () => {
-  const to = document.getElementById("sendTo").value.trim();
-  const amt = document.getElementById("sendAmt").value.trim();
-  const m = document.getElementById("sendMsg");
-  if(!SEND_API){ m.className="msg err"; m.textContent="Send backend not configured. Set sendApi in docs/config.json (see DEPLOY.md)."; return; }
-  if(!/^0x[a-fA-F0-9]{40}$/.test(to)){ m.className="msg err"; m.textContent="Enter a valid 0x wallet address."; return; }
-  if(!amt || Number(amt)<=0){ m.className="msg err"; m.textContent="Enter an amount."; return; }
-  m.className="msg"; m.textContent="Sending via Circle…";
-  try {
-    const r = await fetch(SEND_API, {method:"POST", headers:{"Content-Type":"application/json"},
-      body: JSON.stringify({to, amountUSDC: amt})});
-    const d = await r.json();
-    if(r.ok){ m.className="msg ok"; m.textContent="Sent! "+(d.txHash?("tx "+d.txHash.slice(0,10)+"…"):"");
-      sendModal.classList.remove("open"); setTimeout(()=>{loadBalance();loadTx();},2500); }
-    else { m.className="msg err"; m.textContent="Failed: "+(d.error||"unknown"); }
-  } catch(e){ m.className="msg err"; m.textContent="Backend not reachable. The send endpoint must be deployed."; }
+const recvM=document.getElementById("recvModal"), sendM=document.getElementById("sendModal");
+document.getElementById("recvBtn").onclick=()=>recvM.classList.add("open");
+document.getElementById("recvClose").onclick=()=>recvM.classList.remove("open");
+document.getElementById("recvCopy").onclick=async()=>{await navigator.clipboard.writeText(AGENT);const b=document.getElementById("recvCopy");b.textContent="Copied!";setTimeout(()=>b.textContent="Copy address",1500);};
+document.getElementById("sendBtn").onclick=()=>{document.getElementById("sendMsg").textContent="";sendM.classList.add("open");};
+document.getElementById("sendCancel").onclick=()=>sendM.classList.remove("open");
+document.getElementById("sendMax").onclick=async()=>{const j=await getJSON(`${ARCSCAN}?module=account&action=tokenbalance&contractaddress=${USDC}&address=${AGENT}&tag=latest`);document.getElementById("sendAmt").value=fmt6(j.result||"0");};
+document.getElementById("sendConfirm").onclick=async()=>{
+  const to=document.getElementById("sendTo").value.trim(), amt=document.getElementById("sendAmt").value.trim();
+  const m=document.getElementById("sendMsg");
+  if(!SEND_API){m.className="msg err";m.textContent="Send backend not configured (see DEPLOY.md).";return;}
+  if(!/^0x[a-fA-F0-9]{40}$/.test(to)){m.className="msg err";m.textContent="Enter a valid 0x wallet address.";return;}
+  if(!amt||Number(amt)<=0){m.className="msg err";m.textContent="Enter an amount.";return;}
+  m.className="msg";m.textContent="Sending via Circle…";
+  try{
+    const r=await fetch(SEND_API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({to,amountUSDC:amt})});
+    const d=await r.json();
+    if(r.ok){m.className="msg ok";m.textContent="Sent! "+(d.id?"id "+d.id.slice(0,10):"");sendM.classList.remove("open");setTimeout(loadAll,2500);}
+    else{m.className="msg err";m.textContent="Failed: "+(d.error||"unknown");}
+  }catch(e){m.className="msg err";m.textContent="Backend not reachable.";}
 };
 
-loadConfig(); loadBalance(); loadTx();
-setInterval(()=>{loadBalance();loadTx();}, 30000);
+loadConfig(); loadAll();
+setInterval(loadAll, 30000);
 </script>
 </body>
 </html>
