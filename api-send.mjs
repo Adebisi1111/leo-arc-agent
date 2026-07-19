@@ -24,7 +24,7 @@ const TRANSFER_ABI = "transfer(address,uint256)";
 // appears in source. Expects env var: CIRCLE_API_KEY (same as circle-pay.mjs).
 const CK = "CIRCLE" + "_API_" + "KEY";
 const client = initiateDeveloperControlledWalletsClient({
-  apiKey: process.env[CK],
+    apiKey: process.env[CK],
   entitySecret: process.env.CIRCLE_ENTITY_SECRET,
 });
 
