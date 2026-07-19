@@ -10,7 +10,7 @@ Built for the **Encode Club × Arc Hackathon** (Agentic Economy track).
 
 ## What it does
 
-Leo is an autonomous agent that makes recurring USDC payments on-chain — its headline job is **payroll** (paying workers on schedule, like a boss who never forgets payday), and it handles any recurring bill the same way:
+Concord is an autonomous agent that makes recurring USDC payments on-chain — its headline job is **payroll** (paying workers on schedule, like a boss who never forgets payday):
 
 1. **Detects** when a subscription is due (reads the `SubscriptionVault` contract).
 2. **Executes** the payment via **Circle Smart Contract Platform** — Circle submits the transaction from its own infrastructure, bypassing Arc's public-RPC rate limits.
@@ -49,7 +49,7 @@ Leo is an autonomous agent that makes recurring USDC payments on-chain — its h
 
 Arc's public RPC rate-limits direct transaction submission (`-32011`). Routing execution through **Circle's Smart Contract Platform** solves this: Circle submits from its own infrastructure, so the agent never touches the throttled endpoint. Payment **detection** is likewise offloaded to Circle's **Event Monitor** rather than polling the chain.
 
-This makes Leo a clean example of an **agent built on Circle rails**: Circle is both the *hands* (execution) and the *eyes* (event detection).
+This makes Concord a clean example of an **agent built on Circle rails**: Circle is both the *hands* (execution) and the *eyes* (event detection).
 
 ---
 
@@ -114,7 +114,7 @@ node --env-file=.env circle-tick.mjs
 
 ## Proof of real activity
 
-Leo is not a mock — it performs real, on-chain transactions on Arc testnet, executed and detected entirely through Circle.
+Concord is not a mock — it performs real, on-chain transactions on Arc testnet, executed and detected entirely through Circle.
 
 **Verified live payment (2026-07-16):**
 

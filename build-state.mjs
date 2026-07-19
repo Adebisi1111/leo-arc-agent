@@ -22,8 +22,8 @@ function loadCache() { try { return JSON.parse(fs.readFileSync(CACHE, "utf8")); 
 
 async function main() {
   const out = {
-    agent: "Leo (Arc Y — AutoSub)",
-    description: "An autonomous agent that pays recurring USDC — salaries and subscriptions — on Arc. Like a boss who never forgets payday.",
+    agent: "Concord (Arc testnet payroll agent)",
+    description: "An autonomous agent that pays recurring USDC payroll on Arc — like a boss who never forgets payday.",
     vault: VAULT,
     chain: "Arc testnet",
     updatedAt: new Date().toISOString(),
