@@ -46,7 +46,7 @@
   .tx .amt{font-weight:800;font-size:14px;flex:none;}
   .tx .amt.out{color:var(--red);}
   .tx .amt.in{color:var(--accent2);}
-  .empty{text-align:center;color:var(--muted);padding:20px;font-size:13px;}
+  .empty{text-align:center;color:var(--muted);padding:20px;font-size:13px;line-height:1.6;}
   .addr-box{background:#101726;border:1px solid var(--line);border-radius:10px;padding:10px 12px;
     font-size:12px;word-break:break-all;color:#aab6cc;margin-top:12px;}
   .addr-box b{color:var(--txt);}
@@ -138,43 +138,58 @@ let SEND_API = ""; // runtime: docs/config.json -> sendApi (or localStorage conc
 const fmt = n => Number(n).toLocaleString(undefined,{maximumFractionDigits:6});
 const fmt6 = n => (BigInt(n)/1e6n).toString();
 const timeAgo = ts => { const s=Math.floor(Date.now()/1000-Number(ts)); if(s<60)return s+"s ago"; if(s<3600)return Math.floor(s/60)+"m ago"; if(s<86400)return Math.floor(s/3600)+"h ago"; return Math.floor(s/86400)+"d ago"; };
-async function getJSON(u){ const r=await fetch(u,{cache:"no-store"}); return r.json(); }
 
+// Fault-tolerant fetch: never throw, surface errors instead of freezing the UI.
+async function getJSON(u){
+  const r = await fetch(u,{cache:"no-store"});
+  if(!r.ok) throw new Error("HTTP "+r.status);
+  const j = await r.json();
+  if(j && j.status==="0") throw new Error(j.message||"api error");
+  return j;
+}
+async function safe(fn, fallback){ try{ return await fn(); }catch(e){ return {__err:e.message, __fb:fallback}; } }
+
+let lastErr = "";
 async function loadAll(){
-  const [balJ,natJ,tokJ,txJ] = await Promise.all([
-    getJSON(`${ARCSCAN}?module=account&action=tokenbalance&contractaddress=${USDC}&address=${AGENT}&tag=latest`),
-    getJSON(`${ARCSCAN}?module=account&action=balance&address=${AGENT}&tag=latest`),
-    getJSON(`${ARCSCAN}?module=account&action=tokentx&contractaddress=${USDC}&address=${AGENT}&page=1&offset=100&sort=desc`),
-    getJSON(`${ARCSCAN}?module=account&action=txlist&address=${AGENT}&page=1&offset=100&sort=desc`),
+  lastErr = "";
+  const [balJ,natJ,tokJ] = await Promise.all([
+    safe(()=>getJSON(`${ARCSCAN}?module=account&action=tokenbalance&contractaddress=${USDC}&address=${AGENT}&tag=latest`), {result:"0"}),
+    safe(()=>getJSON(`${ARCSCAN}?module=account&action=balance&address=${AGENT}&tag=latest`), {result:"0"}),
+    safe(()=>getJSON(`${ARCSCAN}?module=account&action=tokentx&contractaddress=${USDC}&address=${AGENT}&page=1&offset=100&sort=desc`), {result:[]}),
   ]);
-  // Available balance (USDC)
-  document.getElementById("bal").textContent = fmt6(balJ.result||"0");
-  document.getElementById("nativeBal").textContent = "Arc native: " + fmt(BigInt(natJ.result||"0")/10n**18n).slice(0,10);
+  if(balJ.__err) lastErr = lastErr||balJ.__err;
+  if(natJ.__err) lastErr = lastErr||natJ.__err;
+  if(tokJ.__err) lastErr = lastErr||tokJ.__err;
 
-  // Payments executed = outbound USDC transfers from agent wallet
-  const tok = tokJ.result||[]; const tx = txJ.result||[];
-  const paid = tok.filter(t=>String(t.from).toLowerCase()===AGENT.toLowerCase())
-                 .reduce((s,t)=>s+Number(t.value),0);
-  const outCount = tx.filter(t=>String(t.from).toLowerCase()===AGENT.toLowerCase()).length;
+  document.getElementById("bal").textContent = fmt6((balJ.__fb||balJ).result||"0");
+  document.getElementById("nativeBal").textContent = "Arc native: " + fmt(BigInt((natJ.__fb||natJ).result||"0")/10n**18n).slice(0,10);
+
+  const tok = Array.isArray((tokJ.__fb||tokJ).result) ? (tokJ.__fb||tokJ).result : [];
+  const out = tok.filter(t=>String(t.from).toLowerCase()===AGENT.toLowerCase());
+  const paid = out.reduce((s,t)=>s+Number(t.value),0);
   document.getElementById("paid").textContent = fmt(paid/1e6);
-  document.getElementById("count").textContent = outCount;
+  document.getElementById("count").textContent = out.length;
 
-  // Feed: merge USDC transfers (in+out) most recent first
   const feed = [...tok].sort((a,b)=>Number(b.timeStamp)-Number(a.timeStamp)).slice(0,12);
   const box = document.getElementById("feed");
-  if(!feed.length){ box.innerHTML='<div class="empty">No payments yet.</div>'; }
-  else box.innerHTML = feed.map(t=>{
-    const out = String(t.from).toLowerCase()===AGENT.toLowerCase();
-    const other = out ? t.to : t.from;
-    const v = (Number(t.value)/1e6);
-    const when = new Date(Number(t.timeStamp)*1000).toLocaleString();
-    const link = `https://testnet.arcscan.app/tx/${t.hash}`;
-    return `<div class="tx"><div class="left">
-      <span class="addr">${out?'→':'←'} ${other.slice(0,10)}…${other.slice(-6)}</span>
-      <span class="meta">${when} · <a href="${link}" target="_blank" rel="noopener" style="color:var(--accent)">${t.hash.slice(0,10)}…</a></span>
-    </div><span class="amt ${out?'out':'in'}">${out?'-':'+'}${fmt(v)}</span></div>`;
-  }).join("");
-  document.getElementById("upd").textContent = timeAgo(Math.floor(Date.now()/1000));
+  if(lastErr){
+    box.innerHTML = `<div class="empty">Live data unavailable: <b>${lastErr}</b>.<br/>Retrying in 30s…</div>`;
+  } else if(!feed.length){
+    box.innerHTML = '<div class="empty">No payments yet.</div>';
+  } else {
+    box.innerHTML = feed.map(t=>{
+      const isOut = String(t.from).toLowerCase()===AGENT.toLowerCase();
+      const other = isOut ? t.to : t.from;
+      const v = (Number(t.value)/1e6);
+      const when = new Date(Number(t.timeStamp)*1000).toLocaleString();
+      const link = `https://testnet.arcscan.app/tx/${t.hash}`;
+      return `<div class="tx"><div class="left">
+        <span class="addr">${isOut?'→':'←'} ${other.slice(0,10)}…${other.slice(-6)}</span>
+        <span class="meta">${when} · <a href="${link}" target="_blank" rel="noopener" style="color:var(--accent)">${t.hash.slice(0,10)}…</a></span>
+      </div><span class="amt ${isOut?'out':'in'}">${isOut?'-':'+'}${fmt(v)}</span></div>`;
+    }).join("");
+  }
+  document.getElementById("upd").textContent = lastErr ? "error" : timeAgo(Math.floor(Date.now()/1000));
 }
 
 // config (send endpoint)
@@ -190,7 +205,7 @@ document.getElementById("recvClose").onclick=()=>recvM.classList.remove("open");
 document.getElementById("recvCopy").onclick=async()=>{await navigator.clipboard.writeText(AGENT);const b=document.getElementById("recvCopy");b.textContent="Copied!";setTimeout(()=>b.textContent="Copy address",1500);};
 document.getElementById("sendBtn").onclick=()=>{document.getElementById("sendMsg").textContent="";sendM.classList.add("open");};
 document.getElementById("sendCancel").onclick=()=>sendM.classList.remove("open");
-document.getElementById("sendMax").onclick=async()=>{const j=await getJSON(`${ARCSCAN}?module=account&action=tokenbalance&contractaddress=${USDC}&address=${AGENT}&tag=latest`);document.getElementById("sendAmt").value=fmt6(j.result||"0");};
+document.getElementById("sendMax").onclick=async()=>{const j=await (await safe(()=>getJSON(`${ARCSCAN}?module=account&action=tokenbalance&contractaddress=${USDC}&address=${AGENT}&tag=latest`),{result:"0"})).result||"0";document.getElementById("sendAmt").value=fmt6(j);};
 document.getElementById("sendConfirm").onclick=async()=>{
   const to=document.getElementById("sendTo").value.trim(), amt=document.getElementById("sendAmt").value.trim();
   const m=document.getElementById("sendMsg");
