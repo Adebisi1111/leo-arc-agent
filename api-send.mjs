@@ -1,36 +1,20 @@
 // api-send.mjs — Concord wallet "Send" backend.
-// Accepts { to, amountUSDC } from the dashboard, transfers USDC FROM the
-// Circle developer-controlled agent wallet (0x76bc...) via Circle Smart
-// Contract Platform. Reuses the proven circle-pay.mjs execution path.
-//
-// WHY A BACKEND: the agent wallet is Circle-controlled; private key never
-// leaves Circle. We call Circle's API (needs CIRCLE_API_KEY + CIRCLE_ENTITY_SECRET),
-// which must stay server-side. The static dashboard (GitHub Pages) calls this.
-//
-// DEPLOY: run behind any HTTPS host. Minimal Node http server below.
-// For local testing: `node api-send.mjs` -> serves POST /api/send on :3001.
-// For production, put behind ngrok / a static host's function, or a small
-// Express/Vercel function with the same body.
-
 import http from "node:http";
 import { initiateDeveloperControlledWalletsClient } from "@circle-fin/developer-controlled-wallets";
 
 const PORT = process.env.PORT || 3001;
 const USDC = "0x3600000000000000000000000000000000000000";
-const WALLET_ID = process.env.CIRCLE_WALLET_ID;          // Circle agent wallet id
+const WALLET_ID = process.env.CIRCLE_WALLET_ID;
 const TRANSFER_ABI = "transfer(address,uint256)";
 
-// Build the API-key env name at runtime so the literal secret name never
-// appears in source. Expects env var: CIRCLE_API_KEY (same as circle-pay.mjs).
-const CK = "CIRCLE" + "_API_" + "KEY";
 const client = initiateDeveloperControlledWalletsClient({
-    apiKey: process.env[CK],
+  apiKey: process.env["CIRCLE_API_KEY"],
   entitySecret: process.env.CIRCLE_ENTITY_SECRET,
 });
 
 async function handleSend(to, amountUSDC) {
   if (!/^0x[a-fA-F0-9]{40}$/.test(to)) throw new Error("invalid recipient");
-  const amountRaw = Math.round(Number(amountUSDC) * 1e6).toString(); // 6 decimals
+  const amountRaw = Math.round(Number(amountUSDC) * 1e6).toString();
   const resp = await client.createContractExecutionTransaction({
     walletId: WALLET_ID,
     contractAddress: USDC,
