@@ -3,64 +3,103 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Concord — Autonomous Payroll Agent (Arc Testnet)</title>
+<title>Concord — Autonomous Payroll Agent</title>
 <style>
-  :root{ --bg:#0b1020; --card:#121a31; --accent:#39d0d8; --accent2:#7c5cff; --text:#e7ecf5; --muted:#9aa7c2; }
+  :root{ --bg:#0a0e16; --card:#151d2e; --line:#243049; --txt:#e9eef7; --muted:#8a98b8; --accent:#39d0d8; --accent2:#7c5cff; }
   *{box-sizing:border-box}
-  body{margin:0;font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:radial-gradient(1200px 600px at 70% -10%,#1b2547 0%,var(--bg) 60%);color:var(--text);padding:32px}
-  .slide{max-width:960px;margin:0 auto;background:var(--card);border:1px solid #23304f;border-radius:18px;padding:34px 40px;box-shadow:0 20px 60px rgba(0,0,0,.45)}
-  h1{font-size:34px;margin:0 0 4px;letter-spacing:.3px}
-  .sub{color:var(--accent);font-weight:700;letter-spacing:1.5px;text-transform:uppercase;font-size:13px}
-  .tagline{color:var(--muted);margin:6px 0 22px;font-size:15px}
+  body{margin:0;font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:radial-gradient(1200px 700px at 75% -10%,#1a2440 0%,var(--bg) 60%);color:var(--txt);padding:34px 20px}
+  .wrap{max-width:980px;margin:0 auto}
+  .slide{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:34px 40px;margin-bottom:22px;box-shadow:0 18px 50px rgba(0,0,0,.4)}
+  .tag{color:var(--accent);font-weight:800;letter-spacing:2px;text-transform:uppercase;font-size:12px}
+  h1{font-size:40px;margin:6px 0 2px;letter-spacing:.3px}
+  h2{font-size:18px;color:var(--accent2);text-transform:uppercase;letter-spacing:1.4px;margin:0 0 14px}
+  .lede{color:var(--muted);font-size:16px;line-height:1.6;margin:8px 0 0}
+  .pitch{font-size:22px;line-height:1.5;margin:14px 0 0;color:var(--txt)}
+  .pitch b{color:var(--accent)}
   .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-  .box{background:#0e1629;border:1px solid #243150;border-radius:12px;padding:14px 16px}
-  .box h3{margin:0 0 8px;font-size:14px;color:var(--accent2);text-transform:uppercase;letter-spacing:1px}
-  .box p,.box li{font-size:13.5px;color:var(--text);line-height:1.5;margin:6px 0}
-  ul{margin:6px 0 0 18px;padding:0}
-  .proof{margin-top:18px;background:#0e1629;border:1px solid #243150;border-left:4px solid var(--accent);border-radius:12px;padding:14px 16px;font-size:13.5px;color:var(--text)}
-  .proof b{color:var(--accent)}
-  .foot{margin-top:20px;display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:12px}
-  .pill{background:#13203b;border:1px solid #2a3a60;border-radius:999px;padding:4px 12px;color:var(--accent);font-weight:600}
-  a{color:var(--accent);text-decoration:none}
+  .box{background:#0e1626;border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+  .box p,.box li{font-size:14px;line-height:1.55;color:var(--txt);margin:7px 0}
+  ol,.bul{margin:8px 0 0 20px;padding:0}
+  .step{background:#0e1626;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:10px;padding:12px 16px;margin:10px 0}
+  .step b{color:var(--accent)}
+  .proof{background:#0e1626;border:1px solid var(--line);border-left:4px solid var(--accent2);border-radius:12px;padding:16px 18px;font-size:14px;line-height:1.6}
+  .proof code{background:#0a0e16;padding:2px 7px;border-radius:6px;color:var(--accent);font-size:12.5px;word-break:break-all}
+  .proof a{color:var(--accent);text-decoration:none}
+  .pill{display:inline-block;background:#13203b;border:1px solid #2a3a60;border-radius:999px;padding:5px 13px;color:var(--accent);font-weight:600;font-size:12.5px;margin:4px 6px 4px 0}
+  .foot{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:12.5px;flex-wrap:wrap;gap:8px}
+  .note{font-size:12px;color:var(--muted);margin-top:10px;font-style:italic}
 </style>
 </head>
 <body>
+<div class="wrap">
+
+  <!-- SLIDE 1 — WHAT IT IS -->
   <div class="slide">
-    <div class="sub">Encode × Arc Hackathon · Agentic Economy</div>
+    <div class="tag">Encode × Arc Hackathon · Agentic Economy</div>
     <h1>Concord</h1>
-    <div class="tagline">Autonomous USDC payroll agent — runs recurring salary payments on Arc Testnet with no manual approval per cycle.</div>
-
-    <div class="grid">
-      <div class="box">
-        <h3>What it does</h3>
-        <ul>
-          <li>Monitors payment schedules on-chain (SubscriptionVault)</li>
-          <li>Executes recurring USDC payroll via Circle programmable payments</li>
-          <li>Confirms each payment and reports it — hands-off, on schedule</li>
-          <li>Payroll-only: no subscriptions, no manual send button</li>
-        </ul>
-      </div>
-      <div class="box">
-        <h3>Why it matters</h3>
-        <ul>
-          <li>Real Agentic-Economy use case: agents running money reliably</li>
-          <li>Safety-first: never pays unless it can verify a payment is due</li>
-          <li>Built natively on Arc + Circle, not a wrapper</li>
-          <li>Silent until it acts — built for autonomous operation</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="proof">
-      <b>Proof it works:</b> Concord executed real USDC payments on Arc testnet in July 2026 via Circle SCP. Live dashboard:
-      <a href="https://adebisi1111.github.io/leo-arc-agent/?v=3">adebisi1111.github.io/leo-arc-agent</a> ·
-      Code: <a href="https://github.com/Adebisi1111/leo-arc-agent">github.com/Adebisi1111/leo-arc-agent</a>
-    </div>
-
-    <div class="foot">
-      <span>Team: Adedolapo Quadri Oloko (Leader)</span>
-      <span class="pill">Arc Testnet · USDC · Circle Programmable Payments</span>
+    <div class="lede">An autonomous payroll agent you built — it pays recurring USDC on Arc, on schedule, with no human in the loop.</div>
+    <p class="pitch"><b>Concord is a boss who never forgets payday.</b> It's an agent that runs real payroll on a blockchain — and a normal person can watch it work on a plain dashboard.</p>
+    <div style="margin-top:14px">
+      <span class="pill">Arc testnet</span><span class="pill">USDC payroll</span>
+      <span class="pill">Own on-chain contract</span><span class="pill">Autonomous</span>
     </div>
   </div>
+
+  <!-- SLIDE 2 — WHAT IT DOES -->
+  <div class="slide">
+    <h2>What it is (the agent, not the plumbing)</h2>
+    <div class="grid">
+      <div class="box">
+        <p><b>An agent with its own wallet + its own contract.</b> Concord holds a USDC wallet and deployed its own <b>SubscriptionVault</b> that stores payment schedules and settles payroll on-chain.</p>
+        <p>It enforces who can pay (agent or owner only) and emits a <b>Paid</b> event on every payout — verifiable by anyone on ArcScan.</p>
+      </div>
+      <div class="box">
+        <p><b>It runs hands-off.</b> Schedules fire on their own; when a payment is due, the agent calls <code>vault.pay()</code> and USDC lands with no manual approval per cycle.</p>
+        <p><b>A human can watch it.</b> A simple dashboard shows live payments — no wallets, no gas, no contract jargon.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 3 — HOW IT WORKS (agent's view) -->
+  <div class="slide">
+    <h2>How it works — the agent's loop</h2>
+    <div class="step"><b>1 · Check.</b> On schedule, Concord reads due dates from its SubscriptionVault.</div>
+    <div class="step"><b>2 · Pay.</b> Agent calls <code>vault.pay()</code> → USDC settles to the recipient on Arc.</div>
+    <div class="step"><b>3 · Prove.</b> A <b>Paid</b> event fires on-chain; the dashboard reads it live.</div>
+    <div class="step"><b>4 · Repeat.</b> A daily anchor guarantees ≥1 real on-chain tx/day — fully autonomous, no human in the loop.</div>
+    <p class="note">Plumbing note: execution is routed through Circle's Smart Contract Platform to bypass Arc's public-RPC throttle. That's infrastructure — the agent is the product.</p>
+  </div>
+
+  <!-- SLIDE 4 — PROOF -->
+  <div class="slide">
+    <h2>Proof it's real (not a mock)</h2>
+    <div class="proof">
+      • <b>Live on-chain payment:</b> <code>0x7e6c8584ef789eb582691bd09d3fa94f8b35ce0cf2d8d53562391ab3143ea93a</code> (block 52109832)<br/>
+      • <b>Concord's contract:</b> <code>0xd25A1979a5bDa25c3ABd8b661957C2AaC9515a0F</code> — SubscriptionVault, verified on ArcScan with Paid events<br/>
+      • <b>ERC-8004 agent identity:</b> registered on-chain, #851166<br/>
+      • <b>Live dashboard:</b> <a href="https://adebisi1111.github.io/leo-arc-agent/?v=3">adebisi1111.github.io/leo-arc-agent</a><br/>
+      • <b>Code:</b> <a href="https://github.com/Adebisi1111/leo-arc-agent">github.com/Adebisi1111/leo-arc-agent</a>
+    </div>
+  </div>
+
+  <!-- SLIDE 5 — CONTEXT -->
+  <div class="slide">
+    <h2>Built for</h2>
+    <div class="grid">
+      <div class="box">
+        <p><b>Encode Club × Arc Hackathon</b> — Agentic Economy track.</p>
+        <p>Arc testnet (chain 5042002) · USDC-native · no token planned.</p>
+      </div>
+      <div class="box">
+        <p><b>Honest attribution:</b> designed and directed end-to-end by the team; implementation AI-assisted. Every build decision was ours; every transaction verified on-chain.</p>
+      </div>
+    </div>
+    <div class="foot">
+      <span>Team: Adedolapo Quadri Oloko (Leader)</span>
+      <span class="pill">Arc · USDC · Autonomous Agent</span>
+    </div>
+  </div>
+
+</div>
 </body>
 </html>

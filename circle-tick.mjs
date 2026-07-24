@@ -72,15 +72,9 @@ async function main() {
       // pick the MOST overdue named sub so the daily anchor is always serviced first
       if (Number(nextDue) < mostOverdue) { mostOverdue = Number(nextDue); target = id; }
     }
-<<<<<<< Updated upstream
-  } catch(e){ note(`due-detection read failed: ${e.message}, defaulting to a named anchor sub`);
-    // fallback: pick the daily anchor (#9) or first named sub we know, never an unnamed test sub
-    target = NAMED["9"] ? 9 : (Object.keys(NAMED).map(Number).sort((a,b)=>a-b)[0] ?? -1);
-=======
   } catch(e){ note(`due-detection read failed: ${e.message} — NOT paying (cannot verify due). Skipping this tick.`);
     // SAFETY: if we can't verify a sub is due, never guess/pay. target stays -1.
     target = -1;
->>>>>>> Stashed changes
   }
 
   if (target < 0) { note("nothing due"); return; }
