@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Concord — Autonomous Payroll Agent (Arc Testnet)</title>
+<style>
+  :root{ --bg:#0b1020; --card:#121a31; --accent:#39d0d8; --accent2:#7c5cff; --text:#e7ecf5; --muted:#9aa7c2; }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:radial-gradient(1200px 600px at 70% -10%,#1b2547 0%,var(--bg) 60%);color:var(--text);padding:32px}
+  .slide{max-width:960px;margin:0 auto;background:var(--card);border:1px solid #23304f;border-radius:18px;padding:34px 40px;box-shadow:0 20px 60px rgba(0,0,0,.45)}
+  h1{font-size:34px;margin:0 0 4px;letter-spacing:.3px}
+  .sub{color:var(--accent);font-weight:700;letter-spacing:1.5px;text-transform:uppercase;font-size:13px}
+  .tagline{color:var(--muted);margin:6px 0 22px;font-size:15px}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .box{background:#0e1629;border:1px solid #243150;border-radius:12px;padding:14px 16px}
+  .box h3{margin:0 0 8px;font-size:14px;color:var(--accent2);text-transform:uppercase;letter-spacing:1px}
+  .box p,.box li{font-size:13.5px;color:var(--text);line-height:1.5;margin:6px 0}
+  ul{margin:6px 0 0 18px;padding:0}
+  .proof{margin-top:18px;background:#0e1629;border:1px solid #243150;border-left:4px solid var(--accent);border-radius:12px;padding:14px 16px;font-size:13.5px;color:var(--text)}
+  .proof b{color:var(--accent)}
+  .foot{margin-top:20px;display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:12px}
+  .pill{background:#13203b;border:1px solid #2a3a60;border-radius:999px;padding:4px 12px;color:var(--accent);font-weight:600}
+  a{color:var(--accent);text-decoration:none}
+</style>
+</head>
+<body>
+  <div class="slide">
+    <div class="sub">Encode × Arc Hackathon · Agentic Economy</div>
+    <h1>Concord</h1>
+    <div class="tagline">Autonomous USDC payroll agent — runs recurring salary payments on Arc Testnet with no manual approval per cycle.</div>
+
+    <div class="grid">
+      <div class="box">
+        <h3>What it does</h3>
+        <ul>
+          <li>Monitors payment schedules on-chain (SubscriptionVault)</li>
+          <li>Executes recurring USDC payroll via Circle programmable payments</li>
+          <li>Confirms each payment and reports it — hands-off, on schedule</li>
+          <li>Payroll-only: no subscriptions, no manual send button</li>
+        </ul>
+      </div>
+      <div class="box">
+        <h3>Why it matters</h3>
+        <ul>
+          <li>Real Agentic-Economy use case: agents running money reliably</li>
+          <li>Safety-first: never pays unless it can verify a payment is due</li>
+          <li>Built natively on Arc + Circle, not a wrapper</li>
+          <li>Silent until it acts — built for autonomous operation</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="proof">
+      <b>Proof it works:</b> Concord executed real USDC payments on Arc testnet in July 2026 via Circle SCP. Live dashboard:
+      <a href="https://adebisi1111.github.io/leo-arc-agent/?v=3">adebisi1111.github.io/leo-arc-agent</a> ·
+      Code: <a href="https://github.com/Adebisi1111/leo-arc-agent">github.com/Adebisi1111/leo-arc-agent</a>
+    </div>
+
+    <div class="foot">
+      <span>Team: Adedolapo Quadri Oloko (Leader)</span>
+      <span class="pill">Arc Testnet · USDC · Circle Programmable Payments</span>
+    </div>
+  </div>
+</body>
+</html>
