@@ -51,11 +51,8 @@ async function main() {
   const walletBal = await circleWalletUsdc();
   note(`vault=${(vaultBal/1e6).toFixed(2)} USDC, circleWallet=${(walletBal/1e6).toFixed(2)} USDC`);
 
-  // Fund the vault if it's low. Use whatever the wallet has (minus a 1.5 USDC gas buffer)
-  // so even a small faucet top-up lets the cycle resume. Circle wallet is the gas source.
-  if (vaultBal < 2_000_000 && walletBal > 1_500_000) {
-    const fundAmt = Math.max(1_000_000, Math.floor(walletBal - 1_500_000));
-    await exec("transfer(address,uint256)", [VAULT, String(fundAmt)], `fund vault ${fundAmt/1e6} USDC`);
+  if (vaultBal < 2_000_000 && walletBal > 5_000_000) {
+    await exec("transfer(address,uint256)", [VAULT, "5000000"], "fund vault 5 USDC");
     return;
   }
   if (walletBal < 300_000) { note("circle wallet low on gas, skipping"); return; }
@@ -75,9 +72,15 @@ async function main() {
       // pick the MOST overdue named sub so the daily anchor is always serviced first
       if (Number(nextDue) < mostOverdue) { mostOverdue = Number(nextDue); target = id; }
     }
+<<<<<<< Updated upstream
   } catch(e){ note(`due-detection read failed: ${e.message}, defaulting to a named anchor sub`);
     // fallback: pick the daily anchor (#9) or first named sub we know, never an unnamed test sub
     target = NAMED["9"] ? 9 : (Object.keys(NAMED).map(Number).sort((a,b)=>a-b)[0] ?? -1);
+=======
+  } catch(e){ note(`due-detection read failed: ${e.message} — NOT paying (cannot verify due). Skipping this tick.`);
+    // SAFETY: if we can't verify a sub is due, never guess/pay. target stays -1.
+    target = -1;
+>>>>>>> Stashed changes
   }
 
   if (target < 0) { note("nothing due"); return; }
@@ -86,7 +89,4 @@ async function main() {
 try { await main(); } catch(e) { report("ERR " + (e.response ? JSON.stringify(e.response.data) : e.message)); }
 // Refresh the human-readable dashboard data (best-effort; never fail the tick on this).
 try { await import("./build-state.mjs"); } catch(e) { note("build-state skip: " + e.message); }
-// Force a clean exit: the build-state ethers provider keeps a socket open and would
-// hang the cron runner (reported as "tick failed"). Circle executes server-side, so
-// we don't need to stay alive after initiating.
-process.exit(0);
+if (!acted) process.exit(0);

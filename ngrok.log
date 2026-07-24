@@ -1,0 +1,216 @@
+t=2026-07-15T20:42:54-0400 lvl=info msg="command usage" msg="Flag --domain has been deprecated, use --url instead"
+t=2026-07-15T20:42:54-0400 lvl=info msg="no configuration paths supplied"
+t=2026-07-15T20:42:54-0400 lvl=info msg="using configuration at default config path" path=C:\\Users\\Administrator\\AppData\\Local\\ngrok\\ngrok.yml
+t=2026-07-15T20:42:54-0400 lvl=info msg="open config file" path=C:\\Users\\Administrator\\AppData\\Local\\ngrok\\ngrok.yml err=nil
+t=2026-07-15T20:42:54-0400 lvl=info msg="FIPS 140 mode" enabled=false
+t=2026-07-15T20:42:54-0400 lvl=info msg="starting web service" obj=web addr=127.0.0.1:4040 allow_hosts=[]
+t=2026-07-15T20:42:54-0400 lvl=info msg="client session established" obj=tunnels.session
+t=2026-07-15T20:42:54-0400 lvl=info msg="tunnel session started" obj=tunnels.session
+t=2026-07-15T20:42:54-0400 lvl=info msg="started tunnel" obj=tunnels name=command_line addr=http://localhost:3000 url=https://stingray-science-liquid.ngrok-free.dev
+t=2026-07-15T20:43:14-0400 lvl=info msg="join connections" obj=join id=71a7d0bc16df l=[::1]:3000 r=78.138.31.96:48198
+t=2026-07-15T20:43:35-0400 lvl=info msg="join connections" obj=join id=363d5448f768 l=[::1]:3000 r=78.138.31.96:48228
+t=2026-07-15T20:43:35-0400 lvl=info msg="join connections" obj=join id=b3000a6e8f52 l=[::1]:3000 r=78.138.31.96:48232
+t=2026-07-15T20:44:00-0400 lvl=info msg="join connections" obj=join id=f3b0324c2e51 l=[::1]:3000 r=78.138.31.96:48261
+t=2026-07-16T05:17:47-0400 lvl=info msg="join connections" obj=join id=12899cab2198 l=[::1]:3000 r=78.138.31.96:24647
+t=2026-07-16T06:28:20-0400 lvl=info msg="join connections" obj=join id=6f41126d0ac1 l=[::1]:3000 r=78.138.31.96:44977
+t=2026-07-16T06:29:37-0400 lvl=info msg="join connections" obj=join id=667b16b309ea l=[::1]:3000 r=78.138.31.96:27361
+t=2026-07-16T06:32:52-0400 lvl=info msg=start pg=/api/tunnels id=9b18bc5414e9f132
+t=2026-07-16T06:32:52-0400 lvl=info msg=end pg=/api/tunnels id=9b18bc5414e9f132 status=200 dur=13.8335ms
+t=2026-07-16T06:32:52-0400 lvl=info msg="join connections" obj=join id=5a2f5dce9512 l=[::1]:3000 r=78.138.31.96:27576
+t=2026-07-16T06:33:00-0400 lvl=info msg="join connections" obj=join id=17706af8a59d l=[::1]:3000 r=78.138.31.96:27593
+t=2026-07-16T06:33:01-0400 lvl=info msg=start pg=/api/requests id=539958b8dfd18b95
+t=2026-07-16T06:33:01-0400 lvl=info msg=end pg=/api/requests id=539958b8dfd18b95 status=200 dur=1.0993ms
+t=2026-07-16T06:42:49-0400 lvl=info msg="join connections" obj=join id=d503cdcdf6fb l=[::1]:3000 r=100.24.191.35:62657
+t=2026-07-16T06:49:26-0400 lvl=info msg="join connections" obj=join id=c6c290a910d5 l=[::1]:3000 r=78.138.31.96:41701
+t=2026-07-16T06:50:32-0400 lvl=info msg="join connections" obj=join id=2f64837b32ae l=[::1]:3000 r=78.138.31.96:41794
+t=2026-07-16T06:50:33-0400 lvl=info msg="join connections" obj=join id=55ee1bfd2c5c l=[::1]:3000 r=78.138.31.96:41799
+t=2026-07-16T06:51:07-0400 lvl=info msg="join connections" obj=join id=b1f37ec6ba4c l=[::1]:3000 r=78.138.31.96:41843
+t=2026-07-16T06:51:07-0400 lvl=info msg="join connections" obj=join id=bfd7bf8594fe l=[::1]:3000 r=78.138.31.96:41848
+t=2026-07-16T06:54:39-0400 lvl=info msg="join connections" obj=join id=e44ba11b81dd l=[::1]:3000 r=54.243.112.156:6690
+t=2026-07-16T06:56:29-0400 lvl=info msg="join connections" obj=join id=d5ecdff2d6cd l=[::1]:3000 r=78.138.31.96:42195
+t=2026-07-16T07:09:02-0400 lvl=warn msg="failed to open private leg" id=3297d6614428 privaddr=localhost:3000 err="dial tcp [::1]:3000: connectex: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond."
+t=2026-07-16T07:09:04-0400 lvl=warn msg="failed to open private leg" id=9de6a81995c2 privaddr=localhost:3000 err="dial tcp [::1]:3000: connectex: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond."
+t=2026-07-16T07:09:16-0400 lvl=warn msg="failed to open private leg" id=912b679a002d privaddr=localhost:3000 err="dial tcp [::1]:3000: connectex: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond."
+t=2026-07-16T07:09:47-0400 lvl=warn msg="failed to open private leg" id=b9ae1fc9ef02 privaddr=localhost:3000 err="dial tcp [::1]:3000: connectex: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond."
+t=2026-07-16T07:10:49-0400 lvl=warn msg="failed to open private leg" id=c133cfeff1c5 privaddr=localhost:3000 err="dial tcp [::1]:3000: connectex: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond."
+t=2026-07-16T07:14:18-0400 lvl=info msg="join connections" obj=join id=d5d53f334d64 l=[::1]:3000 r=54.87.106.46:61621
+t=2026-07-16T07:25:49-0400 lvl=info msg="join connections" obj=join id=1ae2dafa564a l=[::1]:3000 r=54.87.106.46:35054
+t=2026-07-16T07:27:41-0400 lvl=info msg="join connections" obj=join id=90b7682fe25f l=[::1]:3000 r=54.165.52.248:50442
+t=2026-07-16T07:29:53-0400 lvl=info msg="join connections" obj=join id=f6e0978c932c l=[::1]:3000 r=54.243.112.156:38464
+t=2026-07-16T09:15:19-0400 lvl=info msg="join connections" obj=join id=73645eeead1f l=[::1]:3000 r=78.138.31.96:44261
+t=2026-07-16T09:15:20-0400 lvl=info msg="join connections" obj=join id=919aba0f585a l=[::1]:3000 r=78.138.31.96:44265
+t=2026-07-16T09:15:25-0400 lvl=info msg="join connections" obj=join id=68e397a46b25 l=[::1]:3000 r=149.154.161.252:41226
+t=2026-07-16T09:17:04-0400 lvl=info msg="join connections" obj=join id=f01bb34d19e9 l=[::1]:3000 r=102.89.84.243:28036
+t=2026-07-16T09:17:05-0400 lvl=info msg="join connections" obj=join id=6c15bdad7097 l=[::1]:3000 r=102.89.84.243:28036
+t=2026-07-16T09:18:05-0400 lvl=info msg="join connections" obj=join id=2f309d632af7 l=[::1]:3000 r=102.89.84.243:28036
+t=2026-07-16T09:18:35-0400 lvl=info msg="join connections" obj=join id=7ee07d114455 l=[::1]:3000 r=102.89.84.243:28036
+t=2026-07-16T09:19:09-0400 lvl=info msg="join connections" obj=join id=1f740a826c7c l=[::1]:3000 r=102.89.84.243:28038
+t=2026-07-16T09:19:17-0400 lvl=info msg="join connections" obj=join id=939d242c3742 l=[::1]:3000 r=102.89.84.243:28038
+t=2026-07-16T09:19:18-0400 lvl=info msg="join connections" obj=join id=81d1b46a8823 l=[::1]:3000 r=102.89.84.243:28038
+t=2026-07-16T09:19:32-0400 lvl=info msg="join connections" obj=join id=9f14bf0ba8d5 l=[::1]:3000 r=102.89.84.243:28038
+t=2026-07-16T09:19:33-0400 lvl=info msg="join connections" obj=join id=a754e6960b38 l=[::1]:3000 r=102.89.84.243:28038
+t=2026-07-16T09:19:55-0400 lvl=info msg="join connections" obj=join id=327e47448eb8 l=[::1]:3000 r=102.89.84.243:28040
+t=2026-07-16T09:19:56-0400 lvl=info msg="join connections" obj=join id=83a2e6302dd8 l=[::1]:3000 r=102.89.84.243:28040
+t=2026-07-16T09:20:26-0400 lvl=info msg="join connections" obj=join id=68d4164051d4 l=[::1]:3000 r=102.89.84.243:28040
+t=2026-07-16T09:21:26-0400 lvl=info msg="join connections" obj=join id=a5b61f67f744 l=[::1]:3000 r=102.89.84.243:28042
+t=2026-07-16T09:21:26-0400 lvl=info msg="join connections" obj=join id=30ad58a67054 l=[::1]:3000 r=102.89.84.243:28042
+t=2026-07-16T09:21:56-0400 lvl=info msg="join connections" obj=join id=293def24c102 l=[::1]:3000 r=102.89.84.243:28044
+t=2026-07-16T09:22:00-0400 lvl=info msg="join connections" obj=join id=9d0f24685114 l=[::1]:3000 r=102.89.84.243:28044
+t=2026-07-16T09:22:30-0400 lvl=info msg="join connections" obj=join id=f91e14086de8 l=[::1]:3000 r=102.89.84.243:28044
+t=2026-07-16T09:26:00-0400 lvl=info msg="join connections" obj=join id=85d47a8b500a l=[::1]:3000 r=102.89.84.243:54992
+t=2026-07-16T09:26:00-0400 lvl=info msg="join connections" obj=join id=32474327761f l=[::1]:3000 r=102.89.84.243:54992
+t=2026-07-16T09:26:36-0400 lvl=info msg="join connections" obj=join id=85032b594d47 l=[::1]:3000 r=102.89.84.243:54992
+t=2026-07-16T09:28:14-0400 lvl=info msg="join connections" obj=join id=ffd9b24f897b l=[::1]:3000 r=102.89.84.243:54995
+t=2026-07-16T09:33:43-0400 lvl=info msg="join connections" obj=join id=fbb325a44730 l=[::1]:3000 r=54.165.52.248:3578
+t=2026-07-16T09:54:17-0400 lvl=info msg="join connections" obj=join id=d89200a4ecae l=[::1]:3000 r=54.165.52.248:23279
+t=2026-07-16T10:07:20-0400 lvl=info msg="join connections" obj=join id=8b123ad3f14a l=[::1]:3000 r=54.165.52.248:65340
+t=2026-07-16T10:18:49-0400 lvl=info msg="join connections" obj=join id=e84b699a36ff l=[::1]:3000 r=54.165.52.248:1690
+t=2026-07-16T10:20:09-0400 lvl=info msg="join connections" obj=join id=f8b13aa42a7b l=[::1]:3000 r=54.243.112.156:4681
+t=2026-07-16T10:20:19-0400 lvl=info msg="join connections" obj=join id=104a6f1a86fa l=[::1]:3000 r=54.165.52.248:56117
+t=2026-07-16T10:21:37-0400 lvl=info msg="join connections" obj=join id=847aa6ba617b l=[::1]:3000 r=54.165.52.248:12677
+t=2026-07-16T10:23:13-0400 lvl=info msg="join connections" obj=join id=cdc5f89a7b92 l=[::1]:3000 r=54.165.52.248:37467
+t=2026-07-16T10:50:10-0400 lvl=info msg="join connections" obj=join id=e8c80f44acb6 l=[::1]:3000 r=100.24.191.35:49879
+t=2026-07-16T10:51:41-0400 lvl=info msg="join connections" obj=join id=c16dbc2388f1 l=[::1]:3000 r=54.87.106.46:62884
+t=2026-07-16T10:57:00-0400 lvl=info msg="join connections" obj=join id=4cc207b13c9c l=[::1]:3000 r=100.24.191.35:28106
+t=2026-07-16T11:23:37-0400 lvl=info msg="join connections" obj=join id=289803ad8b2f l=[::1]:3000 r=54.165.52.248:43520
+t=2026-07-16T11:32:53-0400 lvl=info msg="join connections" obj=join id=0f54a7d724e5 l=[::1]:3000 r=54.165.52.248:56940
+t=2026-07-16T11:39:00-0400 lvl=info msg="join connections" obj=join id=9c5edf8ef20d l=[::1]:3000 r=100.24.191.35:25332
+t=2026-07-16T11:51:06-0400 lvl=info msg="join connections" obj=join id=b4f4722b3e47 l=[::1]:3000 r=54.243.112.156:41500
+t=2026-07-16T12:23:55-0400 lvl=info msg="join connections" obj=join id=31897be2861e l=[::1]:3000 r=54.243.112.156:60725
+t=2026-07-16T12:33:39-0400 lvl=info msg="join connections" obj=join id=6c4e1b8bdc95 l=[::1]:3000 r=54.165.52.248:44205
+t=2026-07-16T12:36:57-0400 lvl=info msg="join connections" obj=join id=217ce2a8bad6 l=[::1]:3000 r=54.165.52.248:17289
+t=2026-07-16T13:09:41-0400 lvl=info msg="join connections" obj=join id=5d517e9636c1 l=[::1]:3000 r=54.165.52.248:47595
+t=2026-07-16T13:24:12-0400 lvl=info msg="join connections" obj=join id=68ddbc7e071a l=[::1]:3000 r=54.165.52.248:47942
+t=2026-07-16T15:32:21-0400 lvl=info msg="join connections" obj=join id=b3df0b1b8dea l=[::1]:3000 r=78.138.31.96:52917
+t=2026-07-16T16:32:03-0400 lvl=info msg="join connections" obj=join id=b50c2490f1b3 l=[::1]:3000 r=54.165.52.248:38998
+t=2026-07-16T16:37:10-0400 lvl=info msg="join connections" obj=join id=c14af7d2db3a l=[::1]:3000 r=100.24.191.35:25381
+t=2026-07-16T16:41:10-0400 lvl=info msg="join connections" obj=join id=e6d2f1aea4a8 l=[::1]:3000 r=100.24.191.35:60368
+t=2026-07-16T16:51:05-0400 lvl=info msg="join connections" obj=join id=0ece7ba0a40b l=[::1]:3000 r=54.243.112.156:53806
+t=2026-07-16T17:07:38-0400 lvl=info msg="join connections" obj=join id=b9eecad2e433 l=[::1]:3000 r=54.243.112.156:1511
+t=2026-07-16T17:12:59-0400 lvl=info msg="join connections" obj=join id=6eed0edd4c75 l=[::1]:3000 r=100.24.191.35:54574
+t=2026-07-16T17:21:01-0400 lvl=info msg="join connections" obj=join id=b4325daf9bc7 l=[::1]:3000 r=54.87.106.46:40920
+t=2026-07-16T17:22:18-0400 lvl=info msg="join connections" obj=join id=e15b9c2599af l=[::1]:3000 r=54.243.112.156:16790
+t=2026-07-16T17:29:10-0400 lvl=info msg="join connections" obj=join id=633df376a8c3 l=[::1]:3000 r=54.165.52.248:51401
+t=2026-07-16T18:02:17-0400 lvl=info msg="join connections" obj=join id=674c9f42bda3 l=[::1]:3000 r=54.165.52.248:13130
+t=2026-07-16T18:09:22-0400 lvl=info msg="join connections" obj=join id=d047416346c0 l=[::1]:3000 r=54.243.112.156:26646
+t=2026-07-16T18:09:28-0400 lvl=info msg="join connections" obj=join id=bfc5dee5750b l=[::1]:3000 r=54.243.112.156:60746
+t=2026-07-16T18:11:45-0400 lvl=info msg="join connections" obj=join id=636d490d4910 l=[::1]:3000 r=54.243.112.156:32383
+t=2026-07-16T18:20:08-0400 lvl=info msg="join connections" obj=join id=55dc0eb6157b l=[::1]:3000 r=54.243.112.156:53617
+t=2026-07-16T18:23:36-0400 lvl=info msg="join connections" obj=join id=f3df13e34767 l=[::1]:3000 r=54.243.112.156:5274
+t=2026-07-16T18:34:10-0400 lvl=info msg="join connections" obj=join id=be186e6d8096 l=[::1]:3000 r=54.243.112.156:42201
+t=2026-07-16T18:38:37-0400 lvl=info msg="join connections" obj=join id=636fa7af89ae l=[::1]:3000 r=100.24.191.35:26060
+t=2026-07-16T18:45:52-0400 lvl=info msg="join connections" obj=join id=fdce321e90dc l=[::1]:3000 r=54.243.112.156:17762
+t=2026-07-16T18:46:14-0400 lvl=info msg="join connections" obj=join id=b90d9ef53e66 l=[::1]:3000 r=54.243.112.156:15653
+t=2026-07-16T18:49:31-0400 lvl=info msg="join connections" obj=join id=1f79a274775b l=[::1]:3000 r=54.165.52.248:10159
+t=2026-07-16T18:52:20-0400 lvl=warn msg="failed to open private leg" id=9921c3d76c1a privaddr=localhost:3000 err="dial tcp [::1]:3000: connectex: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond."
+t=2026-07-16T18:52:22-0400 lvl=info msg="join connections" obj=join id=807cf1a2f26b l=[::1]:3000 r=54.243.112.156:34777
+t=2026-07-16T18:52:38-0400 lvl=warn msg="failed to open private leg" id=0c4b0c67b8e9 privaddr=localhost:3000 err="dial tcp [::1]:3000: connectex: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond."
+t=2026-07-16T18:53:08-0400 lvl=info msg="join connections" obj=join id=645bcd18fadd l=[::1]:3000 r=54.87.106.46:8204
+t=2026-07-16T20:43:13-0400 lvl=warn msg="failed to check for update" obj=updater err="Post \"https://update.ngrok-agent.com/check\": context deadline exceeded"
+t=2026-07-17T02:43:24-0400 lvl=warn msg="failed to check for update" obj=updater err="Post \"https://update.ngrok-agent.com/check\": context deadline exceeded"
+t=2026-07-17T03:20:24-0400 lvl=info msg="join connections" obj=join id=e29862b864a0 l=[::1]:3000 r=54.165.52.248:61511
+t=2026-07-17T03:21:38-0400 lvl=info msg="join connections" obj=join id=5fcae3a633f4 l=[::1]:3000 r=54.243.112.156:33080
+t=2026-07-17T03:22:34-0400 lvl=info msg="join connections" obj=join id=bf325a72d806 l=[::1]:3000 r=54.165.52.248:56364
+t=2026-07-17T03:26:07-0400 lvl=info msg="join connections" obj=join id=242b9538523d l=[::1]:3000 r=54.87.106.46:10593
+t=2026-07-17T03:26:55-0400 lvl=info msg="join connections" obj=join id=3573ded28653 l=[::1]:3000 r=54.165.52.248:44206
+t=2026-07-17T03:31:33-0400 lvl=info msg="join connections" obj=join id=3d1bc7b426b6 l=[::1]:3000 r=54.243.112.156:64569
+t=2026-07-17T03:33:30-0400 lvl=info msg="join connections" obj=join id=78383e33a267 l=[::1]:3000 r=54.165.52.248:29348
+t=2026-07-17T03:40:35-0400 lvl=warn msg="failed to open private leg" id=a1f1fe0a335e privaddr=localhost:3000 err="dial tcp [::1]:3000: connectex: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond."
+t=2026-07-17T03:40:38-0400 lvl=warn msg="failed to open private leg" id=ac4f95401090 privaddr=localhost:3000 err="dial tcp [::1]:3000: connectex: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond."
+t=2026-07-17T03:40:48-0400 lvl=info msg="join connections" obj=join id=bd1f6f35c932 l=[::1]:3000 r=54.243.112.156:30473
+t=2026-07-17T03:58:07-0400 lvl=info msg="join connections" obj=join id=925e45a1db15 l=[::1]:3000 r=100.24.191.35:18176
+t=2026-07-17T04:06:48-0400 lvl=info msg="join connections" obj=join id=c830b198536e l=[::1]:3000 r=54.87.106.46:27478
+t=2026-07-17T04:09:39-0400 lvl=info msg="join connections" obj=join id=875266d40edf l=[::1]:3000 r=54.165.52.248:21388
+t=2026-07-17T04:23:56-0400 lvl=info msg="join connections" obj=join id=869da6a7ab0d l=[::1]:3000 r=100.24.191.35:23954
+t=2026-07-17T04:24:24-0400 lvl=info msg="join connections" obj=join id=ec0dc463b407 l=[::1]:3000 r=100.24.191.35:18304
+t=2026-07-17T04:31:14-0400 lvl=info msg="join connections" obj=join id=ff26061de59b l=[::1]:3000 r=54.165.52.248:43920
+t=2026-07-17T04:31:47-0400 lvl=info msg="join connections" obj=join id=1d8c5ffac83f l=[::1]:3000 r=54.165.52.248:43031
+t=2026-07-17T04:46:30-0400 lvl=info msg=start pg=/api/tunnels id=fed25b1613c9d82a
+t=2026-07-17T04:46:30-0400 lvl=info msg=end pg=/api/tunnels id=fed25b1613c9d82a status=200 dur=35.6356ms
+t=2026-07-17T04:46:58-0400 lvl=info msg="join connections" obj=join id=f63bbba1baec l=[::1]:3000 r=54.165.52.248:10987
+t=2026-07-17T04:56:45-0400 lvl=info msg="join connections" obj=join id=08107c9da86b l=[::1]:3000 r=100.24.191.35:11665
+t=2026-07-17T05:07:31-0400 lvl=info msg="join connections" obj=join id=2f13b76740c5 l=[::1]:3000 r=54.243.112.156:27885
+t=2026-07-17T05:16:42-0400 lvl=info msg="join connections" obj=join id=1000c6c5d84b l=[::1]:3000 r=54.165.52.248:11524
+t=2026-07-18T02:43:59-0400 lvl=warn msg="failed to check for update" obj=updater err="Post \"https://update.ngrok-agent.com/check\": context deadline exceeded"
+t=2026-07-18T08:44:09-0400 lvl=warn msg="failed to check for update" obj=updater err="Post \"https://update.ngrok-agent.com/check\": context deadline exceeded"
+t=2026-07-18T13:06:20-0400 lvl=info msg="join connections" obj=join id=e304434d3948 l=[::1]:3000 r=197.210.70.48:3942
+t=2026-07-18T13:06:20-0400 lvl=info msg="join connections" obj=join id=7c78a9e3ace3 l=[::1]:3000 r=197.210.70.48:3942
+t=2026-07-18T14:44:27-0400 lvl=warn msg="failed to check for update" obj=updater err="Post \"https://update.ngrok-agent.com/check\": context deadline exceeded"
+t=2026-07-18T15:22:50-0400 lvl=info msg="join connections" obj=join id=d90c853e1786 l=[::1]:3000 r=54.165.52.248:63909
+t=2026-07-18T15:23:36-0400 lvl=info msg="join connections" obj=join id=8690fe23d864 l=[::1]:3000 r=54.87.106.46:19129
+t=2026-07-18T15:48:31-0400 lvl=info msg="join connections" obj=join id=9859e9a8e1d2 l=[::1]:3000 r=100.24.191.35:2706
+t=2026-07-18T15:48:31-0400 lvl=info msg="join connections" obj=join id=95ca1804f11e l=[::1]:3000 r=54.165.52.248:23421
+t=2026-07-18T15:48:31-0400 lvl=info msg="join connections" obj=join id=0733bcadf0d4 l=[::1]:3000 r=54.243.112.156:52249
+t=2026-07-18T15:48:35-0400 lvl=info msg="join connections" obj=join id=aaa450cf5b63 l=[::1]:3000 r=100.24.191.35:37612
+t=2026-07-18T15:48:43-0400 lvl=info msg="join connections" obj=join id=123167741ca4 l=[::1]:3000 r=100.24.191.35:38158
+t=2026-07-18T15:48:49-0400 lvl=info msg="join connections" obj=join id=9b0e1bbb79c1 l=[::1]:3000 r=54.243.112.156:29650
+t=2026-07-18T15:48:52-0400 lvl=info msg="join connections" obj=join id=bbdfb77d0392 l=[::1]:3000 r=54.243.112.156:61241
+t=2026-07-18T15:48:59-0400 lvl=info msg="join connections" obj=join id=f00d2b750d1c l=[::1]:3000 r=54.165.52.248:24089
+t=2026-07-18T15:49:02-0400 lvl=info msg="join connections" obj=join id=087a7afdb549 l=[::1]:3000 r=100.24.191.35:7506
+t=2026-07-18T15:49:14-0400 lvl=info msg="join connections" obj=join id=a7ae148b10e7 l=[::1]:3000 r=54.87.106.46:25013
+t=2026-07-18T15:49:55-0400 lvl=info msg="join connections" obj=join id=d9f6b80c6c89 l=[::1]:3000 r=54.165.52.248:34647
+t=2026-07-18T15:51:08-0400 lvl=info msg="join connections" obj=join id=b984667ef8d0 l=[::1]:3000 r=54.165.52.248:53392
+t=2026-07-18T15:51:08-0400 lvl=info msg="join connections" obj=join id=0ebe0e41dea7 l=[::1]:3000 r=54.87.106.46:24522
+t=2026-07-18T15:51:18-0400 lvl=info msg="join connections" obj=join id=2b00b66279f0 l=[::1]:3000 r=54.87.106.46:19282
+t=2026-07-18T15:56:03-0400 lvl=info msg="join connections" obj=join id=5e88115f356c l=[::1]:3000 r=54.165.52.248:17200
+t=2026-07-18T15:56:03-0400 lvl=info msg="join connections" obj=join id=95e6a3348925 l=[::1]:3000 r=54.87.106.46:32844
+t=2026-07-18T15:56:03-0400 lvl=info msg="join connections" obj=join id=81aeb7627da8 l=[::1]:3000 r=100.24.191.35:20050
+t=2026-07-18T15:56:03-0400 lvl=info msg="join connections" obj=join id=ccafbaf590d3 l=[::1]:3000 r=54.243.112.156:7540
+t=2026-07-18T15:56:04-0400 lvl=info msg="join connections" obj=join id=e6d27b19506b l=[::1]:3000 r=54.165.52.248:16892
+t=2026-07-18T15:56:05-0400 lvl=info msg="join connections" obj=join id=8ba7f936ad65 l=[::1]:3000 r=100.24.191.35:56659
+t=2026-07-18T15:56:13-0400 lvl=info msg="join connections" obj=join id=d475e9ff4333 l=[::1]:3000 r=100.24.191.35:51515
+t=2026-07-18T15:56:16-0400 lvl=info msg="join connections" obj=join id=0bfd86045f11 l=[::1]:3000 r=54.165.52.248:61259
+t=2026-07-18T15:56:21-0400 lvl=info msg="join connections" obj=join id=2cf91e71292b l=[::1]:3000 r=54.165.52.248:13075
+t=2026-07-18T15:56:27-0400 lvl=info msg="join connections" obj=join id=cb4003beb6fc l=[::1]:3000 r=54.165.52.248:50990
+t=2026-07-18T15:56:30-0400 lvl=info msg="join connections" obj=join id=7ee000ba5fc4 l=[::1]:3000 r=54.87.106.46:15369
+t=2026-07-18T15:56:55-0400 lvl=info msg="join connections" obj=join id=84f3ecc7a19d l=[::1]:3000 r=100.24.191.35:15625
+t=2026-07-18T15:58:02-0400 lvl=info msg="join connections" obj=join id=9e9dd13f50be l=[::1]:3000 r=100.24.191.35:24471
+t=2026-07-18T15:59:39-0400 lvl=info msg="join connections" obj=join id=bdedee8eb9bc l=[::1]:3000 r=100.24.191.35:57183
+t=2026-07-18T15:59:39-0400 lvl=info msg="join connections" obj=join id=5743be0b2f9a l=[::1]:3000 r=100.24.191.35:3126
+t=2026-07-18T15:59:39-0400 lvl=info msg="join connections" obj=join id=088a82461b25 l=[::1]:3000 r=100.24.191.35:9080
+t=2026-07-18T15:59:39-0400 lvl=info msg="join connections" obj=join id=6167c5bfc044 l=127.0.0.1:3000 r=54.87.106.46:39480
+t=2026-07-18T15:59:39-0400 lvl=info msg="join connections" obj=join id=dcc6b30ec097 l=[::1]:3000 r=100.24.191.35:31478
+t=2026-07-18T15:59:41-0400 lvl=info msg="join connections" obj=join id=fb26d2ee777c l=[::1]:3000 r=54.243.112.156:32432
+t=2026-07-18T15:59:48-0400 lvl=info msg="join connections" obj=join id=06cbeccc01a8 l=[::1]:3000 r=100.24.191.35:59441
+t=2026-07-18T15:59:51-0400 lvl=info msg="join connections" obj=join id=493a113930c4 l=[::1]:3000 r=54.243.112.156:44094
+t=2026-07-18T15:59:59-0400 lvl=info msg="join connections" obj=join id=5d2c242babd1 l=[::1]:3000 r=100.24.191.35:54741
+t=2026-07-18T16:00:15-0400 lvl=info msg="join connections" obj=join id=dbc4c0bcb2e9 l=[::1]:3000 r=54.165.52.248:57831
+t=2026-07-18T16:01:17-0400 lvl=info msg="join connections" obj=join id=32b9f772f177 l=127.0.0.1:3000 r=100.24.191.35:25299
+t=2026-07-18T16:01:17-0400 lvl=info msg="join connections" obj=join id=3f7acb2448b9 l=127.0.0.1:3000 r=100.24.191.35:16776
+t=2026-07-18T16:01:24-0400 lvl=info msg="join connections" obj=join id=dbe447ddd414 l=[::1]:3000 r=100.24.191.35:6596
+t=2026-07-18T20:44:55-0400 lvl=warn msg="failed to check for update" obj=updater err="Post \"https://update.ngrok-agent.com/check\": context deadline exceeded"
+t=2026-07-19T02:45:08-0400 lvl=warn msg="failed to check for update" obj=updater err="Post \"https://update.ngrok-agent.com/check\": context deadline exceeded"
+t=2026-07-19T16:51:57-0400 lvl=info msg="join connections" obj=join id=36aa164317d2 l=127.0.0.1:3000 r=54.243.112.156:15762
+t=2026-07-19T16:51:57-0400 lvl=info msg="join connections" obj=join id=770ea5dc8a73 l=[::1]:3000 r=100.24.191.35:8804
+t=2026-07-19T20:46:38-0400 lvl=warn msg="failed to check for update" obj=updater err="Post \"https://update.ngrok-agent.com/check\": context deadline exceeded"
+t=2026-07-20T02:47:33-0400 lvl=warn msg="failed to check for update" obj=updater err="Post \"https://update.ngrok-agent.com/check\": context deadline exceeded"
+t=2026-07-20T07:19:51-0400 lvl=eror msg="heartbeat timeout, terminating session" obj=tunnels.session obj=csess id=246328053267 clientid=3b5d11d249baaa91a9cefe4d7e279edd
+t=2026-07-20T07:20:00-0400 lvl=eror msg="session closed, starting reconnect loop" obj=tunnels.session obj=csess id=a4d36838ccb5 err="read EOF from remote peer"
+t=2026-07-20T07:20:28-0400 lvl=eror msg="failed to reconnect session" obj=tunnels.session err="failed to send authentication request: failed to fetch CRL. errors encountered: timed out fetching CRL"
+t=2026-07-20T07:20:34-0400 lvl=eror msg="heartbeat timeout, terminating session" obj=tunnels.session obj=csess id=1f6d20cdf8c6
+t=2026-07-20T07:20:49-0400 lvl=eror msg="failed to reconnect session" obj=tunnels.session err="failed to dial ngrok server with address \"connect.ngrok-agent.com:443\": dial tcp: lookup connect.ngrok-agent.com: i/o timeout"
+t=2026-07-20T07:21:04-0400 lvl=info msg="client session established" obj=tunnels.session
+t=2026-07-20T07:21:04-0400 lvl=info msg="tunnel session started" obj=tunnels.session
+t=2026-07-20T20:49:27-0400 lvl=warn msg="failed to check for update" obj=updater err="Post \"https://update.ngrok-agent.com/check\": context deadline exceeded"
+t=2026-07-21T02:49:36-0400 lvl=warn msg="failed to check for update" obj=updater err="Post \"https://update.ngrok-agent.com/check\": context deadline exceeded"
+t=2026-07-21T08:49:43-0400 lvl=warn msg="failed to check for update" obj=updater err="Post \"https://update.ngrok-agent.com/check\": context deadline exceeded"
+t=2026-07-21T20:49:58-0400 lvl=warn msg="failed to check for update" obj=updater err="Post \"https://update.ngrok-agent.com/check\": context deadline exceeded"
+t=2026-07-22T06:41:26-0400 lvl=eror msg="heartbeat timeout, terminating session" obj=tunnels.session obj=csess id=7d7b4b27e6bc clientid=3b5d11d249baaa91a9cefe4d7e279edd
+t=2026-07-22T06:41:26-0400 lvl=eror msg="session closed, starting reconnect loop" obj=tunnels.session obj=csess id=a4d36838ccb5 err="session closed"
+t=2026-07-22T06:41:36-0400 lvl=eror msg="failed to reconnect session" obj=tunnels.session err="failed to dial ngrok server with address \"connect.ngrok-agent.com:443\": dial tcp: lookup connect.ngrok-agent.com: i/o timeout"
+t=2026-07-22T06:41:36-0400 lvl=eror msg="failed to reconnect session" obj=tunnels.session err="failed to dial ngrok server with address \"connect.ngrok-agent.com:443\": dial tcp: lookup connect.ngrok-agent.com: no such host"
+t=2026-07-22T06:41:37-0400 lvl=eror msg="failed to reconnect session" obj=tunnels.session err="failed to dial ngrok server with address \"connect.ngrok-agent.com:443\": dial tcp: lookup connect.ngrok-agent.com: no such host"
+t=2026-07-22T06:41:39-0400 lvl=eror msg="failed to reconnect session" obj=tunnels.session err="failed to dial ngrok server with address \"connect.ngrok-agent.com:443\": dial tcp: lookup connect.ngrok-agent.com: no such host"
+t=2026-07-22T06:41:53-0400 lvl=eror msg="failed to reconnect session" obj=tunnels.session err="failed to dial ngrok server with address \"connect.ngrok-agent.com:443\": dial tcp: lookup connect.ngrok-agent.com: i/o timeout"
+t=2026-07-22T06:42:11-0400 lvl=eror msg="failed to reconnect session" obj=tunnels.session err="failed to dial ngrok server with address \"connect.ngrok-agent.com:443\": dial tcp: lookup connect.ngrok-agent.com: i/o timeout"
+t=2026-07-22T06:42:37-0400 lvl=eror msg="failed to reconnect session" obj=tunnels.session err="failed to dial ngrok server with address \"connect.ngrok-agent.com:443\": dial tcp: lookup connect.ngrok-agent.com: i/o timeout"
+t=2026-07-22T06:43:08-0400 lvl=info msg="client session established" obj=tunnels.session
+t=2026-07-22T06:43:08-0400 lvl=info msg="tunnel session started" obj=tunnels.session
+t=2026-07-22T06:47:13-0400 lvl=eror msg="heartbeat timeout, terminating session" obj=tunnels.session obj=csess id=cff6892af506 clientid=3b5d11d249baaa91a9cefe4d7e279edd
+t=2026-07-22T06:47:13-0400 lvl=eror msg="session closed, starting reconnect loop" obj=tunnels.session obj=csess id=a4d36838ccb5 err="session closed"
+t=2026-07-22T06:47:20-0400 lvl=info msg="client session established" obj=tunnels.session
+t=2026-07-22T06:47:20-0400 lvl=info msg="tunnel session started" obj=tunnels.session
+t=2026-07-22T20:51:21-0400 lvl=warn msg="failed to check for update" obj=updater err="Post \"https://update.ngrok-agent.com/check\": context deadline exceeded"
+t=2026-07-23T02:51:37-0400 lvl=warn msg="failed to check for update" obj=updater err="Post \"https://update.ngrok-agent.com/check\": context deadline exceeded"
+t=2026-07-23T08:51:40-0400 lvl=info msg="update available" obj=updater
+t=2026-07-23T14:51:47-0400 lvl=info msg="update available" obj=updater

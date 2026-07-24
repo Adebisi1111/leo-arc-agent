@@ -2,5 +2,9 @@
   "6": { "name": "Coffee Club", "emoji": "☕", "category": "Daily brew", "note": "Your morning coffee, paid daily" },
   "7": { "name": "Diner", "emoji": "🍽️", "category": "Meals", "note": "Lunch spot, every 3 days" },
   "8": { "name": "Grocery Run", "emoji": "🛒", "category": "Weekly shop", "note": "Weekly groceries, every 7 days" },
+<<<<<<< Updated upstream
   "9": { "name": "Leo Daily Keep-Alive", "emoji": "🔁", "category": "Agent heartbeat", "note": "Guarantees Leo pays at least 1 subscription every day" }
+=======
+  "9": { "name": "Concord Daily Keep-Alive", "emoji": "🔁", "category": "Agent heartbeat", "note": "Guarantees Concord pays at least 1 payroll item every day" }
+>>>>>>> Stashed changes
 }

@@ -1,0 +1,2 @@
+WORK_DONE t=8286ms nextId=26 due=0 vaultBal=3
+returning from async work; if you see STILL_ALIVE the process hangs

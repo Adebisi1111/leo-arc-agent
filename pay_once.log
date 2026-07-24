@@ -1,0 +1,40 @@
+owner wallet: 0x79e6369969BcFADdEa96CcEB97D308b7693eE99B
+sub #1: active=true nextDue=2026-07-15T22:20:23.000Z amount=1 USDC
+sub #1 is due -> calling pay(1)...
+Error: execution reverted: "ERC20: transfer amount exceeds balance" (action="estimateGas", data="0x08c379a00000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000002645524332303a207472616e7366657220616d6f756e7420657863656564732062616c616e63650000000000000000000000000000000000000000000000000000", reason="ERC20: transfer amount exceeds balance", transaction={ "data": "0xc290d6910000000000000000000000000000000000000000000000000000000000000001", "from": "0x79e6369969BcFADdEa96CcEB97D308b7693eE99B", "to": "0xd25A1979a5bDa25c3ABd8b661957C2AaC9515a0F" }, invocation=null, revert={ "args": [ "ERC20: transfer amount exceeds balance" ], "name": "Error", "signature": "Error(string)" }, code=CALL_EXCEPTION, version=6.17.0)
+    at makeError (C:\Users\Administrator\arc-autopay\node_modules\ethers\lib.commonjs\utils\errors.js:137:21)
+    at getBuiltinCallException (C:\Users\Administrator\arc-autopay\node_modules\ethers\lib.commonjs\abi\abi-coder.js:105:37)
+    at AbiCoder.getBuiltinCallException (C:\Users\Administrator\arc-autopay\node_modules\ethers\lib.commonjs\abi\abi-coder.js:206:16)
+    at JsonRpcProvider.getRpcError (C:\Users\Administrator\arc-autopay\node_modules\ethers\lib.commonjs\providers\provider-jsonrpc.js:695:43)
+    at C:\Users\Administrator\arc-autopay\node_modules\ethers\lib.commonjs\providers\provider-jsonrpc.js:302:45
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5) {
+  code: 'CALL_EXCEPTION',
+  action: 'estimateGas',
+  data: '0x08c379a00000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000002645524332303a207472616e7366657220616d6f756e7420657863656564732062616c616e63650000000000000000000000000000000000000000000000000000',
+  reason: 'ERC20: transfer amount exceeds balance',
+  transaction: {
+    to: '0xd25A1979a5bDa25c3ABd8b661957C2AaC9515a0F',
+    data: '0xc290d6910000000000000000000000000000000000000000000000000000000000000001',
+    from: '0x79e6369969BcFADdEa96CcEB97D308b7693eE99B'
+  },
+  invocation: null,
+  revert: {
+    signature: 'Error(string)',
+    name: 'Error',
+    args: [ 'ERC20: transfer amount exceeds balance' ]
+  },
+  shortMessage: 'execution reverted: "ERC20: transfer amount exceeds balance"',
+  info: {
+    error: {
+      code: 3,
+      message: 'execution reverted: ERC20: transfer amount exceeds balance',
+      data: '0x08c379a00000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000002645524332303a207472616e7366657220616d6f756e7420657863656564732062616c616e63650000000000000000000000000000000000000000000000000000'
+    },
+    payload: {
+      method: 'eth_estimateGas',
+      params: [Array],
+      id: 4,
+      jsonrpc: '2.0'
+    }
+  }
+}
