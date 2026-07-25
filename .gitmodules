@@ -1,0 +1,3 @@
+[submodule "concord-dashboard"]
+	path = concord-dashboard
+	url = https://github.com/Adebisi1111/concord-dashboard.git

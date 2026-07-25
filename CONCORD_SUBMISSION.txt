@@ -1,0 +1,25 @@
+CONCORD — ENCODE × ARC HACKATHON SUBMISSION (copy-paste ready)
+============================================================
+
+PROJECT NAME:
+Concord
+
+TEAM MEMBERS:
+Adedolapo Quadri Oloko (Leader)
+
+PROJECT DESCRIPTION:
+Concord is an autonomous USDC payroll agent built natively on Arc Testnet. It automates recurring salary payments by monitoring payment schedules, executing transactions on chain through the SubscriptionVault smart contract using Circle programmable payments, and confirming completed payments without requiring manual approval for each payment cycle. Powered by Arc and Circle infrastructure, Concord demonstrates a practical Agentic Economy use case where AI agents can securely manage recurring financial operations in a transparent and reliable way.
+
+PROJECT IMAGE:
+Concord logo (C + "Concord / AUTONOMOUS PAYROLL AGENT")
+
+CODE LINK:
+https://github.com/Adebisi1111/leo-arc-agent
+
+PRESENTATION LINK:
+https://adebisi1111.github.io/leo-arc-agent/CONCORD_DECK.html
+
+TRACK(S):
+Agentic Economy Track  (also qualifies for DeFi Track if you want both)
+
+DEADLINE: Monday, July 27, 2026 at 12:59 PM (Africa/Lagos)

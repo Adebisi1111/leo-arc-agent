@@ -26,3 +26,21 @@ public/state.json
 # ---- OS ----
 .DS_Store
 Thumbs.db
+
+# ---- BACKUP NOISE (regenerated; not part of work) ----
+*.log
+*.out
+receiver.out
+stdout_capture.txt
+stderr_capture.txt
+.concord_last_tick_marker
+agent_boot.log
+agent_crash.log
+agent_run.log
+circle-tick.log
+cancel.log
+monitor.log
+ngrok.log
+pay_once.log
+webhook.log
+webhook_hits.log
