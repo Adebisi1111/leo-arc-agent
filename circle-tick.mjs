@@ -36,11 +36,11 @@ async function circleWalletUsdc() {
 }
 
 async function exec(sig, params, amtLabel) {
-  const r = await dcw.createContractExecutionTransaction({
+  const r = await withTimeout(dcw.createContractExecutionTransaction({
     walletId: WALLET_ID, contractAddress: (sig.startsWith("pay") ? VAULT : USDC),
     abiFunctionSignature: sig, abiParameters: params,
-    fee: { type: "level", config: { feeLevel: "MEDIUM" } },
-  });
+    fee: { type: "level", config: { feeLevel: "MEDIUM" } } },
+  ), 15000, "circleExec").catch(e => { note(`exec failed: ${e.message}`); throw e; });
   report(`EXEC ${amtLabel} -> Circle tx ${r.data.id} (${r.data.state})`);
   return r.data.id;
 }
@@ -48,7 +48,7 @@ async function exec(sig, params, amtLabel) {
 async function main() {
   let vaultBal = 0;
   try { vaultBal = Number(await withTimeout(usdc.balanceOf(VAULT), 10000, "vaultRead")); } catch(e){ note(`vault read failed: ${e.message}`); }
-  const walletBal = await circleWalletUsdc();
+  const walletBal = await withTimeout(circleWalletUsdc(), 12000, "circleBalance").catch(() => 0);
   note(`vault=${(vaultBal/1e6).toFixed(2)} USDC, circleWallet=${(walletBal/1e6).toFixed(2)} USDC`);
 
   if (vaultBal < 2_000_000 && walletBal > 5_000_000) {
@@ -83,4 +83,4 @@ async function main() {
 try { await main(); } catch(e) { report("ERR " + (e.response ? JSON.stringify(e.response.data) : e.message)); }
 // Refresh the human-readable dashboard data (best-effort; never fail the tick on this).
 try { await import("./build-state.mjs"); } catch(e) { note("build-state skip: " + e.message); }
-if (!acted) process.exit(0);
+process.exit(0);
