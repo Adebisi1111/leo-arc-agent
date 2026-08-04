@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Concord — Pitch Deck</title>
+<style>
+  :root { --bg:#0f0a1e; --accent:#a78bfa; --txt:#e5e0f5; --card:#1a1233; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:-apple-system,Segoe UI,Roboto,sans-serif; background:var(--bg); color:var(--txt); padding:32px; line-height:1.6; }
+  .wrap { max-width:820px; margin:0 auto; }
+  h1 { font-size:40px; color:var(--accent); margin-bottom:8px; }
+  h2 { font-size:22px; margin:28px 0 10px; color:#c4b5fd; }
+  .card { background:var(--card); border-radius:14px; padding:20px; margin:14px 0; }
+  ul { padding-left:20px; } li { margin:6px 0; }
+  code { background:#0c0819; padding:2px 8px; border-radius:6px; color:var(--accent); }
+  .tag { background:#16243a; color:#34d399; padding:4px 12px; border-radius:20px; font-size:13px; display:inline-block; margin:4px 4px 0 0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Concord</h1>
+  <p style="color:#b9aee0">Autonomous Payroll &amp; Subscription Agent · Arc Testnet × Circle</p>
+
+  <div class="card">
+    <h2>Problem</h2>
+    <ul>
+      <li>Recurring payments (salaries, subscriptions) still need a human to click "pay" every cycle.</li>
+      <li>No transparent, on-chain record of who got paid and when.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>Solution</h2>
+    <ul>
+      <li>Concord is an AI agent that monitors due dates, funds a <code>SubscriptionVault</code>, and executes USDC payments autonomously.</li>
+      <li>Powered by Arc (Circle's L1) + Circle Programmable Payments.</li>
+      <li>Zero manual approval per cycle — the agent runs on a 5-minute cron.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>How it works</h2>
+    <ul>
+      <li>1. Detects subscriptions due in the vault</li>
+      <li>2. Tops up vault from owner wallet if balance is low</li>
+      <li>3. Calls <code>vault.pay()</code> on-chain for each due sub</li>
+      <li>4. Logs the settled tx + confirms completion</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>Proof</h2>
+    <ul>
+      <li>Live on Arc Testnet (chainId 5042002)</li>
+      <li>Vault: <code>0xd25A1979a5bDa25c3ABd8b661957C2AaC9515a0F</code></li>
+      <li>Settles real USDC every 5 minutes, autonomously</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>Tracks</h2>
+    <span class="tag">Agentic Economy</span>
+    <span class="tag">DeFi</span>
+    <span class="tag">Payments</span>
+  </div>
+
+  <div class="card">
+    <h2>Team</h2>
+    <p>Adedolapo Quadri Oloko — Builder &amp; Lead</p>
+    <p style="color:#b9aee0">Code: <a href="https://github.com/Adebisi1111/leo-arc-agent" style="color:#a78bfa">github.com/Adebisi1111/leo-arc-agent</a></p>
+  </div>
+</div>
+</body>
+</html>
