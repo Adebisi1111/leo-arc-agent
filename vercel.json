@@ -3,9 +3,6 @@
   "buildCommand": null,
   "outputDirectory": "public",
   "cleanUrls": true,
-  "functions": {
-    "api/pay.js": { "runtime": "nodejs20.x", "maxDuration": 30 }
-  },
   "rewrites": [
     { "source": "/pay", "destination": "/api/pay" }
   ]
