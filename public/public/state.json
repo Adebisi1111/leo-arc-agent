@@ -1,0 +1,53 @@
+{
+  "agent": "Concord (Arc testnet payroll agent)",
+  "description": "An autonomous agent that pays recurring USDC payroll on Arc — like a boss who never forgets payday.",
+  "vault": "0xd25A1979a5bDa25c3ABd8b661957C2AaC9515a0F",
+  "chain": "Arc testnet",
+  "updatedAt": "2026-08-09T23:08:35.506Z",
+  "walletFunded": true,
+  "vaultBalance": 3,
+  "subscriptions": [],
+  "_nextId": 26,
+  "settlements": [
+    {
+      "time": "22:03:08",
+      "sub": "#16",
+      "to": "0x1111111111111111111111111111111111111111",
+      "amount": 1,
+      "tx": "0x01178bfae861394449cb6adb3284dd4d201331abebf20c51a694fcf9a9857dd9"
+    },
+    {
+      "time": "22:03:08",
+      "sub": "#17",
+      "to": "0x2222222222222222222222222222222222222222",
+      "amount": 1,
+      "tx": "0x497148d0d022a287e40a1654728187814842c16ded31c5572db7f866af34b491"
+    },
+    {
+      "time": "22:03:08",
+      "sub": "#18",
+      "to": "0x3333333333333333333333333333333333333333",
+      "amount": 1,
+      "tx": "0x5cfd15c11de85542d21bf183ee1478745dfa9fa8ac646241cab2bfc4628b98cb"
+    },
+    {
+      "time": "22:03:08",
+      "sub": "#22",
+      "to": "0x7010C7E4f6C8B6B9D6f3F3e7e6B1c0D3a2b9e8c1",
+      "amount": 1,
+      "tx": "0x6d8f2b0ae51b86a2c14bd126fc3a37340ff8b4b41978335be45f99b7a0bd9bdf"
+    },
+    {
+      "time": "22:03:08",
+      "sub": "#25",
+      "to": "0x7010C7E4f6C8B6B9D6f3F3e7e6B1c0D3a2b9e8c1",
+      "amount": 1,
+      "tx": "0x43837f1ef74be6c877bec650e73d8626fc69b6e13cce47ea990f00eaba10256d"
+    }
+  ],
+  "totalSettled": 5,
+  "lastRun": "22:03:08",
+  "owner": "0x79e6369969BcFADdEa96CcEB97D308b7693eE99B",
+  "cyclesRun": 5,
+  "savedUSD": 12.5
+}
