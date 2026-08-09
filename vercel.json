@@ -1,15 +1,12 @@
 {
   "version": 2,
   "buildCommand": null,
-  "outputDirectory": null,
+  "outputDirectory": "public",
   "cleanUrls": true,
   "functions": {
-    "api/send.mjs": { "runtime": "nodejs20.x", "maxDuration": 30 }
+    "api/pay.js": { "runtime": "nodejs20.x", "maxDuration": 30 }
   },
   "rewrites": [
-    { "source": "/", "destination": "/docs/index.html" },
-    { "source": "/config.json", "destination": "/docs/config.json" },
-    { "source": "/payroll.html", "destination": "/docs/payroll.html" },
-    { "source": "/(.*)", "destination": "/docs/$1" }
+    { "source": "/pay", "destination": "/api/pay" }
   ]
 }
