@@ -38,9 +38,9 @@
   </div>
 <script>
 // Point to the current live tunnel URL (kept in sync by the build step).
-fetch('live-url.txt').then(r=>r.text()).then(u=>{
-  const url=u.trim();
-  document.getElementById('liveLink').href=url+'/pay.html';
+fetch('live-url.json').then(r=>r.json()).then(d=>{
+  const url=(d.url||'').trim();
+  if(url) document.getElementById('liveLink').href=url+'/pay.html';
 }).catch(()=>{
   document.getElementById('liveLink').href='https://witch-teddy-alfred-sandwich.trycloudflare.com/pay.html';
 });
