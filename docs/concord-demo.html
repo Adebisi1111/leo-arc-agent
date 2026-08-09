@@ -3,76 +3,46 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Concord — Autonomous Payroll Agent (Live Demo)</title>
+<title>Concord — Live Demo</title>
 <style>
-  :root { --bg:#0f0a1e; --card:#1a1233; --accent:#a78bfa; --green:#34d399; --txt:#e5e0f5; }
-  * { box-sizing: border-box; margin:0; padding:0; }
-  body { font-family: -apple-system, Segoe UI, Roboto, sans-serif; background:var(--bg); color:var(--txt); padding:24px; line-height:1.5; }
-  .wrap { max-width:760px; margin:0 auto; }
-  .hero { text-align:center; padding:32px 0; }
-  .logo { font-size:64px; font-weight:800; color:var(--accent); letter-spacing:-2px; }
-  h1 { font-size:28px; margin:8px 0; }
-  .sub { color:#b9aee0; font-size:15px; }
-  .card { background:var(--card); border-radius:14px; padding:20px; margin:16px 0; border:1px solid #2a1f4d; }
-  .stat { display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid #251b45; }
-  .stat:last-child { border-bottom:none; }
-  .label { color:#9d92c4; font-size:14px; }
-  .val { font-weight:700; }
-  .green { color:var(--green); }
-  .pill { display:inline-block; background:#16243a; color:var(--green); padding:4px 12px; border-radius:20px; font-size:13px; font-weight:600; }
-  code { background:#0c0819; padding:2px 8px; border-radius:6px; font-size:13px; color:var(--accent); }
-  .foot { text-align:center; color:#7d72a8; font-size:13px; margin-top:24px; }
-  a { color:var(--accent); }
+  :root{--bg:#1c130c;--panel:#2c1f14;--line:#4a3722;--txt:#f3e3c0;--muted:#b9a079;--butter:#e8c98a;--brown:#7a5634;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:radial-gradient(1100px 520px at 50% -8%,#3b2a1e 0%,var(--bg) 58%);color:var(--txt);min-height:100vh;display:flex;justify-content:center;padding:40px 18px;}
+  .wrap{width:100%;max-width:560px;}
+  .logo{width:56px;height:56px;border-radius:14px;background:linear-gradient(135deg,var(--brown),var(--butter));color:#2c1f14;font-weight:800;font-size:28px;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(122,86,52,.5);}
+  .brand{display:flex;align-items:center;gap:14px;margin-bottom:22px;}
+  .brand h1{font-size:24px;font-weight:750;}
+  .brand .sub{font-size:12px;color:var(--muted);}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:26px;box-shadow:0 12px 40px rgba(0,0,0,.5);}
+  .card h2{font-size:18px;font-weight:700;margin-bottom:8px;}
+  .card p{font-size:13.5px;color:var(--muted);line-height:1.6;margin-bottom:18px;}
+  .btn{display:block;text-align:center;width:100%;padding:15px;border-radius:12px;font-size:15px;font-weight:700;color:#2c1f14;background:linear-gradient(135deg,var(--butter),#d9b06a);text-decoration:none;transition:.15s;}
+  .btn:hover{filter:brightness(1.06);}
+  .note{font-size:12px;color:var(--muted);margin-top:14px;text-align:center;}
+  .badge{display:inline-block;font-size:11px;color:var(--butter);border:1px solid var(--line);padding:4px 10px;border-radius:999px;margin-bottom:14px;}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <div class="hero">
-    <div class="logo">C</div>
-    <h1>Concord</h1>
-    <div class="sub">Autonomous Payroll &amp; Subscription Agent · Built on Arc Testnet + Circle</div>
-    <div style="margin-top:12px"><span class="pill">● LIVE ON ARC TESTNET</span></div>
+  <div class="wrap">
+    <div class="brand">
+      <div class="logo">C</div>
+      <div><h1>Concord</h1><div class="sub">Autonomous Payroll Agent · Arc Testnet</div></div>
+    </div>
+    <div class="card">
+      <span class="badge">Live Demo</span>
+      <h2>Open the live app</h2>
+      <p>Concord is running live on Arc Testnet. Click below to open the interactive app — set up a payment, fund the vault, or activate the agent and watch it settle on-chain.</p>
+      <a class="btn" id="liveLink" href="#">Open Concord live →</a>
+      <div class="note">If the live link is offline, the recorded demo video shows the full walkthrough.</div>
+    </div>
   </div>
-
-  <div class="card">
-    <div class="stat"><span class="label">Network</span><span class="val">Arc Testnet (chainId 5042002)</span></div>
-    <div class="stat"><span class="label">Settlement Token</span><span class="val">USDC <code>0x3600...0000</code></span></div>
-    <div class="stat"><span class="label">Vault Contract</span><span class="val"><code>0xd25A...5a0F</code></span></div>
-    <div class="stat"><span class="label">Owner</span><span class="val"><code>0x79e6...E99B</code></span></div>
-    <div class="stat"><span class="label">Mode</span><span class="val green">Autonomous · no manual approval</span></div>
-    <div class="stat"><span class="label">Settlement Cron</span><span class="val">Every 5 min (Concord settle)</span></div>
-  </div>
-
-  <div class="card">
-    <h3 style="margin-bottom:12px">What it does</h3>
-    <p>Concord monitors subscription due-dates, tops up the <code>SubscriptionVault</code> when low, and executes USDC payments on-chain via Circle Programmable Payments — fully autonomously. Each completed payment is confirmed and logged without any human click.</p>
-  </div>
-
-  <div class="card">
-    <h3 style="margin-bottom:12px">Recent Activity (proof of liveness)</h3>
-    <div id="log">Loading on-chain proof…</div>
-  </div>
-
-  <div class="foot">
-    Built by Adedolapo Quadri Oloko · Arc × Circle Agentic Economy<br/>
-    Code: <a href="https://github.com/Adebisi1111/leo-arc-agent">github.com/Adebisi1111/leo-arc-agent</a>
-  </div>
-</div>
 <script>
-// Lightweight liveness proof: pull recent vault events from Arc testnet via public RPC.
-const RPC = "https://rpc.testnet.arc.network";
-const VAULT = "0xd25A1979a5bDa25c3ABd8b661957C2AaC9515a0F";
-fetch(RPC, {
-  method:"POST", headers:{"Content-Type":"application/json"},
-  body: JSON.stringify({jsonrpc:"2.0",id:1,method:"eth_getLogs",
-    params:[{address:VAULT, fromBlock:"0x0", toBlock:"latest"}]})
-}).then(r=>r.json()).then(d=>{
-  const logs = (d.result||[]).slice(-5).reverse();
-  document.getElementById("log").innerHTML = logs.length
-    ? logs.map(l=>`<div class="stat"><span class="label">tx</span><span class="val"><code>${l.transactionHash.slice(0,18)}…</code></span></div>`).join("")
-    : '<div class="stat"><span class="label">status</span><span class="val green">vault active — settlements running</span></div>';
-}).catch(e=>{
-  document.getElementById("log").innerHTML = '<div class="stat"><span class="label">status</span><span class="val green">vault active — autonomous settlements running</span></div>';
+// Point to the current live tunnel URL (kept in sync by the build step).
+fetch('live-url.json').then(r=>r.json()).then(d=>{
+  const url=(d.url||'').trim();
+  if(url) document.getElementById('liveLink').href=url+'/pay.html';
+}).catch(()=>{
+  document.getElementById('liveLink').href='https://witch-teddy-alfred-sandwich.trycloudflare.com/pay.html';
 });
 </script>
 </body>
