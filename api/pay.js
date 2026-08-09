@@ -1,4 +1,4 @@
-// Vercel serverless function: handles POST /pay for the Concord demo.
+// Vercel serverless function: handles /pay for the Concord demo.
 // Static files (pay.html, state.json, index.html) are served by Vercel from public/.
 const { execFile } = require("child_process");
 const crypto = require("crypto");
