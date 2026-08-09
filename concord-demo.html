@@ -42,7 +42,7 @@ fetch('live-url.json').then(r=>r.json()).then(d=>{
   const url=(d.url||'').trim();
   if(url) document.getElementById('liveLink').href=url+'/pay.html';
 }).catch(()=>{
-  document.getElementById('liveLink').href='https://witch-teddy-alfred-sandwich.trycloudflare.com/pay.html';
+  document.getElementById('liveLink').href='https://arc-autopay.vercel.app/pay.html';
 });
 </script>
 </body>
