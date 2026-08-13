@@ -191,7 +191,7 @@ function renderRecips(){
   el.innerHTML=RECIPS.map((r,i)=>`
     <div class="reciprow">
       <input class="input rname" placeholder="Name" value="${r.name}" oninput="RECIPS[${i}].name=this.value" />
-      <input class="input raddr" placeholder="Gmail or 0x… wallet" value="${r.ref}" oninput="RECIPS[${i}].ref=this.value;checkDup()" />
+      <input class="input raddr" placeholder="teammate@gmail.com" value="${r.ref}" oninput="RECIPS[${i}].ref=this.value;checkDup()" />
       <select class="input rtoken" onchange="RECIPS[${i}].token=this.value;updateTotal()"><option ${r.token==='USDC'?'selected':''}>USDC</option><option ${r.token==='EURC'?'selected':''}>EURC</option></select>
       <input class="input ramt" type="number" step="0.01" value="${r.amt}" oninput="RECIPS[${i}].amt=this.value;updateTotal()" />
       <button class="rdel" onclick="RECIPS.splice(${i},1);renderRecips();updateTotal()" title="Remove">✕</button>

@@ -32,6 +32,8 @@ async function main() {
   const now = Date.now();
   const log = [];
 
+  const TOKENS = { USDC: "15dc2b5d-0994-58b0-bf8c-3a0501148ee8", EURC: process.env.EURC_TOKEN_ID || "4ea52a96-e6ae-56dc-8336-385bb238755f" };
+
   for (const [addr, cfg] of Object.entries(agents)) {
     const gap = INTERVAL_MS[cfg.interval] || INTERVAL_MS["1 day"];
     const last = cfg.lastRun ? new Date(cfg.lastRun).getTime() : 0;
@@ -42,16 +44,26 @@ async function main() {
       const w = list.data.wallets.find((x) => x.address.toLowerCase() === addr.toLowerCase());
       if (!w) { log.push({ addr, skip: "wallet not found" }); continue; }
 
-      const bal = await client.getWalletTokenBalance({ id: w.id, tokenId: TOKEN });
-      const avail = parseFloat(bal.data.tokenBalances?.[0]?.amount || "0");
-      const need = cfg.recipients.reduce((s, r) => s + parseFloat(r.amt), 0);
-      if (avail < need) { log.push({ addr, skip: `insufficient ${avail} < ${need}` }); continue; }
+      // check balance per token used
+      const recips = cfg.recipients || [];
+      let skip = false;
+      for (const r of recips) {
+        const sym = (r.token || "USDC").toUpperCase();
+        const tid = TOKENS[sym];
+        if (!tid) { log.push({ addr, skip: `unknown token ${sym}` }); skip = true; break; }
+        const bal = await client.getWalletTokenBalance({ id: w.id, tokenId: tid });
+        const avail = parseFloat(bal.data.tokenBalances?.[0]?.amount || "0");
+        if (avail < parseFloat(r.amt)) { log.push({ addr, skip: `insufficient ${sym} ${avail} < ${r.amt}` }); skip = true; break; }
+      }
+      if (skip) continue;
 
       const results = [];
-      for (const r of cfg.recipients) {
+      for (const r of recips) {
+        const sym = (r.token || "USDC").toUpperCase();
+        const tid = TOKENS[sym];
         try {
           const tx = await client.createTransaction({
-            walletId: w.id, tokenId: TOKEN, destinationAddress: r.addr,
+            walletId: w.id, tokenId: tid, destinationAddress: r.addr,
             amount: [String(r.amt)], fee: { type: "level", config: { feeLevel: "MEDIUM" } },
           });
           results.push({ to: r.addr, amt: r.amt, id: tx.data.id, state: tx.data.state });

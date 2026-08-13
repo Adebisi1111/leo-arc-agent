@@ -67,10 +67,25 @@ export default async function handler(req, res) {
         USDC: "15dc2b5d-0994-58b0-bf8c-3a0501148ee8",
         EURC: process.env.EURC_TOKEN_ID || "EURC_PENDING",
       };
+      const { register } = await import("./directory.js");
+      const walletSetId = process.env.CIRCLE_WALLET_SET_ID;
       const resolved = [];
       for (const r of recips) {
-        const ref = r.addr || r.gmail || "";
+        const ref = (r.addr || r.gmail || "").trim();
         let addr = ref.startsWith("0x") ? ref : await resolve(ref);
+        // Gmail recipient not yet in directory -> auto-provision their Arc wallet
+        if (!addr && ref.includes("@")) {
+          try {
+            const created = await client.createWallets({
+              userId: ref,
+              walletSetId,
+              blockchains: ["ARC-TESTNET"],
+              count: 1,
+            });
+            addr = created.data.wallets[0].address;
+            await register(ref, addr);
+          } catch (e) { resolved.push({ ...r, addr: ref, error: "provision failed: " + (e?.message || e) }); continue; }
+        }
         if (!addr) { resolved.push({ ...r, addr: ref, error: "recipient not found (no wallet for " + ref + ")" }); continue; }
         const sym = (r.token || "USDC").toUpperCase();
         resolved.push({ addr, amt: r.amt, token: sym, tokenId: TOKENS[sym] });
