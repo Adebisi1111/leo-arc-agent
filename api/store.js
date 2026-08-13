@@ -1,20 +1,35 @@
-// Persistent store for agent configs. Writes to agents.json and git-commits+pushes
-// so it survives Vercel's ephemeral filesystem.
-import fs from "fs";
-import { execSync } from "child_process";
+// Shared store via GitHub repo file (agents.json).
+// Vercel writes config here on Activate; VPS cron reads + updates lastRun.
+const REPO = "Adebisi1111/leo-arc-agent";
+const PATH = "agents.json";
+const API = `https://api.github.com/repos/${REPO}/contents/${PATH}`;
 
-const FILE = "/tmp/concord-agents.json"; // runtime copy
-const REPO = process.cwd();
-
-function load() {
-  try { return JSON.parse(fs.readFileSync(FILE, "utf8")); } catch { return { agents: {} }; }
+function ghFetch(method, body) {
+  const headers = {
+    Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
+    Accept: "application/vnd.github+json",
+    "Content-Type": "application/json",
+  };
+  return fetch(API, { method, headers, body: body ? JSON.stringify(body) : undefined });
 }
-function save(data) {
-  fs.writeFileSync(FILE, JSON.stringify(data, null, 2));
-  // persist to repo so it survives redeploys
+
+export async function load() {
   try {
-    fs.writeFileSync(REPO + "/agents.json", JSON.stringify(data, null, 2));
-    execSync(`git add agents.json && git commit -m "agent config update" && git push origin master`, { cwd: REPO, stdio: "ignore" });
-  } catch (e) { /* best-effort; runtime /tmp still holds it */ }
+    const r = await ghFetch("GET");
+    if (!r.ok) return { agents: {} };
+    const j = await r.json();
+    return JSON.parse(Buffer.from(j.content, "base64").toString());
+  } catch { return { agents: {} }; }
 }
-export { load, save };
+export async function save(data) {
+  try {
+    let sha;
+    try { const g = await ghFetch("GET"); if (g.ok) sha = (await g.json()).sha; } catch {}
+    const body = {
+      message: "agent config update",
+      content: Buffer.from(JSON.stringify(data, null, 2)).toString("base64"),
+      ...(sha ? { sha } : {}),
+    };
+    await ghFetch("PUT", body);
+  } catch (e) {}
+}

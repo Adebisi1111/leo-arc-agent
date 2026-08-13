@@ -24,6 +24,8 @@
   .brand .name{font-size:19px; font-weight:700;}
   .brand .sub{font-size:11.5px; color:var(--muted);}
   .badge{font-size:11px; color:var(--butter); border:1px solid var(--line); padding:5px 10px; border-radius:999px; background:var(--panel);}
+  .logout{background:transparent; border:1px solid var(--line); color:var(--muted); font-size:12px; padding:5px 12px; border-radius:8px; cursor:pointer; font-family:inherit;}
+  .logout:hover{border-color:var(--butter); color:var(--butter);}
 
   .hero{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:20px 22px; box-shadow:var(--shadow); margin-bottom:18px;}
   .hero h1{font-size:26px; font-weight:750;}
@@ -80,7 +82,6 @@
   .hash a{color:var(--butter); text-decoration:none;}
   .hash a:hover{text-decoration:underline;}
   .foot{margin-top:12px; text-align:center; font-size:11px; color:var(--muted);}
-<<<<<<< HEAD
   .history{display:flex; flex-direction:column; gap:10px; margin-top:6px;}
   .recip{display:flex; flex-direction:column; gap:8px;}
   .reciprow{display:grid; grid-template-columns:1fr 1.4fr 0.8fr auto; gap:6px; align-items:center;}
@@ -122,20 +123,14 @@
     </div>
   </div>
   <div class="app hidden" id="app">
-=======
-</style>
-</head>
-<body>
-  <div class="app">
->>>>>>> 88fd33a070f73b1ec096bb991c7cf62cedac74c7
     <div class="topbar">
       <div class="brand">
         <div class="logo">C</div>
         <div><div class="name">Concord</div><div class="sub">Autonomous Payroll Agent</div></div>
       </div>
-<<<<<<< HEAD
       <div style="display:flex;align-items:center;gap:12px">
         <div class="userbar" id="userbar"></div>
+        <button class="logout" onclick="logout()">Log out</button>
         <div class="badge">Arc Testnet</div>
       </div>
     </div>
@@ -162,84 +157,10 @@
           <div><label for="s_total">Cycle total</label><div id="s_total" class="input" style="display:flex;align-items:center;color:var(--butter);font-weight:700;">0.00 USDC</div></div>
         </div>
         <button class="btn" onclick="setupAgent()" style="margin-top:12px">Activate Agent</button>
-=======
-      <div class="badge">Arc Testnet</div>
-    </div>
-
-    <div class="hero">
-      <h1>Concord<span class="accent">.</span></h1>
-      <p>An autonomous payroll &amp; subscription agent. It detects payments that are due, funds the vault, and settles them on-chain — with no manual approval per cycle.</p>
-      <div class="pillrow">
-        <span class="pill">Runs every 5 min</span>
-        <span class="pill">USDC native</span>
-        <span class="pill">Replay-safe</span>
-        <span class="pill">Verifiable tx hashes</span>
-      </div>
-    </div>
-
-    <div class="stats" id="stats">
-      <div class="stat"><div class="k">Vault balance</div><div class="v" id="vaultBal">— <small>USDC</small></div></div>
-      <div class="stat ok"><div class="k">USDC saved vs manual</div><div class="v" id="saved">— <small>USD</small></div></div>
-      <div class="stat"><div class="k">Total settled</div><div class="v" id="total">— <small>USDC</small></div></div>
-      <div class="stat"><div class="k">Last run</div><div class="v" id="lastrun" style="font-size:16px;">—</div></div>
-    </div>
-
-    <div class="tabs">
-      <div class="tab active" onclick="show('pay',this)">New Payment</div>
-      <div class="tab" onclick="show('receive',this)">Receive</div>
-      <div class="tab" onclick="show('setup',this)">Set Up Agent</div>
-    </div>
-
-    <div class="panel active" id="pay">
-      <div class="card">
-        <h2>New Payment</h2>
-        <p class="desc">Set up a one-time payment as the account owner. Concord settles it on-chain via Circle.</p>
-        <label for="name">Recipient name</label>
-        <input id="name" class="input" placeholder="e.g. Sarah Okoye" value="Sarah Okoye" />
-        <label for="addr">Wallet address</label>
-        <input id="addr" class="input" placeholder="0x…" value="0x7010C7E4b9e3E4f4c2b8A1d6F3c9E0a7B2c4D5e6" />
-        <div class="grid2">
-          <div><label for="amt">Amount (USDC)</label><input id="amt" class="input" type="number" step="0.01" value="1.00" /></div>
-          <div><label for="net">Network</label><input id="net" class="input readonly" value="Arc Testnet" disabled /></div>
-        </div>
-        <button id="payBtn" class="btn" onclick="submitPay()">Schedule &amp; Pay</button>
-        <div id="status" class="status"></div>
-      </div>
-    </div>
-
-    <div class="panel" id="receive">
-      <div class="card">
-        <h2>Receive USDC</h2>
-        <p class="desc">Fund the vault so Concord can pay subscriptions automatically. Send USDC (Arc Testnet) to the vault address below.</p>
-        <div class="receive">
-          <div class="k" style="font-size:12px;color:var(--muted)">Vault deposit address</div>
-          <div class="addr" id="recvAddr">0xd25A1979a5bDa25c3ABd8b661957C2AaC9515a0F</div>
-          <div class="qr"></div>
-          <div class="hint">This is the SubscriptionVault contract. Concord tops it up from the owner wallet and settles due payments from here.</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="panel" id="setup">
-      <div class="card">
-        <h2>Set Up the Agent</h2>
-        <p class="desc">Configure an autonomous recurring payment. Concord will settle it every cycle with no manual approval.</p>
-        <label for="s_name">Subscription name</label>
-        <input id="s_name" class="input" placeholder="e.g. Team Salaries" value="Team Salaries" />
-        <label for="s_recv">Recipient wallet</label>
-        <input id="s_recv" class="input" placeholder="0x…" value="0x7010C7E4b9e3E4f4c2b8A1d6F3c9E0a7B2c4D5e6" />
-        <div class="grid2">
-          <div><label for="s_amt">Amount (USDC)</label><input id="s_amt" class="input" type="number" step="0.01" value="1.00" /></div>
-          <div><label for="s_int">Every</label>
-            <select id="s_int" class="input"><option>1 hour</option><option selected>1 day</option><option>1 week</option></select></div>
-        </div>
-        <button class="btn" onclick="setupAgent()">Activate Agent</button>
->>>>>>> 88fd33a070f73b1ec096bb991c7cf62cedac74c7
         <div id="setupStatus" class="status"></div>
       </div>
     </div>
 
-<<<<<<< HEAD
     <div class="panel" id="history">
       <div class="card">
         <h2>Transaction History</h2>
@@ -248,8 +169,6 @@
       </div>
     </div>
 
-=======
->>>>>>> 88fd33a070f73b1ec096bb991c7cf62cedac74c7
     <div class="foot">Demo flow · testnet transaction</div>
   </div>
 
@@ -259,7 +178,6 @@ function show(id, el){document.querySelectorAll('.tab').forEach(t=>t.classList.r
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   document.getElementById(id).classList.add('active');}
 
-<<<<<<< HEAD
 function randHash(){const h="0123456789abcdef";let s="0x";for(let i=0;i<64;i++)s+=h[Math.floor(Math.random()*16)];return s;}
 let RECIPS=[];
 function addRecip(name='',addr='',amt='1.00'){
@@ -388,45 +306,13 @@ async function loadHistory(){
   }catch(e){ el.innerHTML='<div class="status">Network error</div>'; }
 }
 
+function logout(){
+  document.cookie = "concord_sess=; Path=/; Max-Age=0; SameSite=Lax";
+  location.href = "/";
+}
+
 // run on load
 restoreSession();
-=======
-fetch('state.json').then(r=>r.json()).then(d=>{
-  document.getElementById('vaultBal').innerHTML=(d.vaultBalance??0)+' <small>USDC</small>';
-  document.getElementById('saved').innerHTML='$'+(d.savedUSD??0)+' <small>USD</small>';
-  document.getElementById('total').innerHTML=(d.totalSettled??0)+' <small>USDC</small>';
-  document.getElementById('lastrun').textContent=d.lastRun||'—';
-  if(d.owner) document.getElementById('recvAddr').textContent=d.owner;
-}).catch(()=>{});
-
-function randHash(){const h="0123456789abcdef";let s="0x";for(let i=0;i<64;i++)s+=h[Math.floor(Math.random()*16)];return s;}
-async function submitPay(){
-  const btn=document.getElementById('payBtn'), st=document.getElementById('status');
-  const name=document.getElementById('name').value, addr=document.getElementById('addr').value, amt=document.getElementById('amt').value;
-  btn.disabled=true; st.className='status pending';
-  st.innerHTML=`<div class="step"><div class="spinner"></div><div>Submitting payment for <b>${name}</b> (${amt} USDC)</div></div>
-    <div class="step"><div class="spinner"></div><div>Broadcasting to Arc testnet…</div></div>
-    <div class="step"><div class="dot"></div><div>Awaiting on-chain confirmation…</div></div>`;
-  let tx,ok=false;
-  try{const r=await fetch(`/pay?to=${encodeURIComponent(addr)}&amt=${amt}`,{method:'POST'});const d=await r.json().catch(()=>({}));if(r.ok&&d.txHash){tx=d.txHash;ok=true;}}catch(e){}
-  if(!ok)tx=randHash();
-  await new Promise(r=>setTimeout(r,900));
-  st.className='status done';
-  st.innerHTML=`<div class="ok-badge"><div class="ok-icon">✓</div><div><b>Payment complete</b><span>${name} received ${amt} USDC</span></div></div>
-    <div class="step"><div class="dot ok"></div><div>Transaction confirmed on Arc testnet</div></div>
-    <div class="hash">tx: ${tx}<br><a href="https://testnet.arcscan.app/tx/${tx}" target="_blank">View on Arcscan →</a></div>`;
-}
-async function setupAgent(){
-  const st=document.getElementById('setupStatus'); const name=document.getElementById('s_name').value;
-  st.className='status pending';
-  st.innerHTML=`<div class="step"><div class="spinner"></div><div>Registering <b>${name}</b> in SubscriptionVault…</div></div>
-    <div class="step"><div class="spinner"></div><div>Agent armed — will settle every cycle, no manual approval</div></div>`;
-  await new Promise(r=>setTimeout(r,1400));
-  st.className='status done';
-  st.innerHTML=`<div class="ok-badge"><div class="ok-icon">✓</div><div><b>Agent active</b><span>${name} will be paid automatically</span></div></div>
-    <div class="step"><div class="dot ok"></div><div>Next run in 5 minutes (cron)</div></div>`;
-}
->>>>>>> 88fd33a070f73b1ec096bb991c7cf62cedac74c7
 </script>
 </body>
 </html>
