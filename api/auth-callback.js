@@ -72,6 +72,12 @@ export default async function handler(req, res) {
       }
     }
 
+    // register Gmail -> Arc address in shared directory (for Gmail-based recipients)
+    try {
+      const { register } = await import("./directory.js");
+      if (user.address && user.address !== "pending") await register(email, user.address);
+    } catch (e) { logErr("dir reg warn " + e.message); }
+
     const sess = makeSession(user);
     res.setHeader("Set-Cookie", `concord_sess=${sess}; Path=/; Max-Age=86400; SameSite=Lax`);
     res.writeHead(302, { Location: `/?loggedin=1&sess=${sess}` });

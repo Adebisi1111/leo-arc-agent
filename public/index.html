@@ -84,7 +84,8 @@
   .foot{margin-top:12px; text-align:center; font-size:11px; color:var(--muted);}
   .history{display:flex; flex-direction:column; gap:10px; margin-top:6px;}
   .recip{display:flex; flex-direction:column; gap:8px;}
-  .reciprow{display:grid; grid-template-columns:1fr 1.4fr 0.8fr auto; gap:6px; align-items:center;}
+  .reciprow{display:grid; grid-template-columns:1fr 1.4fr 0.8fr 0.8fr auto; gap:6px; align-items:center;}
+  .rtoken{padding:8px 6px; font-size:12px;}
   .rdel{background:transparent; border:1px solid var(--line); color:var(--muted); border-radius:8px; width:30px; height:34px; cursor:pointer; font-size:13px;}
   .rdel:hover{border-color:#e8a0a0; color:#e8a0a0;}
   .tx{background:var(--panel-2); border:1px solid var(--line); border-radius:12px; padding:12px 14px;}
@@ -180,8 +181,8 @@ function show(id, el){document.querySelectorAll('.tab').forEach(t=>t.classList.r
 
 function randHash(){const h="0123456789abcdef";let s="0x";for(let i=0;i<64;i++)s+=h[Math.floor(Math.random()*16)];return s;}
 let RECIPS=[];
-function addRecip(name='',addr='',amt='1.00'){
-  RECIPS.push({name,addr,amt});
+function addRecip(name='',ref='',amt='1.00',token='USDC'){
+  RECIPS.push({name,ref,amt,token});
   renderRecips();
 }
 function renderRecips(){
@@ -190,7 +191,8 @@ function renderRecips(){
   el.innerHTML=RECIPS.map((r,i)=>`
     <div class="reciprow">
       <input class="input rname" placeholder="Name" value="${r.name}" oninput="RECIPS[${i}].name=this.value" />
-      <input class="input raddr" placeholder="0x… wallet" value="${r.addr}" oninput="RECIPS[${i}].addr=this.value;checkDup()" />
+      <input class="input raddr" placeholder="Gmail or 0x… wallet" value="${r.ref}" oninput="RECIPS[${i}].ref=this.value;checkDup()" />
+      <select class="input rtoken" onchange="RECIPS[${i}].token=this.value;updateTotal()"><option ${r.token==='USDC'?'selected':''}>USDC</option><option ${r.token==='EURC'?'selected':''}>EURC</option></select>
       <input class="input ramt" type="number" step="0.01" value="${r.amt}" oninput="RECIPS[${i}].amt=this.value;updateTotal()" />
       <button class="rdel" onclick="RECIPS.splice(${i},1);renderRecips();updateTotal()" title="Remove">✕</button>
     </div>`).join('');
@@ -198,7 +200,7 @@ function renderRecips(){
 }
 function checkDup(){
   const seen={}; let dup=false;
-  RECIPS.forEach(r=>{ if(r.addr && r.addr.startsWith('0x')){ if(seen[r.addr.toLowerCase()]) dup=true; seen[r.addr.toLowerCase()]=1; } });
+  RECIPS.forEach(r=>{ const v=(r.ref||'').trim(); if(v.startsWith('0x')){ if(seen[v.toLowerCase()]) dup=true; seen[v.toLowerCase()]=1; } });
   let w=document.getElementById('dupWarn');
   if(dup && !w){ const d=document.createElement('div'); d.id='dupWarn'; d.className='status pending'; d.style.marginTop='6px'; d.innerHTML='<div class="step"><div class="dot"></div><div>Warning: duplicate recipient address detected.</div></div>'; document.getElementById('recipList').after(d); }
   else if(!dup && w){ w.remove(); }
@@ -209,15 +211,16 @@ function updateTotal(){
 }
 async function setupAgent(){
   const st=document.getElementById('setupStatus');
-  const valid=RECIPS.filter(r=>r.addr && r.addr.startsWith('0x') && parseFloat(r.amt)>0);
-  if(!valid.length){ st.className='status pending'; st.innerHTML='<div class="step"><div class="dot"></div><div>Add at least one recipient with a valid address and amount.</div></div>'; return; }
+  const mapped=RECIPS.map(r=>({addr:r.ref, gmail:r.ref, amt:r.amt, token:r.token}));
+  const valid=mapped.filter(r=>(r.addr&&r.addr.startsWith('0x')||r.gmail.includes('@')) && parseFloat(r.amt)>0);
+  if(!valid.length){ st.className='status pending'; st.innerHTML='<div class="step"><div class="dot"></div><div>Add at least one recipient (Gmail or wallet) with an amount.</div></div>'; return; }
   const interval=document.getElementById('s_int').value;
   const total=valid.reduce((s,r)=>s+parseFloat(r.amt),0).toFixed(2);
   st.className='status pending';
   st.innerHTML=`<div class="step"><div class="spinner"></div><div>Agent armed: ${valid.length} recipient(s), ${total} USDC/cycle, every ${interval}</div></div>
     <div class="step"><div class="spinner"></div><div>Broadcasting ${valid.length} on-chain transfer(s) from your balance…</div></div>`;
   try{
-    const r=await fetch('/api/agent?action=send',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({recipients:valid.map(x=>({addr:x.addr,amt:x.amt})), interval:document.getElementById('s_int').value})});
+    const r=await fetch('/api/agent?action=send',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({recipients:mapped, interval:document.getElementById('s_int').value})});
     const d=await r.json();
     if(!r.ok||!d.ok){ throw new Error(d.error||'send failed'); }
     const done=d.results.filter(x=>x.id).length;

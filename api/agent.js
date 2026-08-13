@@ -61,8 +61,22 @@ export default async function handler(req, res) {
       const payload = body ? JSON.parse(body) : {};
       const recips = Array.isArray(payload.recipients) ? payload.recipients : [];
       const interval = payload.interval || "1 day";
-      const valid = recips.filter((r) => r.addr && r.addr.startsWith("0x") && parseFloat(r.amt) > 0);
-      if (!valid.length) return res.status(400).json({ error: "no valid recipients" });
+      // resolve each recipient ref (gmail or 0x) to an address + token
+      const { resolve } = await import("./directory.js");
+      const TOKENS = {
+        USDC: "15dc2b5d-0994-58b0-bf8c-3a0501148ee8",
+        EURC: process.env.EURC_TOKEN_ID || "EURC_PENDING",
+      };
+      const resolved = [];
+      for (const r of recips) {
+        const ref = r.addr || r.gmail || "";
+        let addr = ref.startsWith("0x") ? ref : await resolve(ref);
+        if (!addr) { resolved.push({ ...r, addr: ref, error: "recipient not found (no wallet for " + ref + ")" }); continue; }
+        const sym = (r.token || "USDC").toUpperCase();
+        resolved.push({ addr, amt: r.amt, token: sym, tokenId: TOKENS[sym] });
+      }
+      const valid = resolved.filter((r) => r.addr && r.addr.startsWith("0x") && parseFloat(r.amt) > 0 && r.tokenId && r.tokenId !== "EURC_PENDING");
+      if (!valid.length) return res.status(400).json({ error: "no valid recipients", resolved });
       // persist agent config for autonomous cron
       try {
         const { load, save } = await import("./store.js");
@@ -70,7 +84,7 @@ export default async function handler(req, res) {
         db.agents = db.agents || {};
         db.agents[user.address] = {
           email: user.email, address: user.address,
-          recipients: valid, interval, lastRun: new Date().toISOString(),
+          recipients: resolved, interval, lastRun: new Date().toISOString(),
         };
         save(db);
       } catch (e) {}
@@ -79,14 +93,14 @@ export default async function handler(req, res) {
         try {
           const tx = await client.createTransaction({
             walletId: w.id,
-            tokenId: TOKEN,
+            tokenId: r.tokenId,
             destinationAddress: r.addr,
             amount: [String(r.amt)],
             fee: { type: "level", config: { feeLevel: "MEDIUM" } },
           });
-          results.push({ to: r.addr, amt: r.amt, id: tx.data.id, state: tx.data.state });
+          results.push({ to: r.addr, token: r.token, amt: r.amt, id: tx.data.id, state: tx.data.state });
         } catch (e) {
-          results.push({ to: r.addr, amt: r.amt, error: e.message });
+          results.push({ to: r.addr, token: r.token, amt: r.amt, error: e.message });
         }
       }
       return res.json({ ok: true, results, interval });
