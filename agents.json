@@ -1,18 +1,18 @@
 {
   "agents": {
-    "0xb0428927cb094417b24a6d9e32d14303399f9c91": {
-      "email": "oriyomi1511@gmail.com",
-      "address": "0xb0428927cb094417b24a6d9e32d14303399f9c91",
+    "0x41ed1a364c782d81d1e295d139a76b70654ec444": {
+      "email": "adebisiayinde297@gmail.com",
+      "address": "0x41ed1a364c782d81d1e295d139a76b70654ec444",
       "recipients": [
         {
-          "addr": "0x7010C7E4b9e3E4f4c2b8A1d6F3c9E0a7B2c4D5e6",
-          "amt": "0.01",
+          "addr": "0x6404bd3c88c08306575381b5f49e335fe38f0277",
+          "amt": "1.00",
           "token": "USDC",
           "tokenId": "15dc2b5d-0994-58b0-bf8c-3a0501148ee8"
         }
       ],
       "interval": "1 day",
-      "lastRun": "2026-08-13T01:03:40.568Z"
+      "lastRun": "2026-08-13T01:08:42.689Z"
     }
   }
 }
