@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Concord — Live Demo</title>
+<style>
+  :root{--bg:#1c130c;--panel:#2c1f14;--line:#4a3722;--txt:#f3e3c0;--muted:#b9a079;--butter:#e8c98a;--brown:#7a5634;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:radial-gradient(1100px 520px at 50% -8%,#3b2a1e 0%,var(--bg) 58%);color:var(--txt);min-height:100vh;display:flex;justify-content:center;padding:40px 18px;}
+  .wrap{width:100%;max-width:560px;}
+  .logo{width:56px;height:56px;border-radius:14px;background:linear-gradient(135deg,var(--brown),var(--butter));color:#2c1f14;font-weight:800;font-size:28px;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(122,86,52,.5);}
+  .brand{display:flex;align-items:center;gap:14px;margin-bottom:22px;}
+  .brand h1{font-size:24px;font-weight:750;}
+  .brand .sub{font-size:12px;color:var(--muted);}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:26px;box-shadow:0 12px 40px rgba(0,0,0,.5);}
+  .card h2{font-size:18px;font-weight:700;margin-bottom:8px;}
+  .card p{font-size:13.5px;color:var(--muted);line-height:1.6;margin-bottom:18px;}
+  .btn{display:block;text-align:center;width:100%;padding:15px;border-radius:12px;font-size:15px;font-weight:700;color:#2c1f14;background:linear-gradient(135deg,var(--butter),#d9b06a);text-decoration:none;transition:.15s;}
+  .btn:hover{filter:brightness(1.06);}
+  .note{font-size:12px;color:var(--muted);margin-top:14px;text-align:center;}
+  .badge{display:inline-block;font-size:11px;color:var(--butter);border:1px solid var(--line);padding:4px 10px;border-radius:999px;margin-bottom:14px;}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="brand">
+      <div class="logo">C</div>
+      <div><h1>Concord</h1><div class="sub">Autonomous Payroll Agent · Arc Testnet</div></div>
+    </div>
+    <div class="card">
+      <span class="badge">Live Demo</span>
+      <h2>Open the live app</h2>
+      <p>Concord is running live on Arc Testnet. Click below to open the interactive app — set up a payment, fund the vault, or activate the agent and watch it settle on-chain.</p>
+      <a class="btn" id="liveLink" href="#">Open Concord live →</a>
+      <div class="note">If the live link is offline, the recorded demo video shows the full walkthrough.</div>
+    </div>
+  </div>
+<script>
+// Point to the current live tunnel URL (kept in sync by the build step).
+fetch('live-url.json').then(r=>r.json()).then(d=>{
+  const url=(d.url||'').trim();
+  if(url) document.getElementById('liveLink').href=url+'/pay.html';
+}).catch(()=>{
+  document.getElementById('liveLink').href='https://arc-autopay.vercel.app/pay.html';
+});
+</script>
+</body>
+</html>

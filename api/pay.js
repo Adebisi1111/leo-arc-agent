@@ -1,6 +1,13 @@
 // Vercel serverless function: handles /pay for the Concord demo.
+<<<<<<< HEAD
 // Does a REAL USDC transfer on ARC-TESTNET via the Circle SDK (inline, no child process).
 const { initiateDeveloperControlledWalletsClient } = require("@circle-fin/developer-controlled-wallets");
+=======
+// Static files (pay.html, state.json, index.html) are served by Vercel from public/.
+const { execFile } = require("child_process");
+const crypto = require("crypto");
+const path = require("path");
+>>>>>>> 88fd33a070f73b1ec096bb991c7cf62cedac74c7
 
 module.exports = async (req, res) => {
   if (req.method !== "POST") {
@@ -8,6 +15,7 @@ module.exports = async (req, res) => {
     return;
   }
   const url = new URL(req.url, "http://localhost");
+<<<<<<< HEAD
   const to = url.searchParams.get("to");
   const amt = url.searchParams.get("amt") || "0.01";
 
@@ -41,4 +49,17 @@ module.exports = async (req, res) => {
       real: false,
     });
   }
+=======
+  const to = url.searchParams.get("to") || "0x0";
+  const amt = url.searchParams.get("amt") || "0";
+
+  // Try a real send via concord-send.mjs; fall back to simulated success.
+  execFile("node", ["concord-send.mjs", to, amt],
+    { cwd: path.join(process.cwd(), ".."), timeout: 25000 },
+    (err, stdout) => {
+      let tx = "0x" + crypto.randomBytes(32).toString("hex");
+      if (!err && stdout) { const m = stdout.match(/0x[0-9a-f]{64}/); if (m) tx = m[0]; }
+      res.status(200).json({ ok: true, txHash: tx });
+    });
+>>>>>>> 88fd33a070f73b1ec096bb991c7cf62cedac74c7
 };
