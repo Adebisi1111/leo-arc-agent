@@ -1,0 +1,16 @@
+{
+  "agents": {
+    "0xb0428927cb094417b24a6d9e32d14303399f9c91": {
+      "email": "oriyomi1511@gmail.com",
+      "address": "0xb0428927cb094417b24a6d9e32d14303399f9c91",
+      "recipients": [
+        {
+          "addr": "0x7010C7E4b9e3E4f4c2b8A1d6F3c9E0a7B2c4D5e6",
+          "amt": "0.01"
+        }
+      ],
+      "interval": "1 day",
+      "lastRun": "2026-08-10T00:00:00Z"
+    }
+  }
+}
