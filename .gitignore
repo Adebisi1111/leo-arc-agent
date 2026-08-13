@@ -44,3 +44,4 @@ ngrok.log
 pay_once.log
 webhook.log
 webhook_hits.log
+.vercel

@@ -3,111 +3,308 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Leo — your autonomous bill payer</title>
+<title>Concord</title>
 <style>
-  :root { --bg:#0b0f17; --card:#151b27; --txt:#e8edf5; --muted:#8b97a8; --accent:#5b8cff; --green:#36d399; --amber:#fbbd23; --red:#f87272; }
-  * { box-sizing: border-box; }
-  body { margin:0; font-family: -apple-system, system-ui, "Segoe UI", Roboto, sans-serif; background:var(--bg); color:var(--txt); padding:24px; }
-  .wrap { max-width:760px; margin:0 auto; }
-  header { text-align:center; margin-bottom:8px; }
-  .logo { font-size:34px; }
-  h1 { font-size:24px; margin:6px 0 2px; }
-  .tag { color:var(--muted); font-size:14px; margin-bottom:18px; }
-  .hero { background:linear-gradient(135deg,#1b2440,#151b27); border:1px solid #243049; border-radius:16px; padding:18px 20px; margin-bottom:22px; }
-  .hero .big { font-size:15px; line-height:1.5; color:#cdd6e6; }
-  .pill { display:inline-block; padding:3px 10px; border-radius:999px; font-size:12px; font-weight:600; margin:4px 6px 4px 0; }
-  .pill.live { background:rgba(54,211,153,.15); color:var(--green); }
-  .pill.fund { background:rgba(251,189,35,.15); color:var(--amber); }
-  .pill.ok { background:rgba(91,140,255,.15); color:var(--accent); }
-  .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:14px; }
-  .sub { background:var(--card); border:1px solid #222c3e; border-radius:14px; padding:16px; }
-  .sub .top { font-size:28px; }
-  .sub h3 { margin:8px 0 2px; font-size:17px; }
-  .sub .cat { color:var(--muted); font-size:12px; margin-bottom:10px; }
-  .sub .amt { font-size:20px; font-weight:700; }
-  .sub .amt small { font-size:12px; color:var(--muted); font-weight:400; }
-  .sub .meta { font-size:12px; color:var(--muted); margin-top:8px; line-height:1.5; }
-  .status { font-weight:700; }
-  .s-due { color:var(--red); }
-  .s-sched { color:var(--accent); }
-  .s-done { color:var(--green); }
-  .progress { height:6px; background:#222c3e; border-radius:99px; margin-top:10px; overflow:hidden; }
-  .progress > span { display:block; height:100%; background:var(--accent); }
-  footer { text-align:center; color:var(--muted); font-size:12px; margin-top:26px; line-height:1.6; }
-  code { background:#1c2434; padding:1px 6px; border-radius:5px; color:#aab6cc; }
-  .empty { text-align:center; color:var(--muted); padding:30px; }
-  .footnote { font-size:11px; color:#5b6677; }
+  :root{
+    --bg:#1c130c; --bg2:#241710; --panel:#2c1f14; --panel-2:#372817; --line:#4a3722;
+    --txt:#f3e3c0; --muted:#b9a079; --butter:#e8c98a; --butter-2:#f3e3c0;
+    --brown:#7a5634; --brown-deep:#5c4326; --ok:#9bbf6a; --ok-bg:rgba(155,191,106,.10);
+    --radius:14px; --shadow:0 12px 40px rgba(0,0,0,.5);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:radial-gradient(1100px 520px at 50% -8%,#3b2a1e 0%,var(--bg) 58%); color:var(--txt);
+    min-height:100vh; display:flex; justify-content:center; padding:28px 18px; -webkit-font-smoothing:antialiased;}
+  .app{width:100%; max-width:560px;}
+
+  .topbar{display:flex; align-items:center; justify-content:space-between; margin-bottom:20px;}
+  .brand{display:flex; align-items:center; gap:12px;}
+  .logo{width:42px; height:42px; border-radius:11px; display:flex; align-items:center; justify-content:center;
+    background:linear-gradient(135deg,var(--brown),var(--butter)); color:#2c1f14; font-weight:800; font-size:21px; box-shadow:0 6px 18px rgba(122,86,52,.5);}
+  .brand .name{font-size:19px; font-weight:700;}
+  .brand .sub{font-size:11.5px; color:var(--muted);}
+  .badge{font-size:11px; color:var(--butter); border:1px solid var(--line); padding:5px 10px; border-radius:999px; background:var(--panel);}
+
+  .hero{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:20px 22px; box-shadow:var(--shadow); margin-bottom:18px;}
+  .hero h1{font-size:26px; font-weight:750;}
+  .hero h1 .accent{color:var(--butter);}
+  .hero p{margin-top:8px; font-size:13.5px; line-height:1.5; color:var(--muted);}
+  .pillrow{margin-top:14px; display:flex; gap:8px; flex-wrap:wrap;}
+  .pill{font-size:11.5px; color:var(--txt); background:var(--panel-2); border:1px solid var(--line); padding:5px 11px; border-radius:999px;}
+
+  .stats{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:18px;}
+  .stat{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:16px; box-shadow:var(--shadow);}
+  .stat .k{font-size:12px; color:var(--muted);}
+  .stat .v{font-size:22px; font-weight:750; margin-top:6px;}
+  .stat .v small{font-size:12px; color:var(--muted); font-weight:500;}
+  .stat.ok .v{color:var(--ok);}
+
+  .tabs{display:flex; gap:6px; background:var(--panel-2); border:1px solid var(--line); border-radius:12px; padding:5px; margin-bottom:14px;}
+  .tab{flex:1; text-align:center; padding:10px; font-size:13px; font-weight:600; color:var(--muted); border-radius:9px; cursor:pointer; transition:.15s;}
+  .tab.active{background:var(--brown); color:var(--butter-2);}
+  .panel{display:none;}
+  .panel.active{display:block;}
+
+  .card{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:20px; box-shadow:var(--shadow);}
+  .card h2{font-size:16px; font-weight:650;}
+  .card .desc{font-size:12.5px; color:var(--muted); margin:4px 0 16px;}
+  label{display:block; font-size:12.5px; font-weight:550; color:var(--muted); margin:13px 0 7px;}
+  .input{width:100%; padding:12px 13px; font-size:14px; color:var(--txt); background:var(--panel-2); border:1px solid var(--line); border-radius:10px; outline:none; transition:.15s;}
+  .input::placeholder{color:#8a7456;}
+  .input:focus{border-color:var(--butter); box-shadow:0 0 0 3px rgba(232,201,138,.18);}
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
+  .readonly{color:var(--muted);}
+  .btn{margin-top:18px; width:100%; padding:14px; font-size:15px; font-weight:700; color:#2c1f14; cursor:pointer; border:none; border-radius:11px; background:linear-gradient(135deg,var(--butter),#d9b06a); transition:.15s;}
+  .btn:hover{filter:brightness(1.06);}
+  .btn:active{transform:translateY(1px);}
+  .btn:disabled{opacity:.55; cursor:not-allowed;}
+
+  .receive{background:var(--panel-2); border:1px solid var(--line); border-radius:12px; padding:16px; margin-top:6px;}
+  .receive .addr{font-family:ui-monospace,Menlo,monospace; font-size:12.5px; color:var(--butter); word-break:break-all; margin-top:8px;}
+  .qr{width:100%; height:140px; background:repeating-conic-gradient(#f3e3c0 0% 25%, #2c1f14 0% 50%) 50%/18px 18px; border-radius:10px; margin-top:12px; opacity:.85;}
+  .hint{font-size:12px; color:var(--muted); margin-top:10px; line-height:1.5;}
+
+  .status{margin-top:16px; border-radius:12px; padding:16px; font-size:13.5px; display:none;}
+  .status.pending{display:block; background:var(--panel-2); border:1px solid var(--line);}
+  .status.done{display:block; background:var(--ok-bg); border:1px solid rgba(155,191,106,.4);}
+  .step{display:flex; align-items:center; gap:10px; margin:7px 0;}
+  .dot{width:9px; height:9px; border-radius:50%; background:var(--muted); flex:none;}
+  .dot.ok{background:var(--ok);}
+  .spinner{width:14px; height:14px; border:2px solid #6b523a; border-top-color:var(--butter); border-radius:50%; animation:spin 1s linear infinite; flex:none;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .ok-badge{display:flex; align-items:center; gap:11px; margin-bottom:8px;}
+  .ok-icon{width:30px; height:30px; border-radius:50%; background:var(--ok); display:flex; align-items:center; justify-content:center; color:#16210a; font-size:16px; font-weight:800;}
+  .ok-badge b{font-size:14.5px;}
+  .ok-badge span{display:block; font-size:12px; color:var(--muted);}
+  .hash{font-family:ui-monospace,Menlo,monospace; font-size:12px; color:var(--butter); word-break:break-all; margin-top:9px;}
+  .hash a{color:var(--butter); text-decoration:none;}
+  .hash a:hover{text-decoration:underline;}
+  .foot{margin-top:12px; text-align:center; font-size:11px; color:var(--muted);}
+  .history{display:flex; flex-direction:column; gap:10px; margin-top:6px;}
+  .recip{display:flex; flex-direction:column; gap:8px;}
+  .reciprow{display:grid; grid-template-columns:1fr 1.4fr 0.8fr auto; gap:6px; align-items:center;}
+  .rdel{background:transparent; border:1px solid var(--line); color:var(--muted); border-radius:8px; width:30px; height:34px; cursor:pointer; font-size:13px;}
+  .rdel:hover{border-color:#e8a0a0; color:#e8a0a0;}
+  .tx{background:var(--panel-2); border:1px solid var(--line); border-radius:12px; padding:12px 14px;}
+  .txrow{display:flex; justify-content:space-between; align-items:center;}
+  .txdir{font-size:12px; font-weight:600; padding:2px 8px; border-radius:8px;}
+  .txdir.in{color:var(--butter); background:rgba(232,201,138,.12);}
+  .txdir.out{color:#e8a0a0; background:rgba(232,160,160,.12);}
+  .txamt{font-size:14px; font-weight:700;}
+  .txmeta{font-size:11.5px; color:var(--muted); margin-top:4px;}
+  .txhash{font-size:11px; margin-top:4px;}
+  .txhash a{color:var(--butter); text-decoration:none;}
+  .gate{position:fixed; inset:0; background:rgba(20,13,7,.96); backdrop-filter:blur(6px);
+    display:flex; align-items:center; justify-content:center; z-index:50; padding:24px;}
+  .gate .box{width:100%; max-width:420px; background:var(--panel); border:1px solid var(--line);
+    border-radius:var(--radius); padding:30px 26px; text-align:center; box-shadow:var(--shadow);}
+  .gate h2{font-size:24px; font-weight:750;}
+  .gate p{color:var(--muted); font-size:13.5px; margin-top:10px; line-height:1.5;}
+  .gbtn{display:inline-flex; align-items:center; gap:10px; margin-top:22px; background:#fff; color:#1c130c;
+    font-weight:600; font-size:14px; padding:12px 20px; border-radius:11px; cursor:pointer; border:none; width:100%; justify-content:center;}
+  .gbtn svg{width:18px; height:18px;}
+  .userbar{display:flex; align-items:center; gap:10px; font-size:12.5px; color:var(--muted);}
+  .userbar .av{width:30px; height:30px; border-radius:50%; background:linear-gradient(135deg,var(--brown),var(--butter)); color:#2c1f14; display:flex; align-items:center; justify-content:center; font-weight:700;}
+  .hidden{display:none !important;}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <header>
-    <div class="logo">🤖</div>
-    <h1>Leo pays people on time — automatically</h1>
-    <div class="tag">An autonomous agent on Arc. It pays recurring USDC — <strong>salaries and subscriptions</strong> — on schedule. Like a boss who never forgets payday. No buttons, no gas, no wallet apps.</div>
-  </header>
+  <div class="gate" id="gate">
+    <div class="box">
+      <div class="logo" style="width:54px;height:54px;font-size:26px;margin:0 auto 16px;border-radius:14px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--brown),var(--butter));color:#2c1f14;font-weight:800;">C</div>
+      <h2>Concord</h2>
+      <p>Your autonomous payroll agent on Circle Arc. Sign in with Google to create and access your dedicated Arc agent wallet.</p>
+      <button class="gbtn" onclick="loginWithGoogle()">
+        <svg viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+        Sign in with Google
+      </button>
+    </div>
+  </div>
+  <div class="app hidden" id="app">
+    <div class="topbar">
+      <div class="brand">
+        <div class="logo">C</div>
+        <div><div class="name">Concord</div><div class="sub">Autonomous Payroll Agent</div></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <div class="userbar" id="userbar"></div>
+        <div class="badge">Arc Testnet</div>
+      </div>
+    </div>
 
-  <div class="hero" id="hero">
-    <div class="big" id="heroText">Loading Leo's status…</div>
-    <div id="pills" style="margin-top:10px;"></div>
+    <div class="stats" id="stats">
+      <div class="stat"><div class="k">Your agent wallet</div><div class="v" style="font-size:13px;word-break:break-all;line-height:1.4;" id="agentAddr">—</div></div>
+      <div class="stat ok"><div class="k">Balance</div><div class="v" id="agentBal">— <small>USDC</small></div></div>
+    </div>
+
+    <div class="tabs">
+      <div class="tab active" onclick="show('setup',this)">Set Up Agent (Bill)</div>
+      <div class="tab" onclick="show('history',this); loadHistory()">History</div>
+    </div>
+
+    <div class="panel active" id="setup">
+      <div class="card">
+        <h2>Set Up Agent — Recipients</h2>
+        <p class="desc">Add the wallets your agent pays each cycle. On every run it settles all of them from your available balance — no manual approval. Your agent wallet (above) is the payer.</p>
+        <div id="recipList" class="recip"></div>
+        <button class="btn ghost" onclick="addRecip()" style="margin-top:8px">+ Add recipient</button>
+        <div class="grid2" style="margin-top:12px">
+          <div><label for="s_int">Every</label>
+            <select id="s_int" class="input"><option>1 hour</option><option selected>1 day</option><option>1 week</option></select></div>
+          <div><label for="s_total">Cycle total</label><div id="s_total" class="input" style="display:flex;align-items:center;color:var(--butter);font-weight:700;">0.00 USDC</div></div>
+        </div>
+        <button class="btn" onclick="setupAgent()" style="margin-top:12px">Activate Agent</button>
+        <div id="setupStatus" class="status"></div>
+      </div>
+    </div>
+
+    <div class="panel" id="history">
+      <div class="card">
+        <h2>Transaction History</h2>
+        <p class="desc">On-chain activity for your agent wallet. Settlements made by the agent appear here as they draw from your balance.</p>
+        <div id="historyList" class="history"></div>
+      </div>
+    </div>
+
+    <div class="foot">Demo flow · testnet transaction</div>
   </div>
 
-  <div class="grid" id="grid"><div class="empty">Reading your subscriptions…</div></div>
-
-  <footer>
-    <div>Built on <strong>Arc testnet</strong> · powered by <strong>Circle</strong> (Smart Contract Platform + Event Monitor)</div>
-    <div class="footnote">No private keys, no card numbers, no personal data are shown here. This is a public, read-only view of subscription state.</div>
-  </footer>
-</div>
-
 <script>
-async function load() {
-  let d;
-  try {
-    const r = await fetch("state.json", { cache: "no-store" });
-    d = await r.json();
-  } catch (e) {
-    document.getElementById("heroText").textContent = "Leo's dashboard is warming up — check back in a moment.";
+function show(id, el){document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  if(el) el.classList.add('active'); else document.querySelector(`.tab[onclick*="${id}"]`).classList.add('active');
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');}
+
+function randHash(){const h="0123456789abcdef";let s="0x";for(let i=0;i<64;i++)s+=h[Math.floor(Math.random()*16)];return s;}
+let RECIPS=[];
+function addRecip(name='',addr='',amt='1.00'){
+  RECIPS.push({name,addr,amt});
+  renderRecips();
+}
+function renderRecips(){
+  const el=document.getElementById('recipList');
+  if(!RECIPS.length){ el.innerHTML='<div class="status">No recipients yet — add one below.</div>'; updateTotal(); return; }
+  el.innerHTML=RECIPS.map((r,i)=>`
+    <div class="reciprow">
+      <input class="input rname" placeholder="Name" value="${r.name}" oninput="RECIPS[${i}].name=this.value" />
+      <input class="input raddr" placeholder="0x… wallet" value="${r.addr}" oninput="RECIPS[${i}].addr=this.value;checkDup()" />
+      <input class="input ramt" type="number" step="0.01" value="${r.amt}" oninput="RECIPS[${i}].amt=this.value;updateTotal()" />
+      <button class="rdel" onclick="RECIPS.splice(${i},1);renderRecips();updateTotal()" title="Remove">✕</button>
+    </div>`).join('');
+  updateTotal();
+}
+function checkDup(){
+  const seen={}; let dup=false;
+  RECIPS.forEach(r=>{ if(r.addr && r.addr.startsWith('0x')){ if(seen[r.addr.toLowerCase()]) dup=true; seen[r.addr.toLowerCase()]=1; } });
+  let w=document.getElementById('dupWarn');
+  if(dup && !w){ const d=document.createElement('div'); d.id='dupWarn'; d.className='status pending'; d.style.marginTop='6px'; d.innerHTML='<div class="step"><div class="dot"></div><div>Warning: duplicate recipient address detected.</div></div>'; document.getElementById('recipList').after(d); }
+  else if(!dup && w){ w.remove(); }
+}
+function updateTotal(){
+  const t=RECIPS.reduce((s,r)=>s+(parseFloat(r.amt)||0),0);
+  document.getElementById('s_total').textContent=t.toFixed(2)+' USDC';
+}
+async function setupAgent(){
+  const st=document.getElementById('setupStatus');
+  const valid=RECIPS.filter(r=>r.addr && r.addr.startsWith('0x') && parseFloat(r.amt)>0);
+  if(!valid.length){ st.className='status pending'; st.innerHTML='<div class="step"><div class="dot"></div><div>Add at least one recipient with a valid address and amount.</div></div>'; return; }
+  const interval=document.getElementById('s_int').value;
+  const total=valid.reduce((s,r)=>s+parseFloat(r.amt),0).toFixed(2);
+  st.className='status pending';
+  st.innerHTML=`<div class="step"><div class="spinner"></div><div>Agent armed: ${valid.length} recipient(s), ${total} USDC/cycle, every ${interval}</div></div>
+    <div class="step"><div class="spinner"></div><div>Broadcasting ${valid.length} on-chain transfer(s) from your balance…</div></div>`;
+  try{
+    const r=await fetch('/api/agent?action=send',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({recipients:valid.map(x=>({addr:x.addr,amt:x.amt})), interval:document.getElementById('s_int').value})});
+    const d=await r.json();
+    if(!r.ok||!d.ok){ throw new Error(d.error||'send failed'); }
+    const done=d.results.filter(x=>x.id).length;
+    const errs=d.results.filter(x=>x.error).length;
+    st.className='status done';
+    st.innerHTML=`<div class="ok-badge"><div class="ok-icon">✓</div><div><b>Settled ${done}/${valid.length}</b><span>${total} USDC sent on-chain from your wallet</span></div></div>
+      ${errs?`<div class="step"><div class="dot"></div><div>${errs} transfer(s) failed — check balance</div></div>`:''}
+      <div class="step"><div class="dot ok"></div><div>Next run every ${interval} (cron)</div></div>`;
+    setTimeout(loadBalance,12000);
+    if(document.getElementById('history').classList.contains('active')) setTimeout(loadHistory,12000);
+  }catch(e){
+    st.className='status pending';
+    st.innerHTML=`<div class="step"><div class="dot"></div><div>Error: ${e.message}</div></div>`;
+  }
+}
+
+let SB_WALLET=null;
+let SB_ADDRESS=null;
+
+// ---- Google login gate ----
+function getCookie(n){return document.cookie.split('; ').find(r=>r.startsWith(n+'='))?.split('=')[1];}
+async function loginWithGoogle(){
+  const r=await fetch('/api/auth-login'); const d=await r.json();
+  if(d.url) location.href=d.url; else alert('Login failed: '+JSON.stringify(d));
+}
+function b64urlDecode(s){ s=s.replace(/-/g,'+').replace(/_/g,'/'); return atob(s); }
+async function restoreSession(){
+  let raw = getCookie('concord_sess');
+  const params = new URLSearchParams(location.search);
+  const urlSess = params.get('sess');
+  if (!raw && urlSess) { raw = urlSess; document.cookie = `concord_sess=${raw}; Path=/; Max-Age=86400; SameSite=Lax`; }
+  // visible error if login failed
+  if(params.get('loginerr')!==null){
+    document.getElementById('gate').innerHTML = `<div class="box"><div class="logo" style="width:54px;height:54px;font-size:26px;margin:0 auto 16px;border-radius:14px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--brown),var(--butter));color:#2c1f14;font-weight:800;">C</div>
+    <h2>Login error</h2><p>${decodeURIComponent(params.get('loginerr'))}</p><button class="gbtn" onclick="location.href='/'">Back</button></div>`;
     return;
   }
-  // hero
-  const hero = document.getElementById("heroText");
-  hero.innerHTML = `💡 <strong>Leo is running.</strong> ${d.description}`;
-  const pills = document.getElementById("pills");
-  const fundPill = d.walletFunded
-    ? `<span class="pill live">● Agent wallet funded</span>`
-    : `<span class="pill fund">● Top up agent wallet</span>`;
-  pills.innerHTML =
-    `<span class="pill ok">Vault: ${d.vaultBalance ?? 0} USDC</span>` +
-    fundPill +
-    `<span class="pill live">● ${d.subscriptions.length} active subscription(s)</span>`;
-
-  // subs
-  const grid = document.getElementById("grid");
-  if (!d.subscriptions.length) { grid.innerHTML = `<div class="empty">No active subscriptions yet.</div>`; return; }
-  grid.innerHTML = d.subscriptions.map(s => {
-    const stClass = s.status === "due now" ? "s-due" : s.status === "completed" ? "s-done" : "s-sched";
-    const pct = s.cycles === 0 ? 0 : Math.min(100, Math.round((s.paidCount / s.cycles) * 100));
-    const statusTxt = s.status === "due now" ? "⏰ Due now — Leo will pay"
-      : s.status === "completed" ? "✅ Completed"
-      : `⏳ Next: ${s.nextDueLabel}`;
-    return `
-      <div class="sub">
-        <div class="top">${s.emoji}</div>
-        <h3>${s.name}</h3>
-        <div class="cat">${s.category}</div>
-        <div class="amt">$${s.amountUSDC} <small>/ ${s.intervalLabel}</small></div>
-        <div class="meta">
-          <div class="status ${stClass}">${statusTxt}</div>
-          <div>Paid ${s.paidCount}${s.cycles ? " / " + s.cycles : ""} times</div>
-          ${s.note ? `<div>${s.note}</div>` : ""}
-        </div>
-        <div class="progress"><span style="width:${pct}%"></span></div>
-      </div>`;
-  }).join("");
+  if(!raw){
+    if(params.get('loggedin')!==null){
+      document.getElementById('gate').innerHTML = `<div class="box"><div class="logo" style="width:54px;height:54px;font-size:26px;margin:0 auto 16px;border-radius:14px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--brown),var(--butter));color:#2c1f14;font-weight:800;">C</div>
+      <h2>Login session lost</h2>
+      <p>Google approved you, but the session token didn't arrive. URL has loggedin=<b>${params.get('loggedin')}</b>, sess param=<b>${urlSess?'yes':'no'}</b>, cookie=<b>${raw?'yes':'no'}</b>.</p>
+      <button class="gbtn" onclick="location.href='/'">Try again</button></div>`;
+      return;
+    }
+    document.getElementById('gate').classList.remove('hidden'); return;
+  }
+  try{
+    const u=JSON.parse(b64urlDecode(raw));
+    document.getElementById('gate').classList.add('hidden');
+    document.getElementById('app').classList.remove('hidden');
+    document.getElementById('userbar').innerHTML=`<div class="av">${u.email?u.email[0].toUpperCase():'C'}</div><div>${u.email||'agent'}</div>`;
+    SB_WALLET=u.walletId; SB_ADDRESS=u.address;
+    document.getElementById('agentAddr').textContent=u.address;
+    if(!RECIPS.length) addRecip();
+    loadBalance();
+  }catch(e){
+    document.getElementById('gate').innerHTML = `<div class="box"><h2>Session error</h2><p>${e.message}</p><button class="gbtn" onclick="location.href='/'">Retry</button></div>`;
+  }
 }
-load();
-setInterval(load, 30000);
+async function loadBalance(){
+  try{ const r=await fetch('/api/agent?action=balance'); const d=await r.json();
+    if(d.ok) document.getElementById('agentBal').innerHTML=`${d.balance} <small>USDC</small>`;
+  }catch(e){}
+}
+async function loadHistory(){
+  const el=document.getElementById('historyList');
+  el.innerHTML=`<div class="status pending"><div class="step"><div class="spinner"></div><div>Loading transactions…</div></div></div>`;
+  try{
+    const r=await fetch('/api/agent?action=history'); const d=await r.json();
+    if(!d.ok){ el.innerHTML='<div class="status">Failed to load</div>'; return; }
+    if(!d.txs.length){ el.innerHTML='<div class="status">No transactions yet</div>'; return; }
+    el.innerHTML=d.txs.map(t=>{
+      const dir = t.type==='INBOUND' ? '↓ Received' : '↑ Sent';
+      const sign = t.type==='INBOUND' ? '+' : '−';
+      const other = t.type==='INBOUND' ? t.from : t.to;
+      const short = other ? other.slice(0,6)+'…'+other.slice(-4) : '—';
+      const st = t.state==='COMPLETE' ? 'done' : (t.state||'').toLowerCase();
+      const dt = t.date ? new Date(t.date).toLocaleString() : '';
+      return `<div class="tx">
+        <div class="txrow"><span class="txdir ${t.type==='INBOUND'?'in':'out'}">${dir}</span><span class="txamt">${sign}${t.amount} USDC</span></div>
+        <div class="txmeta">${short} · ${st} · ${dt}</div>
+        ${t.hash?`<div class="txhash"><a href="https://testnet.arcscan.app/tx/${t.hash}" target="_blank">${t.hash.slice(0,10)}… ↗</a></div>`:''}
+      </div>`;
+    }).join('');
+  }catch(e){ el.innerHTML='<div class="status">Network error</div>'; }
+}
+
+// run on load
+restoreSession();
 </script>
 </body>
 </html>

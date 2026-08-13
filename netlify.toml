@@ -1,0 +1,12 @@
+[build]
+  publish = "public"
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+# Only /pay goes to the serverless function; everything else is static from public/
+[[redirects]]
+  from = "/pay"
+  to = "/.netlify/functions/concord"
+  status = 200

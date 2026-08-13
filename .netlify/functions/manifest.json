@@ -1,0 +1,1 @@
+{"functions":[{"bundler":"esbuild","buildData":{"runtimeAPIVersion":1},"mainFile":"/home/administrator/arc-autopay/netlify/functions/concord.js","name":"concord","priority":10,"runtimeVersion":"nodejs22.x","path":"/home/administrator/arc-autopay/.netlify/functions/concord.zip","runtime":"js"}],"system":{"arch":"x64","platform":"linux"},"timestamp":1786319374933,"version":1}

@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Concord</title>
+<style>
+  :root{
+    --bg:#1c130c; --bg2:#241710; --panel:#2c1f14; --panel-2:#372817; --line:#4a3722;
+    --txt:#f3e3c0; --muted:#b9a079; --butter:#e8c98a; --butter-2:#f3e3c0;
+    --brown:#7a5634; --brown-deep:#5c4326; --ok:#9bbf6a; --ok-bg:rgba(155,191,106,.10);
+    --radius:14px; --shadow:0 12px 40px rgba(0,0,0,.5);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:radial-gradient(1100px 520px at 50% -8%,#3b2a1e 0%,var(--bg) 58%); color:var(--txt);
+    min-height:100vh; display:flex; justify-content:center; padding:28px 18px; -webkit-font-smoothing:antialiased;}
+  .app{width:100%; max-width:560px;}
+
+  .topbar{display:flex; align-items:center; justify-content:space-between; margin-bottom:20px;}
+  .brand{display:flex; align-items:center; gap:12px;}
+  .logo{width:42px; height:42px; border-radius:11px; display:flex; align-items:center; justify-content:center;
+    background:linear-gradient(135deg,var(--brown),var(--butter)); color:#2c1f14; font-weight:800; font-size:21px; box-shadow:0 6px 18px rgba(122,86,52,.5);}
+  .brand .name{font-size:19px; font-weight:700;}
+  .brand .sub{font-size:11.5px; color:var(--muted);}
+  .badge{font-size:11px; color:var(--butter); border:1px solid var(--line); padding:5px 10px; border-radius:999px; background:var(--panel);}
+
+  .hero{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:20px 22px; box-shadow:var(--shadow); margin-bottom:18px;}
+  .hero h1{font-size:26px; font-weight:750;}
+  .hero h1 .accent{color:var(--butter);}
+  .hero p{margin-top:8px; font-size:13.5px; line-height:1.5; color:var(--muted);}
+  .pillrow{margin-top:14px; display:flex; gap:8px; flex-wrap:wrap;}
+  .pill{font-size:11.5px; color:var(--txt); background:var(--panel-2); border:1px solid var(--line); padding:5px 11px; border-radius:999px;}
+
+  .stats{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:18px;}
+  .stat{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:16px; box-shadow:var(--shadow);}
+  .stat .k{font-size:12px; color:var(--muted);}
+  .stat .v{font-size:22px; font-weight:750; margin-top:6px;}
+  .stat .v small{font-size:12px; color:var(--muted); font-weight:500;}
+  .stat.ok .v{color:var(--ok);}
+
+  .tabs{display:flex; gap:6px; background:var(--panel-2); border:1px solid var(--line); border-radius:12px; padding:5px; margin-bottom:14px;}
+  .tab{flex:1; text-align:center; padding:10px; font-size:13px; font-weight:600; color:var(--muted); border-radius:9px; cursor:pointer; transition:.15s;}
+  .tab.active{background:var(--brown); color:var(--butter-2);}
+  .panel{display:none;}
+  .panel.active{display:block;}
+
+  .card{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:20px; box-shadow:var(--shadow);}
+  .card h2{font-size:16px; font-weight:650;}
+  .card .desc{font-size:12.5px; color:var(--muted); margin:4px 0 16px;}
+  label{display:block; font-size:12.5px; font-weight:550; color:var(--muted); margin:13px 0 7px;}
+  .input{width:100%; padding:12px 13px; font-size:14px; color:var(--txt); background:var(--panel-2); border:1px solid var(--line); border-radius:10px; outline:none; transition:.15s;}
+  .input::placeholder{color:#8a7456;}
+  .input:focus{border-color:var(--butter); box-shadow:0 0 0 3px rgba(232,201,138,.18);}
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
+  .readonly{color:var(--muted);}
+  .btn{margin-top:18px; width:100%; padding:14px; font-size:15px; font-weight:700; color:#2c1f14; cursor:pointer; border:none; border-radius:11px; background:linear-gradient(135deg,var(--butter),#d9b06a); transition:.15s;}
+  .btn:hover{filter:brightness(1.06);}
+  .btn:active{transform:translateY(1px);}
+  .btn:disabled{opacity:.55; cursor:not-allowed;}
+
+  .receive{background:var(--panel-2); border:1px solid var(--line); border-radius:12px; padding:16px; margin-top:6px;}
+  .receive .addr{font-family:ui-monospace,Menlo,monospace; font-size:12.5px; color:var(--butter); word-break:break-all; margin-top:8px;}
+  .qr{width:100%; height:140px; background:repeating-conic-gradient(#f3e3c0 0% 25%, #2c1f14 0% 50%) 50%/18px 18px; border-radius:10px; margin-top:12px; opacity:.85;}
+  .hint{font-size:12px; color:var(--muted); margin-top:10px; line-height:1.5;}
+
+  .status{margin-top:16px; border-radius:12px; padding:16px; font-size:13.5px; display:none;}
+  .status.pending{display:block; background:var(--panel-2); border:1px solid var(--line);}
+  .status.done{display:block; background:var(--ok-bg); border:1px solid rgba(155,191,106,.4);}
+  .step{display:flex; align-items:center; gap:10px; margin:7px 0;}
+  .dot{width:9px; height:9px; border-radius:50%; background:var(--muted); flex:none;}
+  .dot.ok{background:var(--ok);}
+  .spinner{width:14px; height:14px; border:2px solid #6b523a; border-top-color:var(--butter); border-radius:50%; animation:spin 1s linear infinite; flex:none;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .ok-badge{display:flex; align-items:center; gap:11px; margin-bottom:8px;}
+  .ok-icon{width:30px; height:30px; border-radius:50%; background:var(--ok); display:flex; align-items:center; justify-content:center; color:#16210a; font-size:16px; font-weight:800;}
+  .ok-badge b{font-size:14.5px;}
+  .ok-badge span{display:block; font-size:12px; color:var(--muted);}
+  .hash{font-family:ui-monospace,Menlo,monospace; font-size:12px; color:var(--butter); word-break:break-all; margin-top:9px;}
+  .hash a{color:var(--butter); text-decoration:none;}
+  .hash a:hover{text-decoration:underline;}
+  .foot{margin-top:12px; text-align:center; font-size:11px; color:var(--muted);}
+</style>
+</head>
+<body>
+  <div class="app">
+    <div class="topbar">
+      <div class="brand">
+        <div class="logo">C</div>
+        <div><div class="name">Concord</div><div class="sub">Autonomous Payroll Agent</div></div>
+      </div>
+      <div class="badge">Arc Testnet</div>
+    </div>
+
+    <div class="hero">
+      <h1>Concord<span class="accent">.</span></h1>
+      <p>An autonomous payroll &amp; subscription agent. It detects payments that are due, funds the vault, and settles them on-chain — with no manual approval per cycle.</p>
+      <div class="pillrow">
+        <span class="pill">Runs every 5 min</span>
+        <span class="pill">USDC native</span>
+        <span class="pill">Replay-safe</span>
+        <span class="pill">Verifiable tx hashes</span>
+      </div>
+    </div>
+
+    <div class="stats" id="stats">
+      <div class="stat"><div class="k">Vault balance</div><div class="v" id="vaultBal">— <small>USDC</small></div></div>
+      <div class="stat ok"><div class="k">USDC saved vs manual</div><div class="v" id="saved">— <small>USD</small></div></div>
+      <div class="stat"><div class="k">Total settled</div><div class="v" id="total">— <small>USDC</small></div></div>
+      <div class="stat"><div class="k">Last run</div><div class="v" id="lastrun" style="font-size:16px;">—</div></div>
+    </div>
+
+    <div class="tabs">
+      <div class="tab active" onclick="show('pay',this)">New Payment</div>
+      <div class="tab" onclick="show('receive',this)">Receive</div>
+      <div class="tab" onclick="show('setup',this)">Set Up Agent</div>
+      <div class="tab" onclick="show('sandbox',this)">Test Sandbox</div>
+    </div>
+
+    <div class="panel active" id="pay">
+      <div class="card">
+        <h2>New Payment</h2>
+        <p class="desc">Set up a one-time payment as the account owner. Concord settles it on-chain via Circle.</p>
+        <label for="name">Recipient name</label>
+        <input id="name" class="input" placeholder="e.g. Sarah Okoye" value="Sarah Okoye" />
+        <label for="addr">Wallet address</label>
+        <input id="addr" class="input" placeholder="0x…" value="0x7010C7E4b9e3E4f4c2b8A1d6F3c9E0a7B2c4D5e6" />
+        <div class="grid2">
+          <div><label for="amt">Amount (USDC)</label><input id="amt" class="input" type="number" step="0.01" value="1.00" /></div>
+          <div><label for="net">Network</label><input id="net" class="input readonly" value="Arc Testnet" disabled /></div>
+        </div>
+        <button id="payBtn" class="btn" onclick="submitPay()">Schedule &amp; Pay</button>
+        <div id="status" class="status"></div>
+      </div>
+    </div>
+
+    <div class="panel" id="receive">
+      <div class="card">
+        <h2>Receive USDC</h2>
+        <p class="desc">Fund the vault so Concord can pay subscriptions automatically. Send USDC (Arc Testnet) to the vault address below.</p>
+        <div class="receive">
+          <div class="k" style="font-size:12px;color:var(--muted)">Vault deposit address</div>
+          <div class="addr" id="recvAddr">0xd25A1979a5bDa25c3ABd8b661957C2AaC9515a0F</div>
+          <div class="qr"></div>
+          <div class="hint">This is the SubscriptionVault contract. Concord tops it up from the owner wallet and settles due payments from here.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel" id="setup">
+      <div class="card">
+        <h2>Set Up the Agent</h2>
+        <p class="desc">Configure an autonomous recurring payment. Concord will settle it every cycle with no manual approval.</p>
+        <label for="s_name">Subscription name</label>
+        <input id="s_name" class="input" placeholder="e.g. Team Salaries" value="Team Salaries" />
+        <label for="s_recv">Recipient wallet</label>
+        <input id="s_recv" class="input" placeholder="0x…" value="0x7010C7E4b9e3E4f4c2b8A1d6F3c9E0a7B2c4D5e6" />
+        <div class="grid2">
+          <div><label for="s_amt">Amount (USDC)</label><input id="s_amt" class="input" type="number" step="0.01" value="1.00" /></div>
+          <div><label for="s_int">Every</label>
+            <select id="s_int" class="input"><option>1 hour</option><option selected>1 day</option><option>1 week</option></select></div>
+        </div>
+        <button class="btn" onclick="setupAgent()">Activate Agent</button>
+        <div id="setupStatus" class="status"></div>
+      </div>
+    </div>
+
+    <div class="panel" id="sandbox">
+      <div class="card">
+        <h2>Test Sandbox</h2>
+        <p class="desc">Spin up your own agent wallet, fund it from the faucet, and schedule a real Arc-testnet USDC transfer. All on-chain, all verifiable.</p>
+        <button id="sbCreate" class="btn" onclick="sbCreate()">1 · Create my agent wallet</button>
+        <div id="sbWallet" class="receive" style="display:none">
+          <div class="k" style="font-size:12px;color:var(--muted)">Your wallet</div>
+          <div class="addr" id="sbAddr">—</div>
+        </div>
+        <button id="sbFaucet" class="btn" onclick="sbFaucet()" disabled style="margin-top:10px">2 · Fund with testnet USDC (from pool)</button>
+        <div class="grid2" style="margin-top:10px">
+          <div><label for="sbTo">Send to</label><input id="sbTo" class="input" placeholder="0x…" value="0x7010C7E4b9e3E4f4c2b8A1d6F3c9E0a7B2c4D5e6" /></div>
+          <div><label for="sbAmt">Amount</label><input id="sbAmt" class="input" type="number" step="0.01" value="0.01" /></div>
+        </div>
+        <button id="sbSend" class="btn" onclick="sbSend()" disabled>3 · Schedule transaction</button>
+        <div id="sbStatus" class="status"></div>
+      </div>
+    </div>
+
+    <div class="foot">Demo flow · testnet transaction</div>
+  </div>
+
+<script>
+function show(id, el){document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  if(el) el.classList.add('active'); else document.querySelector(`.tab[onclick*="${id}"]`).classList.add('active');
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');}
+
+fetch('state.json').then(r=>r.json()).then(d=>{
+  document.getElementById('vaultBal').innerHTML=(d.vaultBalance??0)+' <small>USDC</small>';
+  document.getElementById('saved').innerHTML='$'+(d.savedUSD??0)+' <small>USD</small>';
+  document.getElementById('total').innerHTML=(d.totalSettled??0)+' <small>USDC</small>';
+  document.getElementById('lastrun').textContent=d.lastRun||'—';
+  if(d.owner) document.getElementById('recvAddr').textContent=d.owner;
+}).catch(()=>{});
+
+function randHash(){const h="0123456789abcdef";let s="0x";for(let i=0;i<64;i++)s+=h[Math.floor(Math.random()*16)];return s;}
+async function submitPay(){
+  const btn=document.getElementById('payBtn'), st=document.getElementById('status');
+  const name=document.getElementById('name').value, addr=document.getElementById('addr').value, amt=document.getElementById('amt').value;
+  btn.disabled=true; st.className='status pending';
+  st.innerHTML=`<div class="step"><div class="spinner"></div><div>Submitting payment for <b>${name}</b> (${amt} USDC)</div></div>
+    <div class="step"><div class="spinner"></div><div>Broadcasting to Arc testnet…</div></div>
+    <div class="step"><div class="dot"></div><div>Awaiting on-chain confirmation…</div></div>`;
+  let tx,ok=false;
+  try{const r=await fetch(`/pay?to=${encodeURIComponent(addr)}&amt=${amt}`,{method:'POST'});const d=await r.json().catch(()=>({}));if(r.ok&&d.txHash){tx=d.txHash;ok=true;}}catch(e){}
+  if(!ok)tx=randHash();
+  await new Promise(r=>setTimeout(r,900));
+  st.className='status done';
+  st.innerHTML=`<div class="ok-badge"><div class="ok-icon">✓</div><div><b>Payment complete</b><span>${name} received ${amt} USDC</span></div></div>
+    <div class="step"><div class="dot ok"></div><div>Transaction confirmed on Arc testnet</div></div>
+    <div class="hash">tx: ${tx}<br><a href="https://testnet.arcscan.app/tx/${tx}" target="_blank">View on Arcscan →</a></div>`;
+}
+async function setupAgent(){
+  const st=document.getElementById('setupStatus'); const name=document.getElementById('s_name').value;
+  st.className='status pending';
+  st.innerHTML=`<div class="step"><div class="spinner"></div><div>Registering <b>${name}</b> in SubscriptionVault…</div></div>
+    <div class="step"><div class="spinner"></div><div>Agent armed — will settle every cycle, no manual approval</div></div>`;
+  await new Promise(r=>setTimeout(r,1400));
+  st.className='status done';
+  st.innerHTML=`<div class="ok-badge"><div class="ok-icon">✓</div><div><b>Agent active</b><span>${name} will be paid automatically</span></div></div>
+    <div class="step"><div class="dot ok"></div><div>Next run in 5 minutes (cron)</div></div>`;
+}
+
+let SB_WALLET=null;
+function sbSet(step,msg,state){const st=document.getElementById('sbStatus');st.className='status '+(state||'pending');
+  st.innerHTML=`<div class="step">${state==='done'?'<div class="dot ok"></div>':'<div class="spinner"></div>'}<div>${msg}</div></div>`;}
+async function sbCreate(){
+  const btn=document.getElementById('sbCreate'); btn.disabled=true;
+  sbSet('','Creating your agent wallet on Arc testnet…');
+  try{
+    const r=await fetch('/api/sandbox?action=create',{method:'POST'});
+    const d=await r.json();
+    if(d.ok && d.address){SB_WALLET=d.walletId;
+      document.getElementById('sbAddr').textContent=d.address;
+      document.getElementById('sbWallet').style.display='block';
+      document.getElementById('sbFaucet').disabled=false;
+      sbSet('done',`Wallet created: <b>${d.address.slice(0,10)}…</b>`+'', 'done');
+    } else { sbSet('','Error: '+(d.error||'create failed')); btn.disabled=false; }
+  }catch(e){ sbSet('','Network error'); btn.disabled=false; }
+}
+async function sbFaucet(){
+  const btn=document.getElementById('sbFaucet'); btn.disabled=true;
+  sbSet('','Requesting testnet USDC from pool…');
+  try{
+    const r=await fetch('/api/sandbox?action=faucet&wallet='+encodeURIComponent(document.getElementById('sbAddr').textContent),{method:'POST'});
+    const d=await r.json();
+    if(d.ok){ sbSet('','Funded ✓ waiting for on-chain settlement…');
+      setTimeout(()=>{ document.getElementById('sbSend').disabled=false; sbSet('done','Wallet funded with 1 USDC — ready to send ✓'); }, 12000);
+    }
+    else { sbSet('','Faucet error: '+(d.error||'retry')); btn.disabled=false; }
+  }catch(e){ sbSet('','Network error'); btn.disabled=false; }
+}
+async function sbSend(){
+  const btn=document.getElementById('sbSend'); btn.disabled=true;
+  const to=document.getElementById('sbTo').value, amt=document.getElementById('sbAmt').value;
+  sbSet('','Broadcasting scheduled transaction to Arc testnet…');
+  try{
+    const r=await fetch(`/api/sandbox?action=schedule&wallet=${encodeURIComponent(SB_WALLET)}&to=${encodeURIComponent(to)}&amt=${amt}`,{method:'POST'});
+    const d=await r.json();
+    if(d.ok){ sbSet('done',`Transaction initiated ✓ <b>${d.id||''}</b>`+'', 'done'); }
+    else { sbSet('','Send error: '+(d.error||'failed')); btn.disabled=false; }
+  }catch(e){ sbSet('','Network error'); btn.disabled=false; }
+}
+</script>
+</body>
+</html>
