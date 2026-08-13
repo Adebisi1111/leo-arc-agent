@@ -6,11 +6,13 @@
       "recipients": [
         {
           "addr": "0x7010C7E4b9e3E4f4c2b8A1d6F3c9E0a7B2c4D5e6",
-          "amt": "0.01"
+          "amt": "0.01",
+          "token": "USDC",
+          "tokenId": "15dc2b5d-0994-58b0-bf8c-3a0501148ee8"
         }
       ],
       "interval": "1 day",
-      "lastRun": "2026-08-13T00:39:38.015Z"
+      "lastRun": "2026-08-13T01:03:40.568Z"
     }
   }
 }
